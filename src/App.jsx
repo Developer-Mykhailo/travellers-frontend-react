@@ -14,10 +14,10 @@ function App() {
         {/* Public routs */}
         <Route element={<PublicLayout />}>
           <Route index element={<HomePage />} />
-          <Route path="/stories" element={<StoriesPage />} />
-          <Route path="/stories/:storyId" element={<StoryPage />} />
-          <Route path="/travellers" element={<TravellersPage />} />
-          <Route path="/travellers/:travallerId" element={<TravellersPage />} />
+          <Route path="stories" element={<StoriesPage />} />
+          <Route path="stories/:storyId" element={<StoryPage />} />
+          <Route path="travellers" element={<TravellersPage />} />
+          <Route path="travellers/:travallerId" element={<TravellersPage />} />
         </Route>
       </Route>
     </Routes>
