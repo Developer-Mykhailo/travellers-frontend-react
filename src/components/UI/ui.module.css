@@ -1,0 +1,29 @@
+.primary {
+  border: 1px solid var(--color-royal-blue);
+  background-color: var(--color-royal-blue);
+}
+
+.secondary {
+  border: 1px solid var(--color-scheme-2-border);
+  color: var(--color-neutral-darkest);
+}
+
+.primary:not(.disabled):hover,
+.primary:not(.disabled):focus {
+  background: var(--color-royal-blue-lighter);
+  color: var(--color-scheme-2-text);
+}
+
+.secondary:not(.disabled):hover,
+.secondary:not(.disabled):focus {
+  border: 1px solid var(--opacity-transparent);
+  background: var(--color-royal-blue);
+  color: var(--color-white);
+}
+
+.disabled,
+.disabled {
+  opacity: 0.3;
+  cursor: default;
+  pointer-events: none;
+}

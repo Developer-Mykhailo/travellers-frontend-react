@@ -1,7 +1,9 @@
 // import css from './OurTravellers.module.css';
 
+import Container from '../Container/Container';
+
 const OurTravellers = () => {
-  return <div>OurTravellers</div>;
+  return <Container>OurTravellers</Container>;
 };
 
 export default OurTravellers;

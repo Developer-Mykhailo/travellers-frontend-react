@@ -1,7 +1,9 @@
 // import css from './Popular.modual.css'
 
+import Container from '../Container/Container';
+
 const Popular = () => {
-  return <div>Popular</div>;
+  return <Container>Popular</Container>;
 };
 
 export default Popular;
