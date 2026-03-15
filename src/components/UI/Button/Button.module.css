@@ -16,7 +16,7 @@
 
 .button:hover,
 .button:focus {
-  transition: all 250ms ease-in-out;
+  transition: all var(--transition-base);
 }
 
 .button:disabled {
