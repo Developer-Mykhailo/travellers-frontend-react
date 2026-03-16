@@ -1,25 +1,4 @@
 .button {
-  border-radius: 8px;
-  padding: 4px;
-  min-width: 32px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  font-family: var(--font-family);
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 150%;
-  color: var(--color-white);
-}
-
-.button:hover,
-.button:focus {
-  transition: all var(--transition-base);
-}
-
-.button:disabled {
-  opacity: 0.3;
-  cursor: auto;
+  width: 126px;
+  height: 39px;
 }

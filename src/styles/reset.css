@@ -30,3 +30,10 @@ button {
   cursor: pointer;
   outline: none;
 }
+
+body {
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+}

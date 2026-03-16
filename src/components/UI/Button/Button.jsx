@@ -31,8 +31,9 @@ const Button = ({
       type={type}
       disabled={disabled}
       className={clsx(
-        css.button,
+        ui.shared,
         ui[variant],
+        css.button,
         disabled && ui.disabled,
         className
       )}

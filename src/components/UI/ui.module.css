@@ -1,3 +1,28 @@
+.shared {
+  border-radius: 8px;
+  padding: 4px;
+  min-width: 32px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 150%;
+  color: var(--color-white);
+}
+
+.shared:hover,
+.shared:focus {
+  transition: all var(--transition-base);
+}
+
+.shared:disabled {
+  opacity: 0.3;
+  cursor: auto;
+}
+
 .primary {
   border: 1px solid var(--color-royal-blue);
   background-color: var(--color-royal-blue);
