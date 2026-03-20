@@ -1,0 +1,26 @@
+.list {
+  display: flex;
+  gap: 32px;
+}
+
+.home {
+  font-size: 18px;
+  color: var(--color-scheme-1-background);
+}
+
+.home:hover,
+.home:focus {
+  opacity: 0.5;
+  transition: all var(--transition-base);
+}
+
+.link {
+  font-size: 18px;
+  color: var(--color-scheme-2-text);
+}
+
+.link:hover,
+.link:focus {
+  color: var(--color-royal-blue);
+  transition: all var(--transition-base);
+}
