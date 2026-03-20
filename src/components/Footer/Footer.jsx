@@ -12,9 +12,12 @@ const Footer = () => {
     <>
       <footer className={css.footer}>
         <Container>
-          <Logo footer={footer} />
+          <Logo footer={footer} className={css.logo} />
           <Social />
           <Navigation footer={footer} />
+          <span className={css.copyriht}>
+            <small>© 2025 Travellers. All rights reserved.</small>
+          </span>
         </Container>
       </footer>
     </>
