@@ -1,0 +1,9 @@
+.logo {
+  display: block;
+  height: 36px;
+  width: auto;
+}
+
+.active :global(.logoText) {
+  color: var(--color-white);
+}
