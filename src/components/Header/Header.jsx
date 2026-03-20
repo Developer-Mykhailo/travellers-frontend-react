@@ -19,7 +19,7 @@ const Header = () => {
       <header className={css.header}>
         <Container>
           <nav className={css.nav}>
-            <Logo />
+            <Logo place="header" />
 
             {isBigScreen ? (
               <Navigation

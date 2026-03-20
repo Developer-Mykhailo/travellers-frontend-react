@@ -7,7 +7,8 @@ import css from './Navigation.module.css';
 const Navigation = ({ place, locaLinklClass }) => {
   const location = useLocation();
   const isHome = location.pathname === '/';
-  const isloggedIn = false;
+  const isloggedIn = true;
+
   const buidLinkClass = () => {
     return clsx(css.link, locaLinklClass);
   };
