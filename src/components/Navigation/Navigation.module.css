@@ -1,5 +1,6 @@
 .list {
   display: flex;
+  align-items: center;
   gap: 32px;
 }
 
@@ -23,4 +24,9 @@
 .link:focus {
   color: var(--color-royal-blue);
   transition: all var(--transition-base);
+}
+
+.pad {
+  width: 115px;
+  height: 35px;
 }
