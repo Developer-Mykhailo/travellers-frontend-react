@@ -4,30 +4,34 @@ import css from './Navigation.module.css';
 import ui from '../UI/ui.module.css';
 import clsx from 'clsx';
 
-const Navigation = () => {
+const Navigation = ({ footer }) => {
   const location = useLocation();
   const isHome = location.pathname === '/';
   const isloggedIn = true;
 
+  const buidLinkClass = () => {
+    return clsx(css.link, isHome && !footer && css.home);
+  };
+
   return (
-    <ul className={css.list}>
+    <ul className={clsx(css.list)}>
       <li>
-        <Link className={isHome ? css.home : css.link} to={'/'}>
+        <Link className={buidLinkClass()} to={'/'}>
           Main
         </Link>
       </li>
       <li>
-        <Link className={isHome ? css.home : css.link} to={'/stories'}>
+        <Link className={buidLinkClass()} to={'/stories'}>
           Stories
         </Link>
       </li>
       <li>
-        <Link className={isHome ? css.home : css.link} to={'/travellers'}>
+        <Link className={buidLinkClass()} to={'/travellers'}>
           Travellers
         </Link>
       </li>
 
-      {isloggedIn && (
+      {isloggedIn && !footer && (
         <>
           <li>
             <Link className={isHome ? css.home : css.link} to={'/profile'}>
