@@ -14,7 +14,8 @@ const Footer = () => {
         <Container>
           <Logo footer={footer} className={css.logo} />
           <Social />
-          <Navigation footer={footer} />
+
+          <Navigation place="footer" />
           <span className={css.copyriht}>
             <small>© 2025 Travellers. All rights reserved.</small>
           </span>

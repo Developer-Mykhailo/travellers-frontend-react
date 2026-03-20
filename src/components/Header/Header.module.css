@@ -11,3 +11,14 @@
   justify-content: space-between;
   align-items: center;
 }
+
+.headerLink {
+  font-size: 18px;
+  color: var(--color-scheme-1-background);
+}
+
+/* .headerLink:hover,
+.headerLink:focus {
+  opacity: 0.5;
+  transition: all var(--transition-base);
+} */

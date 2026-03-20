@@ -2,24 +2,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 24px;
+  gap: 32px;
   margin-bottom: 24px;
-}
-
-.link {
-  font-size: 18px;
-  color: var(--color-scheme-2-text);
-}
-
-.home {
-  font-size: 18px;
-  color: var(--color-scheme-1-background);
-}
-
-.home:hover,
-.home:focus {
-  opacity: 0.5;
-  transition: all var(--transition-base);
+  padding: 8px;
 }
 
 .link:hover,
@@ -44,5 +29,9 @@ a .logoText {
     align-items: center;
     gap: 32px;
     margin-bottom: 0;
+  }
+
+  .link {
+    font-size: 18px;
   }
 }

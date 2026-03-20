@@ -1,20 +1,20 @@
+import clsx from 'clsx';
 import { Link, useLocation } from 'react-router-dom';
-import css from './Navigation.module.css';
 
 import ui from '../UI/ui.module.css';
-import clsx from 'clsx';
+import css from './Navigation.module.css';
 
-const Navigation = ({ footer }) => {
+const Navigation = ({ place, locaLinklClass }) => {
   const location = useLocation();
   const isHome = location.pathname === '/';
-  const isloggedIn = true;
-
+  const isloggedIn = false;
   const buidLinkClass = () => {
-    return clsx(css.link, isHome && !footer && css.home);
+    return clsx(css.link, locaLinklClass);
   };
 
+  // JSX
   return (
-    <ul className={clsx(css.list)}>
+    <ul className={css.list}>
       <li>
         <Link className={buidLinkClass()} to={'/'}>
           Main
@@ -31,10 +31,10 @@ const Navigation = ({ footer }) => {
         </Link>
       </li>
 
-      {isloggedIn && !footer && (
+      {isloggedIn && place !== 'footer' && (
         <>
           <li>
-            <Link className={isHome ? css.home : css.link} to={'/profile'}>
+            <Link className={buidLinkClass()} to={'/profile'}>
               Profile
             </Link>
           </li>

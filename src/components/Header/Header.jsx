@@ -7,9 +7,12 @@ import Navigation from '../Navigation/Navigation';
 import Button from '../UI/Button/Button';
 
 import css from './Header.module.css';
+import { useLocation } from 'react-router-dom';
 
 const Header = () => {
   const isBigScreen = useMediaQuery({ query: '(min-width: 1440px)' });
+  const location = useLocation();
+  const isHome = location.pathname === '/';
   // JSX
   return (
     <>
@@ -19,7 +22,10 @@ const Header = () => {
             <Logo />
 
             {isBigScreen ? (
-              <Navigation />
+              <Navigation
+                place="header"
+                locaLinklClass={isHome && css.headerLink}
+              />
             ) : (
               <Button variant="accent">
                 <MenuIcon />
