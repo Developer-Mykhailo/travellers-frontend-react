@@ -10,12 +10,12 @@ const Footer = () => {
   return (
     <>
       <footer className={css.footer}>
-        <Container>
+        <Container className={css.footerContainer}>
           <Logo place="footer" localClass={css.footerLogo} />
-
           <Social />
 
-          <Navigation place="footer" />
+          <Navigation classList={css.footerNav} />
+
           <span className={css.copyriht}>
             <small>© 2025 Travellers. All rights reserved.</small>
           </span>

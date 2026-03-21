@@ -4,40 +4,28 @@ import { Link, useLocation } from 'react-router-dom';
 import ui from '../UI/ui.module.css';
 import css from './Navigation.module.css';
 
-const Navigation = ({ place, locaLinklClass }) => {
+const Navigation = ({ place, classList }) => {
   const location = useLocation();
   const isHome = location.pathname === '/';
-  const isloggedIn = true;
-
-  const buidLinkClass = () => {
-    return clsx(css.link, locaLinklClass);
-  };
+  const isloggedIn = false;
 
   // JSX
   return (
-    <ul className={css.list}>
+    <ul className={clsx(css.list, classList)}>
       <li>
-        <Link className={buidLinkClass()} to={'/'}>
-          Main
-        </Link>
+        <Link to={'/'}>Main</Link>
       </li>
       <li>
-        <Link className={buidLinkClass()} to={'/stories'}>
-          Stories
-        </Link>
+        <Link to={'/stories'}>Stories</Link>
       </li>
       <li>
-        <Link className={buidLinkClass()} to={'/travellers'}>
-          Travellers
-        </Link>
+        <Link to={'/travellers'}>Travellers</Link>
       </li>
 
-      {isloggedIn && place !== 'footer' && (
+      {isloggedIn && place === 'header' && (
         <>
           <li>
-            <Link className={buidLinkClass()} to={'/profile'}>
-              Profile
-            </Link>
+            <Link to={'/profile'}>Profile</Link>
           </li>
           <li>
             <Link

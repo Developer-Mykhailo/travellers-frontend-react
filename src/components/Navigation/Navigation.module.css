@@ -2,36 +2,33 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 32px;
-  margin-bottom: 24px;
-  padding: 8px;
+  gap: 40px;
 }
 
-.link:hover,
-.link:focus {
+.list a {
+  padding: 8px 0;
+}
+
+.list a:hover,
+.list a:focus {
   color: var(--color-royal-blue);
   transition: all var(--transition-base);
 }
 
 .pad {
-  width: 115px;
+  min-width: 130px;
   height: 35px;
 }
 
-a .logoText {
-  line-height: 0;
+@media (min-width: 768px) {
+  .list {
+    flex-direction: row;
+    gap: 32px;
+  }
 }
 
 @media (min-width: 1440px) {
-  .list {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 32px;
-    margin-bottom: 0;
-  }
-
-  .link {
+  .list a {
     font-size: 18px;
   }
 }

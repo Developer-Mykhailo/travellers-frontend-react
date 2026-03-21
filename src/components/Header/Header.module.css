@@ -12,7 +12,7 @@
   align-items: center;
 }
 
-.headerLink {
-  font-size: 18px;
+.classList a {
   color: var(--color-scheme-1-background);
+  padding: 15px 0;
 }

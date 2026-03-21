@@ -22,10 +22,7 @@ const Header = () => {
             <Logo place="header" />
 
             {isBigScreen ? (
-              <Navigation
-                place="header"
-                locaLinklClass={isHome && css.headerLink}
-              />
+              <Navigation place="header" classList={isHome && css.classList} />
             ) : (
               <Button variant="accent">
                 <MenuIcon />
