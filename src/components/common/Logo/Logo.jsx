@@ -4,9 +4,9 @@ import LogoEn from '../../../assets/icons/LogoEn.svg?react';
 
 import css from './Logo.module.css';
 
-const Logo = ({ place }) => {
+const Logo = ({ place, localClass }) => {
   const mainLink = ({ isActive }) => {
-    if (place === 'header') return clsx(isActive && css.active);
+    return clsx(place === 'header' && isActive ? css.active : localClass);
   };
 
   // JSX
