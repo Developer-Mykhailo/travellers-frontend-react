@@ -10,6 +10,7 @@ const Navigation = ({ place, classList }) => {
   const isHome = location.pathname === '/';
   const isDesktop = useMediaQuery({ query: '(min-width: 1440px)' });
   const isloggedIn = true;
+  // const isloggedIn = false;
 
   // JSX
   return (

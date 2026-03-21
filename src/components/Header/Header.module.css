@@ -16,12 +16,12 @@
   flex: 1;
 }
 
-.classList li:not(:last-child) a {
+.classList li:nth-child(-n + 4) {
   color: var(--color-scheme-1-background);
 }
 
-.classList li:not(:last-child) a:hover,
-.classList li:not(:last-child) a:focus {
+.classList li:nth-child(-n + 4) a:hover,
+.classList li:nth-child(-n + 4) a:focus {
   color: var(--color-scheme-1-background);
   box-shadow: 0 0 0 1px var(--color-white);
 }
