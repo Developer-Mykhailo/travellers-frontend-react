@@ -12,7 +12,21 @@
   align-items: center;
 }
 
+.nav > a {
+  flex: 1;
+}
+
 .classList a {
   color: var(--color-scheme-1-background);
   padding: 15px 0;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+button[type='button'] {
+  margin-left: 16px;
 }

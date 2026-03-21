@@ -3,30 +3,39 @@ import { Link, useLocation } from 'react-router-dom';
 
 import ui from '../UI/ui.module.css';
 import css from './Navigation.module.css';
+import { useMediaQuery } from 'react-responsive';
 
 const Navigation = ({ place, classList }) => {
   const location = useLocation();
   const isHome = location.pathname === '/';
-  const isloggedIn = false;
+  const isDesktop = useMediaQuery({ query: '(min-width: 1440px)' });
+  const isloggedIn = true;
 
   // JSX
   return (
     <ul className={clsx(css.list, classList)}>
-      <li>
-        <Link to={'/'}>Main</Link>
-      </li>
-      <li>
-        <Link to={'/stories'}>Stories</Link>
-      </li>
-      <li>
-        <Link to={'/travellers'}>Travellers</Link>
-      </li>
+      {((place === 'header' && isDesktop) || place === 'footer') && (
+        <>
+          <li>
+            <Link to={'/'}>Main</Link>
+          </li>
+          <li>
+            <Link to={'/stories'}>Stories</Link>
+          </li>
+          <li>
+            <Link to={'/travellers'}>Travellers</Link>
+          </li>
+        </>
+      )}
 
       {isloggedIn && place === 'header' && (
         <>
-          <li>
-            <Link to={'/profile'}>Profile</Link>
-          </li>
+          {isDesktop && (
+            <li>
+              <Link to={'/profile'}>Profile</Link>
+            </li>
+          )}
+
           <li>
             <Link
               className={
