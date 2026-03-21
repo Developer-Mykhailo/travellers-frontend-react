@@ -1,9 +1,9 @@
 import clsx from 'clsx';
 import { Link, useLocation } from 'react-router-dom';
 
+import { useMediaQuery } from 'react-responsive';
 import ui from '../UI/ui.module.css';
 import css from './Navigation.module.css';
-import { useMediaQuery } from 'react-responsive';
 
 const Navigation = ({ place, classList }) => {
   const location = useLocation();

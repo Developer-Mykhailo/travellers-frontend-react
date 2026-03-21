@@ -1,6 +1,5 @@
-// import clsx from 'clsx';
 import { useMediaQuery } from 'react-responsive';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import MenuIcon from '../../assets/icons/menu.svg?react';
 import Container from '../Container/Container';
 
@@ -8,7 +7,6 @@ import Logo from '../common/Logo/Logo';
 import Navigation from '../Navigation/Navigation';
 import Button from '../UI/Button/Button';
 
-// import ui from '../UI/ui.module.css';
 import css from './Header.module.css';
 
 const Header = () => {
@@ -31,7 +29,7 @@ const Header = () => {
             )}
 
             {!isDesktop && (
-              <Button variant="accent">
+              <Button variant={isHome ? 'accent2' : 'secondary'}>
                 <MenuIcon />
               </Button>
             )}

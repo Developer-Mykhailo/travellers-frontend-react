@@ -6,12 +6,20 @@
 }
 
 .list a {
-  padding: 8px 0;
+  border-radius: 8px;
+  padding: 0px 8px;
+  padding: 5px 8px;
 }
 
 .list a:hover,
 .list a:focus {
-  color: var(--color-royal-blue);
+  box-shadow: 0 0 0 1px var(--color-scheme-1-text);
+  transition: all var(--transition-base);
+  outline: none;
+}
+
+.list a:active {
+  background-color: var(--color-neutral-lighter);
   transition: all var(--transition-base);
 }
 

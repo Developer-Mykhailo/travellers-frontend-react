@@ -16,15 +16,14 @@
   flex: 1;
 }
 
-.classList a {
+.classList li:not(:last-child) a {
   color: var(--color-scheme-1-background);
-  padding: 15px 0;
 }
 
-.actions {
-  display: flex;
-  align-items: center;
-  gap: 16px;
+.classList li:not(:last-child) a:hover,
+.classList li:not(:last-child) a:focus {
+  color: var(--color-scheme-1-background);
+  box-shadow: 0 0 0 1px var(--color-white);
 }
 
 button[type='button'] {
