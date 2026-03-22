@@ -1,6 +1,6 @@
 import css from './Join.module.css';
 
-import Container from '../Container/Container';
+import Container from '../common/Container/Container';
 import Section from '../Section/Section';
 import { Link } from 'react-router-dom';
 import ui from '../UI/ui.module.css';

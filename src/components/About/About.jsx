@@ -1,7 +1,7 @@
 import Communication from '../../assets/icons/communication.svg?react';
 import Travel_luggage from '../../assets/icons/travel_luggage_and_bags.svg?react';
 import Wand_stars from '../../assets/icons/wand_stars.svg?react';
-import Container from '../Container/Container';
+import Container from '../common/Container/Container';
 import Section from '../Section/Section';
 
 import css from './About.module.css';

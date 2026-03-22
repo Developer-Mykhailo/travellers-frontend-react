@@ -1,6 +1,6 @@
 import Logo from '../common/Logo/Logo';
 import Social from '../common/Social/Social';
-import Container from '../Container/Container';
+import Container from '../common/Container/Container';
 import Navigation from '../Navigation/Navigation';
 
 import css from './Footer.module.css';

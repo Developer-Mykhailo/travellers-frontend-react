@@ -1,6 +1,6 @@
 // import css from './OurTravellers.module.css';
 
-import Container from '../Container/Container';
+import Container from '../common/Container/Container';
 
 const OurTravellers = () => {
   return <Container>OurTravellers</Container>;
