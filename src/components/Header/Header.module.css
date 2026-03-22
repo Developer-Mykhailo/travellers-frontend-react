@@ -27,10 +27,11 @@
   color: var(--color-scheme-1-background);
 }
 
-.classList li:nth-child(-n + 3) a:hover,
-.classList li:nth-child(-n + 3) a:focus {
-  color: var(--color-scheme-1-background);
+.classList li:nth-child(-n + 4) a:hover,
+.classList li:nth-child(-n + 4) a:focus {
+  background: var(--color-neutral);
   box-shadow: 0 0 0 1px var(--color-white);
+  color: var(--color-scheme-1-background);
 }
 
 .menuBtn[type='button'] {

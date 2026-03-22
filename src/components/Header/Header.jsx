@@ -42,7 +42,7 @@ const Header = () => {
             )}
           </nav>
 
-          {isLoggedIn && <UserBar />}
+          {isLoggedIn && isDesktop && <UserBar />}
         </Container>
       </header>
     </>

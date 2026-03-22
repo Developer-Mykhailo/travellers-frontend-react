@@ -70,16 +70,7 @@ const Navigation = ({ place, classList }) => {
         <>
           {isDesktop && (
             <li>
-              <Link
-                className={
-                  isHome
-                    ? clsx(ui.shared, ui.accent2)
-                    : clsx(ui.shared, ui.secondary)
-                }
-                to={'/profile'}
-              >
-                Profile
-              </Link>
+              <Link to={'/profile'}>Profile</Link>
             </li>
           )}
 
