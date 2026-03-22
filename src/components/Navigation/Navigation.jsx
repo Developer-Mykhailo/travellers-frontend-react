@@ -31,65 +31,63 @@ const Navigation = ({ place, classList }) => {
       )}
 
       {/* //! Login & Registr links */}
-      <>
-        {!isloggedIn && place !== 'footer' && (
-          <>
-            {isDesktop && (
-              <li>
-                <Link
-                  className={
-                    isHome
-                      ? clsx(ui.shared, ui.accent2)
-                      : clsx(ui.shared, ui.secondary)
-                  }
-                  to={'/login'}
-                >
-                  Log In
-                </Link>
-              </li>
-            )}
 
+      {!isloggedIn && place !== 'footer' && (
+        <>
+          {isDesktop && (
             <li>
               <Link
                 className={
                   isHome
-                    ? clsx(css.pad, ui.shared, ui.accent)
-                    : clsx(css.pad, ui.shared, ui.primary)
+                    ? clsx(ui.shared, ui.accent2)
+                    : clsx(ui.shared, ui.secondary)
                 }
-                to={'/register'}
+                to={'/login'}
               >
-                Register
+                Log In
               </Link>
             </li>
-          </>
-        )}
-      </>
+          )}
+
+          <li>
+            <Link
+              className={
+                isHome
+                  ? clsx(css.pad, ui.shared, ui.accent)
+                  : clsx(css.pad, ui.shared, ui.primary)
+              }
+              to={'/register'}
+            >
+              Register
+            </Link>
+          </li>
+        </>
+      )}
 
       {/* //! Profile & Publish story links */}
-      <>
-        {isloggedIn && place !== 'footer' && (
-          <>
-            {isDesktop && (
-              <li>
-                <Link to={'/publish-story'}>Profile</Link>
-              </li>
-            )}
 
+      {isloggedIn && place !== 'footer' && (
+        <>
+          {isDesktop && (
             <li>
-              <Link
-                className={
-                  isHome
-                    ? clsx(css.pad, ui.shared, ui.accent)
-                    : clsx(css.pad, ui.shared, ui.primary)
-                }
-                to={'/publish-story'}
-              >
-                Publish Story
-              </Link>
+              <Link to={'/publish-story'}>Profile</Link>
             </li>
-          </>
-        )}
-      </>
+          )}
+
+          <li>
+            <Link
+              className={
+                isHome
+                  ? clsx(css.pad, ui.shared, ui.accent)
+                  : clsx(css.pad, ui.shared, ui.primary)
+              }
+              to={'/publish-story'}
+            >
+              Publish Story
+            </Link>
+          </li>
+        </>
+      )}
     </ul>
   );
 };
