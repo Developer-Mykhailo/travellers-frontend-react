@@ -7,8 +7,7 @@
 
 .list a {
   border-radius: 8px;
-  padding: 0px 8px;
-  padding: 5px 8px;
+  padding: 4px 10px;
 }
 
 .list a:hover,
@@ -21,11 +20,6 @@
 .list a:active {
   background-color: var(--color-neutral-lighter);
   transition: all var(--transition-base);
-}
-
-.pad {
-  min-width: 130px;
-  height: 35px;
 }
 
 @media (min-width: 768px) {
