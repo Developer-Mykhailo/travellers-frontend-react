@@ -7,11 +7,15 @@ import Logo from '../common/Logo/Logo';
 import Navigation from '../Navigation/Navigation';
 import Button from '../UI/Button/Button';
 
+import UserBar from '../../features/auth/components/UserBar/UserBar';
+
 import css from './Header.module.css';
 
 const Header = () => {
   const isDesktop = useMediaQuery({ query: '(min-width: 1440px)' });
   const isTablet = useMediaQuery({ query: '(min-width: 768px)' });
+  const isLoggedIn = true;
+  // const isLoggedIn = false;
 
   const location = useLocation();
   const isHome = location.pathname === '/';
@@ -20,7 +24,7 @@ const Header = () => {
   return (
     <>
       <header className={css.header}>
-        <Container>
+        <Container className={css.headerContainer}>
           <nav className={css.nav}>
             <Logo place="header" />
 
@@ -29,11 +33,16 @@ const Header = () => {
             )}
 
             {!isDesktop && (
-              <Button variant={isHome ? 'accent2' : 'secondary'}>
+              <Button
+                className={css.menuBtn}
+                variant={isHome ? 'accent2' : 'secondary'}
+              >
                 <MenuIcon />
               </Button>
             )}
           </nav>
+
+          {isLoggedIn && <UserBar />}
         </Container>
       </header>
     </>

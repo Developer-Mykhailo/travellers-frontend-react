@@ -53,8 +53,8 @@ const Navigation = ({ place, classList }) => {
             <Link
               className={
                 isHome
-                  ? clsx(css.pad, ui.shared, ui.accent)
-                  : clsx(css.pad, ui.shared, ui.primary)
+                  ? clsx(ui.shared, ui.accent)
+                  : clsx(ui.shared, ui.primary)
               }
               to={'/register'}
             >
@@ -70,7 +70,16 @@ const Navigation = ({ place, classList }) => {
         <>
           {isDesktop && (
             <li>
-              <Link to={'/publish-story'}>Profile</Link>
+              <Link
+                className={
+                  isHome
+                    ? clsx(ui.shared, ui.accent2)
+                    : clsx(ui.shared, ui.secondary)
+                }
+                to={'/profile'}
+              >
+                Profile
+              </Link>
             </li>
           )}
 
@@ -78,8 +87,8 @@ const Navigation = ({ place, classList }) => {
             <Link
               className={
                 isHome
-                  ? clsx(css.pad, ui.shared, ui.accent)
-                  : clsx(css.pad, ui.shared, ui.primary)
+                  ? clsx(ui.shared, ui.accent)
+                  : clsx(ui.shared, ui.primary)
               }
               to={'/publish-story'}
             >

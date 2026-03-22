@@ -1,0 +1,44 @@
+.userBar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.wrapAvatar {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 100%;
+  overflow: hidden;
+}
+
+.userName {
+  max-width: 100px;
+  font-size: 18px;
+  overflow-x: hidden;
+  white-space: nowrap;
+  text-overflow: clip;
+}
+
+.nameAccent {
+  color: var(--color-white);
+}
+
+.logout {
+  border: 0;
+  background: transparent;
+  margin: 0;
+  color: var(--color-white);
+  box-shadow: none;
+}
+
+.logoutAccent {
+  border: 0;
+  background: transparent;
+  margin: 0;
+  box-shadow: none;
+}
