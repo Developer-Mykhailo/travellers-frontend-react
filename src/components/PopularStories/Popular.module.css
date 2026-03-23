@@ -1,0 +1,15 @@
+.popularSection {
+  padding: 72px 0;
+}
+
+@media (min-width: 768px) {
+  .popularSection {
+    padding: 64px 0;
+  }
+}
+
+@media (min-width: 1440px) {
+  .popularSection {
+    padding: 72px 0;
+  }
+}

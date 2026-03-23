@@ -1,0 +1,169 @@
+.title {
+  font-family: var(--second-family);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 120%;
+  letter-spacing: -0.01em;
+  color: var(--color-scheme-1-text);
+  margin-bottom: 40px;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.item {
+  border: 0px solid var(--color-scheme-1-border);
+  border-radius: 16px;
+  background: var(--color-scheme-2-foreground);
+  overflow: hidden;
+}
+
+.wrapImg {
+  width: 100%;
+  height: 223px;
+  overflow: hidden;
+}
+
+.content {
+  padding: 24px;
+}
+
+.category {
+  display: inline-block;
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--color-neutral-darkest);
+  margin-bottom: 8px;
+}
+
+.storyTitle {
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--color-scheme-1-text);
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 55px;
+  margin-bottom: 8px;
+}
+
+.storyDescr {
+  color: var(--color-scheme-1-text);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 72px;
+  margin-bottom: 24px;
+}
+
+/*  */
+.userInfoWrap {
+  display: flex;
+  margin-bottom: 24px;
+}
+
+.avatarWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  border-radius: 100%;
+  width: 48px;
+  height: 48px;
+  overflow: hidden;
+  margin-right: 16px;
+}
+
+.userName {
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--color-scheme-1-text);
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+}
+
+.userInfo span:nth-child(-n + 2) {
+  margin-right: 8px;
+}
+
+.bookmark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/*  */
+.wrapperButtons {
+  display: flex;
+  gap: 10px;
+}
+
+.wrapperButtons > button {
+  flex-grow: 1;
+}
+
+.wrapperButtons > button + button {
+  flex-grow: 0;
+  width: 48px;
+  height: 48px;
+}
+
+@media (min-width: 768px) {
+  .title {
+    font-size: 44px;
+    margin-bottom: 24px;
+  }
+
+  .item {
+    width: calc((100% - 24px) / 2);
+  }
+
+  .wrapImg {
+    height: 226px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .title {
+    font-size: 52px;
+    margin-bottom: 40px;
+  }
+
+  .item {
+    width: calc((100% - 48px) / 3);
+  }
+
+  .wrapImg {
+    height: 281px;
+  }
+
+  .category {
+    font-size: 16px;
+  }
+
+  .storyTitle {
+    font-size: 26px;
+  }
+
+  .storyDescr {
+    font-size: 18px;
+  }
+
+  .avatarWrap {
+    width: 54px;
+    height: 54px;
+  }
+
+  .userName {
+    font-size: 16px;
+  }
+}
