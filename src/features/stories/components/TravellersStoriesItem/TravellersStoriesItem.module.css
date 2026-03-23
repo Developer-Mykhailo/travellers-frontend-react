@@ -19,6 +19,14 @@
   border-radius: 16px;
   background: var(--color-scheme-2-foreground);
   overflow: hidden;
+
+  transition: all var(--transition-base);
+}
+
+.item:hover,
+.item:focus {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px var(--opacity-neutral-darkest-10);
 }
 
 .wrapImg {
