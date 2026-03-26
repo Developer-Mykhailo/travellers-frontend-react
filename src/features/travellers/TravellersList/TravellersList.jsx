@@ -1,6 +1,9 @@
-import Button from '../../../components/UI/Button/Button';
-import css from './TravellersList.module.css';
+import { Link } from 'react-router-dom';
 import response from '../../../../temp/users.json';
+import ui from '../../../components/UI/ui.module.css';
+
+import css from './TravellersList.module.css';
+import clsx from 'clsx';
 
 const TravellersList = () => {
   const users = response.data.data;
@@ -17,9 +20,12 @@ const TravellersList = () => {
 
             <h3 className={css.userName}>{user.name}</h3>
             <p className={css.userDescr}>{user.description}</p>
-            <Button className={css.viewProfileBtn} variant="secondary">
+            <Link
+              to={'travellers/:travallerId'}
+              className={clsx(ui.shared, ui.secondary, css.viewProfie)}
+            >
               View Profile
-            </Button>
+            </Link>
           </li>
         ))}
       </ul>

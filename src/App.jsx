@@ -6,6 +6,7 @@ import HomePage from './pages/HomePage/HomePage';
 import StoriesPage from './pages/StoriesPage/StoriesPage';
 import StoryPage from './pages/StoryPage/StoryPage';
 import TravellersPage from './pages/TravellersPage/TravellersPage';
+import TravellerPage from './pages/TravellerPage/TravellerPage';
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
           <Route path="stories" element={<StoriesPage />} />
           <Route path="stories/:storyId" element={<StoryPage />} />
           <Route path="travellers" element={<TravellersPage />} />
-          <Route path="travellers/:travallerId" element={<TravellersPage />} />
+          <Route path="travellers/:travallerId" element={<TravellerPage />} />
         </Route>
       </Route>
     </Routes>

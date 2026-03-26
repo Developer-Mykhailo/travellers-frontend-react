@@ -8,8 +8,14 @@
   padding: 24px;
   background: var(--color-scheme-2-foreground);
   border-radius: 16px;
+  transition: all var(--transition-base);
 }
 
+.userItem:hover,
+.userItem:focus {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px var(--opacity-neutral-darkest-10);
+}
 .avatarWrap {
   width: 112px;
   height: 112px;
@@ -36,10 +42,9 @@
   min-height: 72px;
   margin-bottom: 16px;
 }
-.viewProfileBtn {
-  width: 100%;
+
+.viewProfie {
   min-height: 48px;
-  margin: 0 auto;
 }
 
 @media (min-width: 768px) {
