@@ -14,6 +14,7 @@ const TravellersList = () => {
             <div className={css.avatarWrap}>
               <img src={user.avatar} alt="avatar" className={css.userAvatar} />
             </div>
+
             <h3 className={css.userName}>{user.name}</h3>
             <p className={css.userDescr}>{user.description}</p>
             <Button className={css.viewProfileBtn} variant="secondary">

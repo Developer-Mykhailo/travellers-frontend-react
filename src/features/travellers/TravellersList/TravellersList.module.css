@@ -22,6 +22,9 @@
   font-weight: 600;
   font-size: 18px;
   color: var(--color-scheme-2-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   margin-bottom: 16px;
 }
 .userDescr {
