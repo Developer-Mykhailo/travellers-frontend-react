@@ -1,0 +1,70 @@
+.userList {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.userItem {
+  padding: 24px;
+  background: var(--color-scheme-2-foreground);
+  border-radius: 16px;
+}
+
+.avatarWrap {
+  width: 112px;
+  height: 112px;
+  border-radius: 100%;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.userName {
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--color-scheme-2-text);
+  margin-bottom: 16px;
+}
+.userDescr {
+  color: var(--color-scheme-2-text);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 72px;
+  margin-bottom: 16px;
+}
+.viewProfileBtn {
+  width: 100%;
+  min-height: 48px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .userList {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .userItem {
+    max-width: calc((100% - 24px) / 2);
+  }
+}
+
+@media (min-width: 1440px) {
+  .userList {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .userItem {
+    max-width: calc((100% - 24px * 3) / 4);
+  }
+
+  .userName {
+    font-size: 26px;
+  }
+
+  .userDescr {
+    font-size: 18px;
+  }
+}

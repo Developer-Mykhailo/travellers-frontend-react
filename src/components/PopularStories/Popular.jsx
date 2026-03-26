@@ -13,6 +13,8 @@ const Popular = () => {
   return (
     <Section className={css.popularSection}>
       <Container>
+        <h2 className={css.title}>Popular stories</h2>
+
         <TravellersStoriesItem />
 
         {isTablet && <Button className={css.viewMoreBtn}>View more</Button>}

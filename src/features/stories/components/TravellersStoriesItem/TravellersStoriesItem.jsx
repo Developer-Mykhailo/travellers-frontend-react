@@ -10,8 +10,6 @@ const TravellersStoriesItem = () => {
 
   return (
     <>
-      <h1 className={css.title}>Popular stories</h1>
-
       <ul className={css.list}>
         {stories.map(
           ({
@@ -31,7 +29,7 @@ const TravellersStoriesItem = () => {
 
               <div className={css.content}>
                 <span className={css.category}>{category}</span>
-                <h2 className={css.storyTitle}>{title}</h2>
+                <h3 className={css.storyTitle}>{title}</h3>
                 <p className={css.storyDescr}>{article}</p>
 
                 <div className={css.userInfoWrap}>

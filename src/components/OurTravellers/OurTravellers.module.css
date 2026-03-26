@@ -1,0 +1,36 @@
+.travellers {
+  padding: 64px 0;
+}
+
+.title {
+  font-family: var(--second-family);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 120%;
+  letter-spacing: -0.01em;
+  color: var(--color-scheme-1-text);
+  margin-bottom: 48px;
+}
+
+.viewAllBtn {
+  width: 173px;
+  min-height: 48px;
+  margin: 0 auto;
+  margin-top: 48px;
+}
+
+@media (min-width: 768px) {
+  .title {
+    font-size: 44px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .travellers {
+    padding: 72px 0;
+  }
+
+  .title {
+    font-size: 52px;
+  }
+}
