@@ -1,3 +1,54 @@
 .travellerSection {
-  padding-top: 72px;
+  padding: 32px 0 64px;
+}
+
+.travellerStrories {
+  padding-top: 32px;
+}
+
+.title {
+  font-family: var(--second-family);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 120%;
+  letter-spacing: -0.01em;
+  color: var(--color-scheme-1-text);
+  margin-bottom: 40px;
+}
+
+.showMoreBtn {
+  width: 100%;
+  min-height: 48px;
+  margin: 0 auto;
+  margin-top: 40px;
+}
+
+@media (min-width: 768px) {
+  .title {
+    font-size: 44px;
+  }
+
+  .showMoreBtn {
+    max-width: 135px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .travellerSection {
+    padding: 48px 0 72px;
+  }
+
+  .travellerStrories {
+    padding-top: 48px;
+  }
+
+  .title {
+    font-family: var(--second-family);
+    font-weight: 700;
+    font-size: 52px;
+    line-height: 120%;
+    letter-spacing: -0.01em;
+    color: var(--color-scheme-1-text);
+    margin-bottom: 40px;
+  }
 }

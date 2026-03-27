@@ -21,7 +21,7 @@ const TravellersList = () => {
             <h3 className={css.userName}>{user.name}</h3>
             <p className={css.userDescr}>{user.description}</p>
             <Link
-              to={'travellers/:travallerId'}
+              to={'/travellers/:travallerId'}
               className={clsx(ui.shared, ui.secondary, css.viewProfie)}
             >
               View Profile

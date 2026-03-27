@@ -1,5 +1,7 @@
 import Container from '../../components/common/Container/Container';
 import Section from '../../components/Section/Section';
+import Button from '../../components/UI/Button/Button';
+import TravellersStoriesItem from '../../features/stories/components/TravellersStoriesItem/TravellersStoriesItem';
 import TravellerInfo from '../../features/travellers/TravellerInfo/TravellerInfo';
 
 import css from './TravellerPage.module.css';
@@ -9,6 +11,14 @@ const TravellerPage = () => {
     <Section className={css.travellerSection}>
       <Container>
         <TravellerInfo />
+
+        <article className={css.travellerStrories}>
+          <h1 className={css.title}>Traveller's Stories</h1>
+
+          <TravellersStoriesItem />
+
+          <Button className={css.showMoreBtn}>Show more</Button>
+        </article>
       </Container>
     </Section>
   );
