@@ -1,0 +1,19 @@
+.travellersSection {
+  padding-bottom: 72px;
+}
+
+.travellersTitle {
+  padding-top: 48px;
+}
+
+.travellersTitle {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.showMoreBtn {
+  min-width: 135px;
+  min-height: 48px;
+  margin: 0 auto;
+  margin-top: 24px;
+}
