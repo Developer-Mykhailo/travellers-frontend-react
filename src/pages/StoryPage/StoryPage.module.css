@@ -44,7 +44,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 32px;
+  margin-bottom: 64px;
 }
 
 .descr {
@@ -56,8 +56,6 @@
   background: var(--color-scheme-1-foreground);
   border-radius: 24px;
   padding: 32px 20px;
-  /* width: 335px; */
-  /* height: 217px; */
 }
 
 .saveStorytitle {
@@ -77,4 +75,75 @@
 .saveStoryBtn {
   width: 100%;
   min-height: 48px;
+}
+
+@media (min-width: 768px) {
+  .storyTitle {
+    font-size: 48px;
+  }
+
+  .storyData {
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 18px;
+  }
+
+  .wrapImg {
+    height: 469px;
+  }
+
+  .saveStoryBox {
+    max-width: 418px;
+    padding: 32px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .storySection {
+    padding: 48px 0;
+  }
+
+  .storyTitle {
+    line-height: 110%;
+  }
+
+  .nameAuthor span,
+  .published span {
+    font-size: 18px;
+  }
+
+  .category {
+    font-size: 16px;
+  }
+
+  .wrapImg {
+    height: 874px;
+    margin-bottom: 96px;
+  }
+
+  .contentBox {
+    display: flex;
+    gap: 24px;
+  }
+
+  .descr {
+    margin: 0;
+    font-size: 18px;
+  }
+
+  .saveStoryBox {
+    flex-shrink: 0;
+  }
+
+  .saveStorytitle {
+    font-size: 26px;
+  }
+
+  .saveStorytitle {
+    font-size: 18px;
+  }
+
+  .saveStoryBtn {
+    font-size: 18px;
+  }
 }
