@@ -1,8 +1,11 @@
+import { Link } from 'react-router-dom';
 import { data } from '../../../../../temp/stories.json';
+import clsx from 'clsx';
 import Bookmark from '../../../../assets/icons/bookmark.svg?react';
-import placeHolder from '../../../../assets/images/placeHolder.jpg';
+import placeholder from '../../../../assets/images/placeholder.jpg';
 import Button from '../../../../components/UI/Button/Button';
 
+import ui from '../../../../components/UI/ui.module.css';
 import css from './TravellersStoriesItem.module.css';
 
 const TravellersStoriesItem = () => {
@@ -24,7 +27,7 @@ const TravellersStoriesItem = () => {
           }) => (
             <li className={css.item} key={_id}>
               <div className={css.wrapImg}>
-                <img src={img ?? placeHolder} alt={title} />
+                <img src={img ?? placeholder} alt={title} />
               </div>
 
               <div className={css.content}>
@@ -50,7 +53,12 @@ const TravellersStoriesItem = () => {
                 </div>
 
                 <div className={css.wrapperButtons}>
-                  <Button variant="secondary">View the article</Button>
+                  <Link
+                    to="/stories/:storyId"
+                    className={clsx(ui.shared, ui.secondary)}
+                  >
+                    View the article
+                  </Link>
                   <Button variant="secondary">
                     <Bookmark />
                   </Button>
