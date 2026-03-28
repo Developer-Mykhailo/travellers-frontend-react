@@ -1,11 +1,11 @@
-import Section from '../../components/Section/Section';
-import Container from '../../components/common/Container/Container';
 import response from '../../../temp/story.json';
 import placeholder from '../../assets/images/placeholder.jpg';
+import Popular from '../../components/PopularStories/Popular';
+import Section from '../../components/Section/Section';
 import Button from '../../components/UI/Button/Button';
+import Container from '../../components/common/Container/Container';
 
 import css from './StoryPage.module.css';
-import Popular from '../../components/PopularStories/Popular';
 
 const StoryPage = () => {
   const { owner, title, date, category, article, img } = response.data;
