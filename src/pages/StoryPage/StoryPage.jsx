@@ -18,11 +18,11 @@ const StoryPage = () => {
           <h1 className={css.storyTitle}>{title}</h1>
           <div className={css.storyData}>
             <p className={css.nameAuthor}>
-              <span>Автор статті </span>
+              <span>Author </span>
               {owner}
             </p>
             <p className={css.published}>
-              <span>Опубліковано </span>
+              <span>Published </span>
               {date}
             </p>
             <span className={css.category}>{category}</span>
