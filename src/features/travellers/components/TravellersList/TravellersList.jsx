@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import response from '../../../../temp/users.json';
-import ui from '../../../components/UI/ui.module.css';
+import response from '/temp/users.json';
+import ui from '/src/components/UI/ui.module.css';
 
 import css from './TravellersList.module.css';
 import clsx from 'clsx';

@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { useMediaQuery } from 'react-responsive';
 import { Link } from 'react-router-dom';
-import TravellersList from '../../features/travellers/TravellersList/TravellersList';
+import TravellersList from '../../features/travellers/components/TravellersList/TravellersList';
 import Container from '../common/Container/Container';
 import Section from '../Section/Section';
 

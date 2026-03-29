@@ -1,7 +1,7 @@
 import Section from '../../components/Section/Section.jsx';
 import Button from '../../components/UI/Button/Button.jsx';
 import Container from '../../components/common/Container/Container';
-import TravellersList from '../../features/travellers/TravellersList/TravellersList.jsx';
+import TravellersList from '../../features/travellers/components/TravellersList/TravellersList.jsx';
 
 import css from './TravellersPage.module.css';
 

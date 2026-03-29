@@ -1,4 +1,4 @@
-import response from '../../../../temp/user.json'; // for a while
+import response from '../../../../../temp/user.json'; // for a while
 
 import css from './TravellerInfo.module.css';
 
