@@ -1,5 +1,5 @@
 import { useMediaQuery } from 'react-responsive';
-import TravellersStoriesItem from '../../features/stories/components/TravellersStoriesItem/TravellersStoriesItem';
+import TravellersStories from '../../features/stories/components/TravellersStories/TravellersStories';
 import Container from '../common/Container/Container';
 import Section from '../Section/Section';
 import Button from '../UI/Button/Button';
@@ -15,7 +15,7 @@ const Popular = () => {
       <Container>
         <h2 className={css.title}>Popular stories</h2>
 
-        <TravellersStoriesItem />
+        <TravellersStories />
 
         {isTablet && <Button className={css.viewMoreBtn}>View more</Button>}
       </Container>

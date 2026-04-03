@@ -3,9 +3,9 @@ import ArrowDown from '../../assets/icons/keyboard_arrow_down.svg?react';
 import Container from '../../components/common/Container/Container';
 import Section from '../../components/Section/Section';
 import Button from '../../components/UI/Button/Button';
-import TravellersStoriesItem from '../../features/stories/components/TravellersStoriesItem/TravellersStoriesItem';
 import storyCategories from '../../../temp/categories.json';
 import css from './StoriesPage.module.css';
+import TravellersStories from '../../features/stories/components/TravellersStories/TravellersStories';
 
 const StoriesPage = () => {
   const isTablet = useMediaQuery({ query: '(min-width: 768px)' });
@@ -43,7 +43,7 @@ const StoriesPage = () => {
             </>
           )}
 
-          <TravellersStoriesItem />
+          <TravellersStories />
 
           <Button className={css.showMoreBtn}>Show more</Button>
         </Container>
