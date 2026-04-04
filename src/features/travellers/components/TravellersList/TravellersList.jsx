@@ -1,9 +1,9 @@
+import clsx from 'clsx';
 import { Link } from 'react-router-dom';
-import response from '/temp/users.json';
-import ui from '/src/components/UI/ui.module.css';
+import response from '../../../../../temp/users.json';
 
 import css from './TravellersList.module.css';
-import clsx from 'clsx';
+import ui from '/src/components/UI/ui.module.css';
 
 const TravellersList = () => {
   const users = response.data.data;
@@ -21,7 +21,7 @@ const TravellersList = () => {
             <h3 className={css.userName}>{user.name}</h3>
             <p className={css.userDescr}>{user.description}</p>
             <Link
-              to={'/travellers/:travallerId'}
+              to={`/travellers/${user._id}`}
               className={clsx(ui.shared, ui.secondary, css.viewProfie)}
             >
               View Profile

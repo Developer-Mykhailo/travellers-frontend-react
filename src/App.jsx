@@ -2,13 +2,14 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 
 import PublicLayout from './components/Layouts/PublicLayout';
 import SharedLayout from './components/Layouts/SharedLayout';
+import PublishedStories from './features/stories/components/PublishedStories/PublishedStories';
+import SavedStories from './features/stories/components/SavedStories/SavedStories';
 import HomePage from './pages/HomePage/HomePage';
+import ProfilePage from './pages/ProfilePage/ProfilePage/ProfilePage';
 import StoriesPage from './pages/StoriesPage/StoriesPage';
 import StoryPage from './pages/StoryPage/StoryPage';
-import TravellersPage from './pages/TravellersPage/TravellersPage';
 import TravellerPage from './pages/TravellerPage/TravellerPage';
-import ProfilePage from './pages/ProfilePage/ProfilePage/ProfilePage';
-import TravellersStoriesItem from './features/stories/components/TravellersStoriesItem/TravellersStoriesItem';
+import TravellersPage from './pages/TravellersPage/TravellersPage';
 
 function App() {
   return (
@@ -26,8 +27,8 @@ function App() {
         {/* Private routes */}
         <Route path="profile" element={<ProfilePage />}>
           <Route index element={<Navigate to="saved-stories" replace />} />
-          <Route path="saved-stories" element={<TravellersStoriesItem />} />
-          <Route path="published-stories" element={<TravellersStoriesItem />} />
+          <Route path="saved-stories" element={<SavedStories />} />
+          <Route path="published-stories" element={<PublishedStories />} />
         </Route>
       </Route>
     </Routes>

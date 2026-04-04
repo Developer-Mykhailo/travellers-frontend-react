@@ -44,7 +44,7 @@ const StoryPage = () => {
         </Container>
       </Section>
 
-      <Popular></Popular>
+      <Popular />
     </>
   );
 };

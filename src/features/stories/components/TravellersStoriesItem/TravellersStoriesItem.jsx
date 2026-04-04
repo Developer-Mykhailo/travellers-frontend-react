@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
 import clsx from 'clsx';
+import { Link } from 'react-router-dom';
 import Bookmark from '../../../../assets/icons/bookmark.svg?react';
 import placeholder from '../../../../assets/images/placeholder.jpg';
 import Button from '../../../../components/UI/Button/Button';
@@ -9,6 +9,7 @@ import css from './TravellersStoriesItem.module.css';
 
 const TravellersStoriesItem = ({ story }) => {
   const {
+    _id,
     img,
     title,
     category,
@@ -49,7 +50,7 @@ const TravellersStoriesItem = ({ story }) => {
 
         <div className={css.wrapperButtons}>
           <Link
-            to="/stories/:storyId"
+            to={`/stories/${_id}`}
             className={clsx(ui.shared, ui.secondary)}
           >
             View the article

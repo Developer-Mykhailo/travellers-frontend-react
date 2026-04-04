@@ -1,11 +1,8 @@
-import css from './TravellersStories.module.css';
-
-import response from '../../../../../temp/stories.json';
 import TravellersStoriesItem from '../TravellersStoriesItem/TravellersStoriesItem';
 
-const TravellersStories = () => {
-  const stories = response.data.data;
+import css from './TravellersStories.module.css';
 
+const TravellersStories = ({ stories = [] }) => {
   return (
     <div>
       <ul className={css.list}>

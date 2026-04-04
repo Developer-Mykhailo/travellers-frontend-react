@@ -9,7 +9,7 @@ import ui from '../../components/UI/ui.module.css';
 import css from './OurTravellers.module.css';
 
 const OurTravellers = () => {
-  const isTablet = useMediaQuery({ query: '(min-width: 768px)' });
+  const isTablet = useMediaQuery({ minWidth: 768 });
 
   // JSX
   return (
