@@ -3,10 +3,13 @@ import Section from '../../components/Section/Section';
 import Button from '../../components/UI/Button/Button';
 import TravellersStories from '../../features/stories/components/TravellersStories/TravellersStories';
 import TravellerInfo from '../../features/travellers/components/TravellerInfo/TravellerInfo';
+import response from '../../../temp/stories.json';
 
 import css from './TravellerPage.module.css';
 
 const TravellerPage = () => {
+  const stories = response.data.data;
+  // JSX
   return (
     <Section className={css.travellerSection}>
       <Container>
@@ -15,7 +18,7 @@ const TravellerPage = () => {
         <article className={css.travellerStrories}>
           <h1 className={css.title}>Traveller's Stories</h1>
 
-          <TravellersStories />
+          <TravellersStories stories={stories} />
 
           <Button className={css.showMoreBtn}>Show more</Button>
         </article>

@@ -1,8 +1,9 @@
 import clsx from 'clsx';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Bookmark from '../../../../assets/icons/bookmark.svg?react';
 import placeholder from '../../../../assets/images/placeholder.jpg';
 import Button from '../../../../components/UI/Button/Button';
+import Edit from '../../../../assets/icons/edit.svg?react';
 
 import ui from '../../../../components/UI/ui.module.css';
 import css from './TravellersStoriesItem.module.css';
@@ -18,6 +19,10 @@ const TravellersStoriesItem = ({ story }) => {
     date,
     favoriteCount,
   } = story;
+
+  const location = useLocation();
+
+  const isMyStories = location.pathname === '/profile/published-stories';
 
   // JSX
   return (
@@ -55,9 +60,16 @@ const TravellersStoriesItem = ({ story }) => {
           >
             View the article
           </Link>
-          <Button variant="secondary">
-            <Bookmark />
-          </Button>
+
+          {isMyStories ? (
+            <Link variant="secondary">
+              <Edit />
+            </Link>
+          ) : (
+            <Button variant="secondary">
+              <Bookmark />
+            </Button>
+          )}
         </div>
       </div>
     </>

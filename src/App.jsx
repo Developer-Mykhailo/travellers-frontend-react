@@ -4,6 +4,7 @@ import PublicLayout from './components/Layouts/PublicLayout';
 import SharedLayout from './components/Layouts/SharedLayout';
 import PublishedStories from './features/stories/components/PublishedStories/PublishedStories';
 import SavedStories from './features/stories/components/SavedStories/SavedStories';
+import AddStoryPage from './pages/AddStoryPage/AddStoryPage';
 import HomePage from './pages/HomePage/HomePage';
 import ProfilePage from './pages/ProfilePage/ProfilePage/ProfilePage';
 import StoriesPage from './pages/StoriesPage/StoriesPage';
@@ -30,6 +31,7 @@ function App() {
           <Route path="saved-stories" element={<SavedStories />} />
           <Route path="published-stories" element={<PublishedStories />} />
         </Route>
+        <Route path="stories/create" element={<AddStoryPage />} />
       </Route>
     </Routes>
   );

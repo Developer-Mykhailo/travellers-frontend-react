@@ -81,7 +81,7 @@ const Navigation = ({ place, classList }) => {
                   ? clsx(ui.shared, ui.accent)
                   : clsx(ui.shared, ui.primary)
               }
-              to={'/publish-story'}
+              to={'/stories/create'}
             >
               Publish Story
             </Link>
