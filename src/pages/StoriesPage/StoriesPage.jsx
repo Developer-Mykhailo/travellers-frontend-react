@@ -38,7 +38,9 @@ const StoriesPage = () => {
               <div className={css.wrapSelect}>
                 <select name="category" id="category">
                   {allCategories.map((cat) => (
-                    <option value={cat.name}>{cat.name}</option>
+                    <option key={cat._id} value={cat.name}>
+                      {cat.name}
+                    </option>
                   ))}
                 </select>
                 <ArrowDown className={css.arrowDown} />
