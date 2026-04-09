@@ -6,11 +6,11 @@ export const validationSchema = Yup.object({
     .max(50, 'Too Long!')
     .required('Required'),
   descr: Yup.string()
-    .min(3, 'Too Short!')
+    .min(15, 'Too Short!')
     .max(170, 'Too Long!')
     .required('Required'),
   article: Yup.string()
-    .min(3, 'Too Short!')
+    .min(25, 'Too Short!')
     .max(2000, 'Too Long!')
     .required('Required'),
   photo: Yup.mixed()

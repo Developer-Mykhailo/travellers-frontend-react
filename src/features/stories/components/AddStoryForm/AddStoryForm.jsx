@@ -16,59 +16,69 @@ import css from './AddStoryForm.module.css';
 const AddStoryForm = () => {
   const [preview, setPreview] = useState(null);
   const inputRef = useRef(null);
+  const articleRef = useRef(null);
   const id = useId();
   const allCategories = response.data;
 
-  // handlers
-  const handleOpenPicker = () => {
-    inputRef.current.click();
+  //! handlers
+  const resetFormUI = (resetForm) => {
+    resetForm();
+    setPreview(null);
+
+    if (inputRef.current) inputRef.current.value = '';
+
+    if (articleRef.current) articleRef.current.style.height = 'auto';
   };
 
+  const handleOpenPicker = () => {
+    inputRef.current?.click();
+  };
+
+  const handleFileChange = (e, setFieldValue, setFieldTouched) => {
+    const file = e.target.files[0];
+    setFieldTouched('photo', true);
+
+    if (!file) {
+      setFieldValue('photo', null);
+      setPreview(null);
+      return;
+    }
+
+    setFieldValue('photo', file);
+    setPreview(URL.createObjectURL(file));
+  };
+
+  const handleDeletePhoto = (setFieldValue) => {
+    setPreview(null);
+    setFieldValue('photo', null);
+
+    if (inputRef.current) inputRef.current.value = '';
+  };
+
+  const handleTextAreaChange = (e, setFieldValue) => {
+    setFieldValue('article', e.target.value);
+    autoResizeTextArea(e.target);
+  };
+
+  const handleSubmit = (values, { resetForm }) => {
+    console.log(values);
+    resetFormUI(resetForm);
+  };
+
+  //! JSX
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={(values) => {
-        console.log(values);
-      }}
+      onSubmit={handleSubmit}
     >
       {({
-        values,
+        /* receive from formik */ values,
         setFieldValue,
         handleBlur,
-        setFieldTouched /* receive from formik */,
+        resetForm,
+        setFieldTouched,
       }) => {
-        //
-
-        const handleFileChange = (e) => {
-          const file = e.target.files[0];
-          setFieldTouched('photo', true);
-
-          if (!file) {
-            // setFieldValue('photo', null);
-            // setPreview(null);
-            return;
-          }
-          setFieldValue('photo', file); // put the file in Formik
-          setPreview(URL.createObjectURL(file)); // do a preview separately
-        };
-
-        const handleDeletePhoto = () => {
-          setPreview(null);
-          setFieldValue('photo', null);
-          // setFieldTouched('photo', true);
-
-          // if (inputRef.current) {
-          //   inputRef.current.value = '';
-          // }
-        };
-
-        const handleTextAreaChange = (e) => {
-          setFieldValue('article', e.target.value);
-          autoResizeTextArea(e.target);
-        };
-
-        // JSX
         return (
           <>
             <span className={css.cover}>Article cover</span>
@@ -77,6 +87,7 @@ const AddStoryForm = () => {
               <div className={css.wrapImg}>
                 <img src={preview || placeHolder} alt="preview" />
               </div>
+
               <input
                 type="file"
                 name="photo"
@@ -84,7 +95,9 @@ const AddStoryForm = () => {
                 accept="image/*"
                 id={id + '-file'}
                 style={{ display: 'none' }}
-                onChange={handleFileChange}
+                onChange={(e) =>
+                  handleFileChange(e, setFieldValue, setFieldTouched)
+                }
                 onBlur={handleBlur}
               />
               <ErrorMessage
@@ -92,17 +105,22 @@ const AddStoryForm = () => {
                 component="span"
                 className={css.error}
               />
+
               <Button
                 className={css.uploadPhotoBtn}
                 variant="secondary"
-                onClick={!values.photo ? handleOpenPicker : handleDeletePhoto}
+                onClick={
+                  !values.photo
+                    ? handleOpenPicker
+                    : () => handleDeletePhoto(setFieldValue)
+                }
               >
                 {values.photo ? 'Delete photo' : 'Upload photo'}
               </Button>
 
               {/* Title */}
               <div className={css.wrapField}>
-                <label htmlFor="title">Title</label>
+                <label htmlFor={id + 'title'}>Title</label>
                 <Field
                   name="title"
                   type="text"
@@ -118,13 +136,13 @@ const AddStoryForm = () => {
 
               {/* Category */}
               <div className={clsx(css.wrapField)}>
-                <label htmlFor="category">Category</label>
+                <label htmlFor={id + 'category'}>Category</label>
 
                 <div className={css.wrapSelect}>
                   <Field
                     as="select"
                     name="category"
-                    id="category"
+                    id={id + 'category'}
                     className={clsx(!values.category && css.placeholder)}
                   >
                     <option value="" disabled hidden>
@@ -142,7 +160,7 @@ const AddStoryForm = () => {
 
               {/* Descr */}
               <div className={css.wrapField}>
-                <label htmlFor="descr">Brief description</label>
+                <label htmlFor={id + 'descr'}>Brief description</label>
                 <Field
                   as="textarea"
                   name="descr"
@@ -159,13 +177,14 @@ const AddStoryForm = () => {
 
               {/* Article */}
               <div className={css.wrapField}>
-                <label htmlFor="article">Story text</label>
+                <label htmlFor={id + 'article'}>Story text</label>
                 <textarea
+                  ref={articleRef}
                   name="article"
                   id={id + 'article'}
                   placeholder="Your story is here"
                   value={values.article}
-                  onChange={handleTextAreaChange}
+                  onChange={(e) => handleTextAreaChange(e, setFieldValue)}
                   onBlur={handleBlur}
                 />
                 <ErrorMessage
@@ -177,10 +196,10 @@ const AddStoryForm = () => {
 
               <div className={css.wrapButtons}>
                 <Button type="submit">Save</Button>
+
                 <Button
                   variant="secondary"
-                  type="reset"
-                  onClick={handleDeletePhoto}
+                  onClick={() => resetFormUI(resetForm)}
                 >
                   Cancel
                 </Button>
