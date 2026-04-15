@@ -1,8 +1,8 @@
-import css from './AddStoryPage.module.css';
-
 import Container from '../../components/common/Container/Container';
 import Section from '../../components/Section/Section';
 import AddStoryForm from '../../features/stories/components/AddStoryForm/AddStoryForm';
+
+import css from './AddStoryPage.module.css';
 
 const AddStoryPage = () => {
   return (

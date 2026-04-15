@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useId, useRef, useState } from 'react';
 import ArrowDown from '../../../../assets/icons/keyboard_arrow_down.svg?react';
-import placeHolder from '../../../../assets/images/placeholder.jpg';
+import placeHolder from '../../../../assets/images/placeholder1.png';
 import Button from '../../../../components/UI/Button/Button';
 import {
   autoResizeTextArea,
@@ -56,8 +56,10 @@ const AddStoryForm = () => {
   };
 
   const handleTextAreaChange = (e, setFieldValue) => {
+    let articleLength = e.target.value.length;
+
     setFieldValue('article', e.target.value);
-    autoResizeTextArea(e.target);
+    autoResizeTextArea(e.target, articleLength);
   };
 
   const handleSubmit = (values, { resetForm }) => {
@@ -84,114 +86,110 @@ const AddStoryForm = () => {
             <span className={css.cover}>Article cover</span>
 
             <Form className={css.form}>
-              <div className={css.wrapImg}>
-                <img src={preview || placeHolder} alt="preview" />
-              </div>
-
-              <input
-                type="file"
-                name="photo"
-                ref={inputRef}
-                accept="image/*"
-                id={id + '-file'}
-                style={{ display: 'none' }}
-                onChange={(e) =>
-                  handleFileChange(e, setFieldValue, setFieldTouched)
-                }
-                onBlur={handleBlur}
-              />
-              <ErrorMessage
-                name="photo"
-                component="span"
-                className={css.error}
-              />
-
-              <Button
-                className={css.uploadPhotoBtn}
-                variant="secondary"
-                onClick={
-                  !values.photo
-                    ? handleOpenPicker
-                    : () => handleDeletePhoto(setFieldValue)
-                }
-              >
-                {values.photo ? 'Delete photo' : 'Upload photo'}
-              </Button>
-
-              {/* Title */}
-              <div className={css.wrapField}>
-                <label htmlFor={id + 'title'}>Title</label>
-                <Field
-                  name="title"
-                  type="text"
-                  id={id + 'title'}
-                  placeholder="Enter a story title"
-                />
-                <ErrorMessage
-                  name="title"
-                  component="span"
-                  className={css.error}
-                />
-              </div>
-
-              {/* Category */}
-              <div className={clsx(css.wrapField)}>
-                <label htmlFor={id + 'category'}>Category</label>
-
-                <div className={css.wrapSelect}>
-                  <Field
-                    as="select"
-                    name="category"
-                    id={id + 'category'}
-                    className={clsx(!values.category && css.placeholder)}
-                  >
-                    <option value="" disabled hidden>
-                      Category
-                    </option>
-                    {allCategories.map((cat) => (
-                      <option key={cat._id} value={cat.name}>
-                        {cat.name}
-                      </option>
-                    ))}
-                  </Field>
-                  <ArrowDown className={clsx(css.arrowDown)} />
+              <div className={css.wrapContent}>
+                <div className={css.wrapImg}>
+                  <img src={preview || placeHolder} alt="preview" />
                 </div>
-              </div>
-
-              {/* Descr */}
-              <div className={css.wrapField}>
-                <label htmlFor={id + 'descr'}>Brief description</label>
-                <Field
-                  as="textarea"
-                  name="descr"
-                  type="text"
-                  id={id + 'descr'}
-                  placeholder="Enter a brief description of the story"
-                />
-                <ErrorMessage
-                  name="descr"
-                  component="span"
-                  className={css.error}
-                />
-              </div>
-
-              {/* Article */}
-              <div className={css.wrapField}>
-                <label htmlFor={id + 'article'}>Story text</label>
-                <textarea
-                  ref={articleRef}
-                  name="article"
-                  id={id + 'article'}
-                  placeholder="Your story is here"
-                  value={values.article}
-                  onChange={(e) => handleTextAreaChange(e, setFieldValue)}
+                <input
+                  type="file"
+                  name="photo"
+                  ref={inputRef}
+                  accept="image/*"
+                  id={id + '-file'}
+                  style={{ display: 'none' }}
+                  onChange={(e) =>
+                    handleFileChange(e, setFieldValue, setFieldTouched)
+                  }
                   onBlur={handleBlur}
                 />
                 <ErrorMessage
-                  name="article"
+                  name="photo"
                   component="span"
                   className={css.error}
                 />
+
+                <Button
+                  className={css.uploadPhotoBtn}
+                  variant="secondary"
+                  onClick={
+                    !values.photo
+                      ? handleOpenPicker
+                      : () => handleDeletePhoto(setFieldValue)
+                  }
+                >
+                  {values.photo ? 'Delete photo' : 'Upload photo'}
+                </Button>
+                {/* Title */}
+                <div className={css.wrapField}>
+                  <label htmlFor={id + 'title'}>Title</label>
+                  <Field
+                    name="title"
+                    type="text"
+                    id={id + 'title'}
+                    placeholder="Enter a story title"
+                  />
+                  <ErrorMessage
+                    name="title"
+                    component="span"
+                    className={css.error}
+                  />
+                </div>
+                {/* Category */}
+                <div className={clsx(css.wrapField)}>
+                  <label htmlFor={id + 'category'}>Category</label>
+                  <div className={css.wrapSelect}>
+                    <Field
+                      as="select"
+                      name="category"
+                      id={id + 'category'}
+                      className={clsx(!values.category && css.placeholder)}
+                    >
+                      <option value="" disabled hidden>
+                        Category
+                      </option>
+                      {allCategories.map((cat) => (
+                        <option key={cat._id} value={cat.name}>
+                          {cat.name}
+                        </option>
+                      ))}
+                    </Field>
+                    <ArrowDown className={clsx(css.arrowDown)} />
+                  </div>
+                </div>
+                {/* Descr */}
+                <div className={css.wrapField}>
+                  <label htmlFor={id + 'descr'}>Brief description</label>
+                  <Field
+                    as="textarea"
+                    name="descr"
+                    type="text"
+                    id={id + 'descr'}
+                    placeholder="Enter a brief description of the story"
+                  />
+                  <ErrorMessage
+                    name="descr"
+                    component="span"
+                    className={css.error}
+                  />
+                </div>
+                {/* Article */}
+                <div className={css.wrapField}>
+                  <label htmlFor={id + 'article'}>Story text</label>
+                  <textarea
+                    ref={articleRef}
+                    name="article"
+                    id={id + 'article'}
+                    placeholder="Your story is here"
+                    value={values.article}
+                    onChange={(e) => handleTextAreaChange(e, setFieldValue)}
+                    onBlur={handleBlur}
+                  />
+                  <ErrorMessage
+                    name="article"
+                    component="span"
+                    className={css.error}
+                  />
+                </div>
               </div>
 
               <div className={css.wrapButtons}>

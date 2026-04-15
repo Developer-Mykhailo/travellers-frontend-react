@@ -4,7 +4,8 @@
   color: var(--color-scheme-2-text);
 }
 
-.form {
+.form,
+.wrapContent {
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -15,6 +16,12 @@
   width: 100%;
   height: 223px;
   overflow: hidden;
+}
+
+.wrapImg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .uploadPhotoBtn {
@@ -75,7 +82,7 @@
 }
 
 .wrapField textarea[name='article'] {
-  min-height: 220px;
+  min-height: 180px;
   height: auto;
 }
 
@@ -87,4 +94,48 @@
 
 .wrapButtons button {
   min-height: 48px;
+}
+
+@media (min-width: 768px) {
+  .wrapImg {
+    height: 469px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .form {
+    flex-direction: row;
+  }
+  .cover {
+    font-size: 18px;
+  }
+
+  .wrapContent {
+    width: 865px;
+    flex-shrink: 0;
+  }
+
+  .wrapImg {
+    height: 576px;
+  }
+
+  .uploadPhotoBtn {
+    max-width: 181px;
+    height: 35px;
+  }
+
+  .wrapField > label {
+    font-size: 18px;
+  }
+
+  .wrapField input,
+  .wrapField textarea,
+  .wrapField select {
+    min-height: 43px;
+    font-size: 18px;
+  }
+
+  .wrapButtons {
+    width: 100%;
+  }
 }

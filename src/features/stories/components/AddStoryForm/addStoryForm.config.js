@@ -11,7 +11,7 @@ export const validationSchema = Yup.object({
     .required('Required'),
   article: Yup.string()
     .min(25, 'Too Short!')
-    .max(2000, 'Too Long!')
+    .max(2043, 'Too Long!')
     .required('Required'),
   photo: Yup.mixed()
     .required('Photo is required')
@@ -33,8 +33,8 @@ export const initialValues = {
   photo: null,
 };
 
-export const autoResizeTextArea = (el) => {
-  if (!el) return;
+export const autoResizeTextArea = (el, length) => {
+  if (!el || length > 2043) return;
 
   el.style.height = 'auto';
   el.style.height = `${el.scrollHeight}px`;
