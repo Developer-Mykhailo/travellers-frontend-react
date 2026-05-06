@@ -134,6 +134,7 @@ const AddStoryForm = () => {
                     className={css.error}
                   />
                 </div>
+
                 {/* Category */}
                 <div className={clsx(css.wrapField)}>
                   <label htmlFor={id + 'category'}>Category</label>
@@ -156,6 +157,7 @@ const AddStoryForm = () => {
                     <ArrowDown className={clsx(css.arrowDown)} />
                   </div>
                 </div>
+
                 {/* Descr */}
                 <div className={css.wrapField}>
                   <label htmlFor={id + 'descr'}>Brief description</label>
@@ -172,6 +174,7 @@ const AddStoryForm = () => {
                     className={css.error}
                   />
                 </div>
+
                 {/* Article */}
                 <div className={css.wrapField}>
                   <label htmlFor={id + 'article'}>Story text</label>

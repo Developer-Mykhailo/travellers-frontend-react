@@ -62,7 +62,10 @@ const TravellersStoriesItem = ({ story }) => {
           </Link>
 
           {isMyStories ? (
-            <Link variant="secondary">
+            <Link
+              to={`/stories/${_id}/edit`}
+              className={clsx(ui.shared, ui.secondary)}
+            >
               <Edit />
             </Link>
           ) : (

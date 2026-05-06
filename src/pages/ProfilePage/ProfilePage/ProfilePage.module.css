@@ -1,0 +1,9 @@
+.profilePage {
+  padding: 32px 0 64px;
+}
+
+@media (min-width: 1440px) {
+  .profilePage {
+    padding: 48px 0 72px;
+  }
+}

@@ -4,14 +4,14 @@ import Section from '../../../components/Section/Section';
 import TravellerInfo from '../../../features/travellers/components/TravellerInfo/TravellerInfo';
 import StoriesToggle from '../../../features/user/components/StoriesToggle/StoriesToggle';
 
-// import css from './ProfilePage.module.css';
+import css from './ProfilePage.module.css';
 
 const ProfilePage = () => {
   //
 
   // JSX
   return (
-    <Section>
+    <Section className={css.profilePage}>
       <Container>
         <TravellerInfo />
 

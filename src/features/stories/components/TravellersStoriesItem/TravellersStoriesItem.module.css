@@ -93,6 +93,12 @@
   height: 48px;
 }
 
+.wrapperButtons > a + a {
+  width: 48px;
+  height: 48px;
+  flex-grow: 0;
+}
+
 @media (min-width: 768px) {
   .wrapImg {
     height: 226px;
