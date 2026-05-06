@@ -11,6 +11,7 @@ import StoriesPage from './pages/StoriesPage/StoriesPage';
 import StoryPage from './pages/StoryPage/StoryPage';
 import TravellerPage from './pages/TravellerPage/TravellerPage';
 import TravellersPage from './pages/TravellersPage/TravellersPage';
+import EditStoryPage from './pages/EditStoryPage/EditStoryPage';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route path="published-stories" element={<PublishedStories />} />
         </Route>
         <Route path="stories/create" element={<AddStoryPage />} />
+        <Route path="/stories/:storyId/edit" element={<EditStoryPage />} />
       </Route>
     </Routes>
   );
