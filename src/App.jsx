@@ -33,8 +33,9 @@ function App() {
           <Route path="published-stories" element={<PublishedStories />} />
         </Route>
         <Route path="stories/create" element={<AddStoryPage />} />
-        <Route path="/stories/:storyId/edit" element={<EditStoryPage />} />
+        <Route path="stories/:storyId/edit" element={<EditStoryPage />} />
       </Route>
+      <Route path="*" element={<h1>Not found</h1>} />
     </Routes>
   );
 }

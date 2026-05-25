@@ -1,15 +1,34 @@
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
 import TravellersStories from '../../features/stories/components/TravellersStories/TravellersStories';
+import { fetchStoriesApi } from '../../features/stories/store/operation';
+import { selectPublicStories } from '../../features/stories/store/selectors';
+import { setPublicStories } from '../../features/stories/store/slice';
 import Container from '../common/Container/Container';
 import Section from '../Section/Section';
 import Button from '../UI/Button/Button';
 
-import response from '../../../temp/stories.json';
 import css from './Popular.module.css';
 
 const Popular = () => {
+  const dispatch = useDispatch();
   const isTablet = useMediaQuery({ minWidth: 768 });
-  const stories = response.data.data; // temporarily
+  const stories = useSelector(selectPublicStories);
+
+  useEffect(() => {
+    const fetchStories = async () => {
+      try {
+        const data = await fetchStoriesApi();
+
+        dispatch(setPublicStories(data));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchStories();
+  }, [dispatch]);
 
   // JSX
   return (
