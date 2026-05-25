@@ -1,16 +1,15 @@
 import axios from 'axios';
 
-export const fetchStoriesApi = async () => {
+axios.defaults.baseURL = 'https://travellers-backend.onrender.com/api';
+
+export const fetchPublicStoriesApi = async (page, perPage) => {
   try {
-    const response = await axios.get(
-      'https://travellers-backend.onrender.com/api/stories',
-      {
-        params: {
-          page: 1,
-          perPage: 2,
-        },
-      }
-    );
+    const response = await axios.get('/stories', {
+      params: {
+        page,
+        perPage,
+      },
+    });
 
     return response.data.data;
   } catch (error) {

@@ -4,11 +4,15 @@ const slice = createSlice({
   name: 'publicStories',
   initialState: [],
   reducers: {
-    setPublicStories(state, action) {
-      state.push(...action.payload.data);
+    setPublicStories: (_, action) => {
+      return action.payload;
+    },
+
+    appendPublicStories: (state, action) => {
+      state.push(...action.payload);
     },
   },
 });
 
-export const { setPublicStories } = slice.actions;
+export const { setPublicStories, appendPublicStories } = slice.actions;
 export default slice.reducer;

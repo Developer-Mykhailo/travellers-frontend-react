@@ -8,11 +8,11 @@ import appStore from './app/appStore.js';
 import './styles/index.css';
 
 createRoot(document.getElementById('root')).render(
-  // <StrictMode>
-  <BrowserRouter>
-    <Provider store={appStore}>
-      <App />
-    </Provider>
-  </BrowserRouter>
-  // </StrictMode>
+  <StrictMode>
+    <BrowserRouter>
+      <Provider store={appStore}>
+        <App />
+      </Provider>
+    </BrowserRouter>
+  </StrictMode>
 );

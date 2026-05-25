@@ -1,10 +1,13 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
 import TravellersStories from '../../features/stories/components/TravellersStories/TravellersStories';
-import { fetchStoriesApi } from '../../features/stories/store/operation';
+import { fetchPublicStoriesApi } from '../../features/stories/store/operation';
 import { selectPublicStories } from '../../features/stories/store/selectors';
-import { setPublicStories } from '../../features/stories/store/slice';
+import {
+  appendPublicStories,
+  setPublicStories,
+} from '../../features/stories/store/slice';
 import Container from '../common/Container/Container';
 import Section from '../Section/Section';
 import Button from '../UI/Button/Button';
@@ -13,22 +16,43 @@ import css from './Popular.module.css';
 
 const Popular = () => {
   const dispatch = useDispatch();
-  const isTablet = useMediaQuery({ minWidth: 768 });
   const stories = useSelector(selectPublicStories);
 
-  useEffect(() => {
-    const fetchStories = async () => {
-      try {
-        const data = await fetchStoriesApi();
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1439 });
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const perPage = !isTablet ? 3 : 4;
 
-        dispatch(setPublicStories(data));
+  const [page, setPage] = useState(1);
+  const [nextPage, setNextPage] = useState(false);
+
+  // handlers
+  const handleClick = () => {
+    setPage((prev) => prev + 1);
+  };
+
+  // effects
+  useEffect(() => {
+    // fetch stories first time
+    fetchPublicStories();
+
+    async function fetchPublicStories() {
+      try {
+        const { data, hasNextPage } = await fetchPublicStoriesApi(
+          page,
+          perPage
+        );
+
+        stories.length > 0
+          ? dispatch(appendPublicStories(data))
+          : dispatch(setPublicStories(data));
+
+        setNextPage(hasNextPage);
       } catch (error) {
         console.log(error);
       }
-    };
-
-    fetchStories();
-  }, [dispatch]);
+    }
+    // eslint-disable-next-line
+  }, [dispatch, page, perPage]);
 
   // JSX
   return (
@@ -38,7 +62,11 @@ const Popular = () => {
 
         <TravellersStories stories={stories} />
 
-        {isTablet && <Button className={css.viewMoreBtn}>View more</Button>}
+        {!isMobile && nextPage && (
+          <Button onClick={handleClick} className={css.viewMoreBtn}>
+            View more
+          </Button>
+        )}
       </Container>
     </Section>
   );
