@@ -21,7 +21,9 @@ const Hero = () => {
             yourself and find like-minded people!
           </p>
         </div>
-        <Link className={clsx(ui.shared, ui.primary, css.link)}>Join</Link>
+        <a className={clsx(ui.shared, ui.primary, css.link)} href="#join">
+          Join
+        </a>
       </Container>
     </Section>
   );

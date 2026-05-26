@@ -32,8 +32,7 @@ const Popular = () => {
 
   // effects
   useEffect(() => {
-    // fetch stories first time
-    fetchPublicStories();
+    fetchPublicStories(); // fetch stories first time
 
     async function fetchPublicStories() {
       try {
@@ -51,7 +50,7 @@ const Popular = () => {
         console.log(error);
       }
     }
-    // eslint-disable-next-line
+    //// eslint-disable-next-line
   }, [dispatch, page, perPage]);
 
   // JSX

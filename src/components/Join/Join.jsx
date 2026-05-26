@@ -8,7 +8,7 @@ import css from './Join.module.css';
 
 const Join = () => {
   return (
-    <Section className={css.join}>
+    <Section className={css.join} id="join">
       <Container>
         <div className={css.content}>
           <h2 className={css.title}>Join our growing community today</h2>
