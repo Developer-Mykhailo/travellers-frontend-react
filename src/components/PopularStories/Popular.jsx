@@ -20,7 +20,7 @@ const Popular = () => {
 
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1439 });
   const isMobile = useMediaQuery({ maxWidth: 767 });
-  const perPage = !isTablet ? 3 : 4;
+  const perPage = isTablet ? 4 : 3;
 
   const [page, setPage] = useState(1);
   const [nextPage, setNextPage] = useState(false);
@@ -32,7 +32,7 @@ const Popular = () => {
 
   // effects
   useEffect(() => {
-    fetchPublicStories(); // fetch stories first time
+    fetchPublicStories();
 
     async function fetchPublicStories() {
       try {
@@ -41,9 +41,9 @@ const Popular = () => {
           perPage
         );
 
-        stories.length > 0
-          ? dispatch(appendPublicStories(data))
-          : dispatch(setPublicStories(data));
+        page === 1
+          ? dispatch(setPublicStories(data))
+          : dispatch(appendPublicStories(data));
 
         setNextPage(hasNextPage);
       } catch (error) {
