@@ -20,17 +20,13 @@ const Popular = () => {
 
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1439 });
   const isMobile = useMediaQuery({ maxWidth: 767 });
-  const perPage = isTablet ? 4 : 3;
 
   const [page, setPage] = useState(1);
   const [nextPage, setNextPage] = useState(false);
 
-  // handlers
-  const handleClick = () => {
-    setPage((prev) => prev + 1);
-  };
+  const perPage = isTablet ? 4 : 3;
 
-  // effects
+  //! effects
   useEffect(() => {
     fetchPublicStories();
 
@@ -50,8 +46,12 @@ const Popular = () => {
         console.log(error);
       }
     }
-    //// eslint-disable-next-line
   }, [dispatch, page, perPage]);
+
+  //todo handlers
+  const handleClick = () => {
+    setPage((prev) => prev + 1);
+  };
 
   // JSX
   return (
