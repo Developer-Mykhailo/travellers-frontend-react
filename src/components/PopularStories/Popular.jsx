@@ -16,37 +16,32 @@ import css from './Popular.module.css';
 
 const Popular = () => {
   const dispatch = useDispatch();
-  const stories = useSelector(selectPublicStories);
+  const { items: stories, hasNextPage } = useSelector(selectPublicStories); //state
 
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1439 });
   const isMobile = useMediaQuery({ maxWidth: 767 });
 
-  const [page, setPage] = useState(1);
-  const [nextPage, setNextPage] = useState(false);
-
   const perPage = isTablet ? 4 : 3;
 
-  //! effects
+  const [page, setPage] = useState(1); //local state
+
+  // ! effects
   useEffect(() => {
     fetchPublicStories();
 
     async function fetchPublicStories() {
       try {
-        const { data, hasNextPage } = await fetchPublicStoriesApi(
-          page,
-          perPage
-        );
+        const response = await fetchPublicStoriesApi(page, perPage);
 
         page === 1
-          ? dispatch(setPublicStories(data))
-          : dispatch(appendPublicStories(data));
-
-        setNextPage(hasNextPage);
+          ? dispatch(setPublicStories(response))
+          : dispatch(appendPublicStories(response));
       } catch (error) {
         console.log(error);
       }
     }
-  }, [dispatch, page, perPage]);
+    // eslint-disable-next-line
+  }, [page]);
 
   //todo handlers
   const handleClick = () => {
@@ -61,7 +56,7 @@ const Popular = () => {
 
         <TravellersStories stories={stories} />
 
-        {!isMobile && nextPage && (
+        {!isMobile && hasNextPage && (
           <Button onClick={handleClick} className={css.viewMoreBtn}>
             View more
           </Button>

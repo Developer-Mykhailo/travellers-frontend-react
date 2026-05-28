@@ -2,14 +2,19 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const slice = createSlice({
   name: 'publicStories',
-  initialState: [],
+  initialState: {
+    items: [],
+    hasNextPage: false,
+  },
   reducers: {
-    setPublicStories: (_, action) => {
-      return action.payload;
+    setPublicStories: (state, action) => {
+      state.items = action.payload.data;
+      state.hasNextPage = action.payload.hasNextPage;
     },
 
     appendPublicStories: (state, action) => {
-      state.push(...action.payload);
+      state.items.push(...action.payload.data);
+      state.hasNextPage = action.payload.hasNextPage;
     },
   },
 });
