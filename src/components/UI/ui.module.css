@@ -29,7 +29,7 @@
 }
 
 .primary:not(.disabled):hover,
-.primary:not(.disabled):focus {
+.primary:not(.disabled):focus-visible {
   box-shadow: 0 0 0 1px var(--color-royal-blue);
   background-color: var(--color-royal-blue-lighter);
   color: var(--color-scheme-2-text);
@@ -48,7 +48,7 @@
 }
 
 .secondary:not(.disabled):hover,
-.secondary:not(.disabled):focus {
+.secondary:not(.disabled):focus-visible {
   box-shadow: 0 0 0 1 var(--opacity-transparent);
   background-color: var(--color-royal-blue);
   color: var(--color-white);
@@ -67,7 +67,7 @@
 }
 
 .accent:not(.disabled):hover,
-.accent:not(.disabled):focus {
+.accent:not(.disabled):focus-visible {
   box-shadow: 0 0 0 1px var(--color-white);
   background: var(--color-neutral);
   color: var(--color-white);
@@ -86,7 +86,7 @@
 }
 
 .accent2:not(.disabled):hover,
-.accent2:not(.disabled):focus {
+.accent2:not(.disabled):focus-visible {
   box-shadow: 0 0 0 1px var(--opacity-transparent);
   background: var(--color-royal-blue-lighter);
   color: var(--color-scheme-1-text);
