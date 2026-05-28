@@ -16,3 +16,14 @@ export const fetchPublicStoriesApi = async (page, perPage) => {
     console.log(error);
   }
 };
+
+// !
+export const fetchPublicStorieByIdApi = async (id) => {
+  try {
+    const response = await axios.get(`/stories/${id}`);
+
+    return response.data.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

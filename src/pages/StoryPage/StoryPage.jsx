@@ -1,14 +1,33 @@
-import response from '../../../temp/story.json';
+import { useEffect, useState } from 'react';
 import placeholder from '../../assets/images/placeholder.jpg';
 import Popular from '../../components/PopularStories/Popular';
 import Section from '../../components/Section/Section';
 import Button from '../../components/UI/Button/Button';
 import Container from '../../components/common/Container/Container';
+import { fetchPublicStorieByIdApi } from '../../features/stories/store/operation';
 
 import css from './StoryPage.module.css';
 
 const StoryPage = () => {
-  const { owner, title, date, category, article, img } = response.data;
+  const [data, setData] = useState({});
+
+  const { owner, title, date, category, article, img } = data;
+
+  // ! effects
+  useEffect(() => {
+    fetchPublicStorieById();
+
+    async function fetchPublicStorieById() {
+      try {
+        const response = await fetchPublicStorieByIdApi(
+          '68498236a100312bea07900f'
+        );
+        setData(response);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }, []);
 
   // JSX
   return (
