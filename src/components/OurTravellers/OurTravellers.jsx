@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import TravellersList from '../../features/travellers/components/TravellersList/TravellersList';
 import { fetchTravellersApi } from '../../features/travellers/store/operation';
 import { selectTravellers } from '../../features/travellers/store/selectors';
-import { setTravellers } from '../../features/travellers/store/slice';
+import {
+  appendTravellers,
+  setTravellers,
+} from '../../features/travellers/store/slice';
 import Container from '../common/Container/Container';
 import Section from '../Section/Section';
 import Button from '../UI/Button/Button';
@@ -12,12 +15,9 @@ import css from './OurTravellers.module.css';
 
 const OurTravellers = () => {
   const dispatch = useDispatch();
-  const { items } = useSelector(selectTravellers); //state
+  const { items, hasNextPage } = useSelector(selectTravellers); //state
 
   const [page, setPage] = useState(1);
-
-  const visibleCount = page * 4;
-  const visibleTravellers = items.slice(0, visibleCount);
 
   //! effects
   useEffect(() => {
@@ -25,15 +25,17 @@ const OurTravellers = () => {
 
     async function fetchTravellers() {
       try {
-        const response = await fetchTravellersApi();
+        const response = await fetchTravellersApi(page);
 
-        dispatch(setTravellers(response));
+        page === 1
+          ? dispatch(setTravellers(response))
+          : dispatch(appendTravellers(response));
       } catch (error) {
         console.log(error);
       }
     }
     // eslint-disable-next-line
-  }, []);
+  }, [page]);
 
   //todo handlers
   const handleClick = () => {
@@ -46,9 +48,9 @@ const OurTravellers = () => {
       <Container>
         <h2 className={css.title}>Our Travellers</h2>
 
-        <TravellersList travellers={visibleTravellers} />
+        <TravellersList travellers={items} />
 
-        {visibleCount < items.length && (
+        {hasNextPage && (
           <Button onClick={handleClick} className={css.viewMoreBtn}>
             View more
           </Button>

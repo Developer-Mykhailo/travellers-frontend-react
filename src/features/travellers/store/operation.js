@@ -2,12 +2,12 @@ import axios from 'axios';
 
 axios.defaults.baseURL = 'https://travellers-backend.onrender.com/api';
 
-export const fetchTravellersApi = async () => {
+export const fetchTravellersApi = async (page) => {
   try {
     const response = await axios.get('/users', {
       params: {
-        page: 1,
-        perPage: 100,
+        page,
+        perPage: 4,
       },
     });
 
