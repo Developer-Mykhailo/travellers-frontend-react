@@ -40,6 +40,7 @@ const Popular = () => {
         console.log(error);
       }
     }
+
     // eslint-disable-next-line
   }, [page]);
 

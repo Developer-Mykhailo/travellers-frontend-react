@@ -1,24 +1,24 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const slice = createSlice({
-  name: 'publicStories',
+  name: 'travellers',
 
   initialState: {
     items: [],
     hasNextPage: false,
   },
   reducers: {
-    setPublicStories: (state, action) => {
+    setTravellers: (state, action) => {
       state.items = action.payload.data;
       state.hasNextPage = action.payload.hasNextPage;
     },
 
-    appendPublicStories: (state, action) => {
+    appendTravellers: (state, action) => {
       state.items.push(...action.payload.data);
       state.hasNextPage = action.payload.hasNextPage;
     },
   },
 });
 
-export const { setPublicStories, appendPublicStories } = slice.actions;
+export const { setTravellers, appendTravellers } = slice.actions;
 export default slice.reducer;

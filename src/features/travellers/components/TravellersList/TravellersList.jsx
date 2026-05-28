@@ -1,18 +1,15 @@
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
-import response from '../../../../../temp/users.json';
 
 import css from './TravellersList.module.css';
 import ui from '/src/components/UI/ui.module.css';
 
-const TravellersList = () => {
-  const users = response.data.data;
-
+const TravellersList = ({ travellers }) => {
   // JSX
   return (
     <>
       <ul className={css.userList}>
-        {users.map((user) => (
+        {travellers.map((user) => (
           <li key={user._id} className={css.userItem}>
             <div className={css.avatarWrap}>
               <img src={user.avatar} alt="avatar" className={css.userAvatar} />

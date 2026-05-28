@@ -18,7 +18,7 @@ import css from './StoriesPage.module.css';
 
 const StoriesPage = () => {
   const dispatch = useDispatch();
-  const stories = useSelector(selectPublicStories);
+  const { items: stories, hasNextPage } = useSelector(selectPublicStories); //state
 
   const categories = storyCategories.data; // temp
   const allCategories = [{ _id: 'all', name: 'All Stories' }, ...categories];
@@ -27,9 +27,8 @@ const StoriesPage = () => {
   const isMobile = useMediaQuery({ maxWidth: 767 });
 
   const [page, setPage] = useState(1);
-  const [nextPage, setNextPage] = useState(false);
 
-  const perPage = page === 1 ? (isTablet ? 8 : 9) : 3;
+  const perPage = isTablet ? 8 : 9;
 
   //! effects
   useEffect(() => {
@@ -37,21 +36,18 @@ const StoriesPage = () => {
 
     async function fetchPublicStories() {
       try {
-        const { data, hasNextPage } = await fetchPublicStoriesApi(
-          page,
-          perPage
-        );
+        const response = await fetchPublicStoriesApi(page, perPage);
 
         page === 1
-          ? dispatch(setPublicStories(data))
-          : dispatch(appendPublicStories(data));
-
-        setNextPage(hasNextPage);
+          ? dispatch(setPublicStories(response))
+          : dispatch(appendPublicStories(response));
       } catch (error) {
         console.log(error);
       }
     }
-  }, [dispatch, page, perPage]);
+
+    // eslint-disable-next-line
+  }, [page]);
 
   //todo handlers
   const handleClick = () => {
@@ -93,7 +89,7 @@ const StoriesPage = () => {
 
           <TravellersStories stories={stories} />
 
-          {!isMobile && nextPage && (
+          {!isMobile && hasNextPage && (
             <Button className={css.showMoreBtn} onClick={handleClick}>
               Show more
             </Button>
