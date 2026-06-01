@@ -30,7 +30,7 @@ const TravellersPage = () => {
 
     async function fetchTravellers() {
       try {
-        const currentPerPage = page === 1 ? initialPerPage : 4;
+        const currentPerPage = page === 1 ? (isDeskTop ? 12 : 8) : 4;
 
         const response = await fetchTravellersApi(page, currentPerPage);
 
