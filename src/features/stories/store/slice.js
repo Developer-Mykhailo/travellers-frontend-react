@@ -6,6 +6,8 @@ const slice = createSlice({
   initialState: {
     items: [],
     hasNextPage: false,
+    //
+    categories: [],
   },
   reducers: {
     setPublicStories: (state, action) => {
@@ -17,8 +19,13 @@ const slice = createSlice({
       state.items.push(...action.payload.data);
       state.hasNextPage = action.payload.hasNextPage;
     },
+
+    setCategories: (state, action) => {
+      state.categories = action.payload;
+    },
   },
 });
 
-export const { setPublicStories, appendPublicStories } = slice.actions;
+export const { setPublicStories, appendPublicStories, setCategories } =
+  slice.actions;
 export default slice.reducer;

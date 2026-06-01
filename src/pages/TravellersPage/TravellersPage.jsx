@@ -41,6 +41,7 @@ const TravellersPage = () => {
         console.log(error);
       }
     }
+    // eslint-disable-next-line
   }, [page, dispatch]);
 
   //todo handlers
