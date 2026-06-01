@@ -25,7 +25,7 @@ const OurTravellers = () => {
 
     async function fetchTravellers() {
       try {
-        const response = await fetchTravellersApi(page);
+        const response = await fetchTravellersApi(page, 4);
 
         page === 1
           ? dispatch(setTravellers(response))

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import placeholder from '../../assets/images/placeholder.jpg';
 import Popular from '../../components/PopularStories/Popular';
 import Section from '../../components/Section/Section';
@@ -11,6 +12,8 @@ import css from './StoryPage.module.css';
 const StoryPage = () => {
   const [data, setData] = useState({});
 
+  const { storyId } = useParams();
+
   const { owner, title, date, category, article, img } = data;
 
   // ! effects
@@ -19,15 +22,13 @@ const StoryPage = () => {
 
     async function fetchPublicStorieById() {
       try {
-        const response = await fetchPublicStorieByIdApi(
-          '68498236a100312bea07900f'
-        );
+        const response = await fetchPublicStorieByIdApi(storyId);
         setData(response);
       } catch (error) {
         console.log(error);
       }
     }
-  }, []);
+  }, [storyId]);
 
   // JSX
   return (
