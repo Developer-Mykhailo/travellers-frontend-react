@@ -20,7 +20,7 @@ export const fetchPublicStoriesApi = async (page, perPage, category) => {
 };
 
 // !
-export const fetchPublicStorieByIdApi = async (id) => {
+export const fetchPublicStoryByIdApi = async (id) => {
   try {
     const response = await axios.get(`/stories/${id}`);
 
