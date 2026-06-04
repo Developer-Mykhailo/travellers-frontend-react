@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import Container from '../../components/common/Container/Container';
 import Section from '../../components/Section/Section';
 import Button from '../../components/UI/Button/Button';
+import MessageNoStories from '../../features/stories/components/MessageNoStories/MessageNoStories';
 import TravellersStories from '../../features/stories/components/TravellersStories/TravellersStories';
 import { fetchPublicStoryByIdApi } from '../../features/stories/store/operation';
 import TravellerInfo from '../../features/travellers/components/TravellerInfo/TravellerInfo';
@@ -119,6 +120,15 @@ const TravellerPage = () => {
             <Button className={css.showMoreBtn} onClick={handleShowMore}>
               Show more
             </Button>
+          )}
+
+          {!visiblePublicStories.length && (
+            <MessageNoStories
+              message="This user has not posted any stories yet"
+              messageClassName={css.desktopMessage}
+              linkText={'Back to travellers'}
+              link={'/travellers'}
+            />
           )}
         </article>
       </Container>

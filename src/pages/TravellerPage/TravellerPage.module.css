@@ -23,6 +23,10 @@
   margin-top: 40px;
 }
 
+.desktopMessage {
+  max-width: 250px;
+}
+
 @media (min-width: 768px) {
   .title {
     font-size: 44px;
@@ -30,6 +34,10 @@
 
   .showMoreBtn {
     max-width: 135px;
+  }
+
+  .desktopMessage {
+    max-width: unset;
   }
 }
 
@@ -50,5 +58,9 @@
     letter-spacing: -0.01em;
     color: var(--color-scheme-1-text);
     margin-bottom: 40px;
+  }
+
+  .desktopMessage {
+    max-width: 330px;
   }
 }
