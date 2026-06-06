@@ -24,23 +24,20 @@ import css from './TravellerPage.module.css';
 
 const TravellerPage = () => {
   const dispatch = useDispatch();
-
   const user = useSelector(selectUserData);
-
   const loadedPublilcStories = useSelector(selectLoadedPublilcStories) || [];
 
   const { travallerId } = useParams();
 
   const isDeskTop = useMediaQuery({ minWidth: 1440 });
-
   const pageSize = isDeskTop ? 6 : 4;
 
   const [page, setPage] = useState(1);
-
   const [publicStoriesIds, setPublicStoriesIds] = useState([]);
 
   const visiblePublicStories = loadedPublilcStories.slice(0, page * pageSize);
 
+  //! effects
   // user
   useEffect(() => {
     dispatch(setUser({}));
@@ -102,6 +99,7 @@ const TravellerPage = () => {
     }
   }, [publicStoriesIds, page, pageSize, loadedPublilcStories.length, dispatch]);
 
+  // todo handlers
   const handleShowMore = () => {
     setPage((prev) => prev + 1);
   };
