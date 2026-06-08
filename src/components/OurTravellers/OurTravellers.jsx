@@ -1,12 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import TravellersList from '../../features/travellers/components/TravellersList/TravellersList';
-import { fetchTravellersApi } from '../../features/travellers/store/operation';
+import { fetchTravellers } from '../../features/travellers/store/operation';
 import { selectTravellers } from '../../features/travellers/store/selectors';
-import {
-  appendTravellers,
-  setTravellers,
-} from '../../features/travellers/store/slice';
 import Container from '../common/Container/Container';
 import Section from '../Section/Section';
 import Button from '../UI/Button/Button';
@@ -21,21 +17,8 @@ const OurTravellers = () => {
 
   //! effects
   useEffect(() => {
-    fetchTravellers();
-
-    async function fetchTravellers() {
-      try {
-        const response = await fetchTravellersApi(page, 4);
-
-        page === 1
-          ? dispatch(setTravellers(response))
-          : dispatch(appendTravellers(response));
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    // eslint-disable-next-line
-  }, [page]);
+    dispatch(fetchTravellers({ page, perPage: 4 }));
+  }, [dispatch, page]);
 
   //todo handlers
   const handleClick = () => {

@@ -1,4 +1,4 @@
-export const selectTravellers = (state) => state.travellers;
+export const selectTravellers = (state) => state.travellers.travellersData;
 
 export const selectUserData = (state) => state.travellers.user;
 

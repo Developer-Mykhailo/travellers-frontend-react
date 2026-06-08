@@ -9,7 +9,7 @@ import MessageNoStories from '../../features/stories/components/MessageNoStories
 import TravellersStories from '../../features/stories/components/TravellersStories/TravellersStories';
 // import { fetchPublicStoryByIdApi } from '../../features/stories/store/operation';
 import TravellerInfo from '../../features/travellers/components/TravellerInfo/TravellerInfo';
-import { fetchTravellerByIdApi } from '../../features/travellers/store/operation';
+// import { fetchTravellerByIdApi } from '../../features/travellers/store/operation';
 import {
   selectLoadedPublilcStories,
   selectUserData,

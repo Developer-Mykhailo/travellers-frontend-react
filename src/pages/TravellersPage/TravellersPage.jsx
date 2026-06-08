@@ -2,12 +2,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import Section from '../../components/Section/Section.jsx';
 import Button from '../../components/UI/Button/Button.jsx';
 import Container from '../../components/common/Container/Container';
-import TravellersList from '../../features/travellers/components/TravellersList/TravellersList.jsx';
+// import TravellersList from '../../features/travellers/components/TravellersList/TravellersList.jsx';
 
 import css from './TravellersPage.module.css';
 import { selectTravellers } from '../../features/travellers/store/selectors.js';
 import { useEffect, useState } from 'react';
-import { fetchTravellersApi } from '../../features/travellers/store/operation.js';
+// import { fetchTravellersApi } from '../../features/travellers/store/operation.js';
 import {
   appendTravellers,
   setTravellers,
@@ -60,7 +60,7 @@ const TravellersPage = () => {
       <Container>
         <h1 className={css.travellersTitle}>Travellers</h1>
 
-        <TravellersList travellers={items} />
+        {/* <TravellersList travellers={items} /> */}
 
         {hasNextPage && (
           <Button onClick={handleClick} className={css.showMoreBtn}>
