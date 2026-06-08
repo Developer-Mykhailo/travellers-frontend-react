@@ -2,12 +2,8 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
 import TravellersStories from '../../features/stories/components/TravellersStories/TravellersStories';
-import { fetchPublicStoriesApi } from '../../features/stories/store/operation';
+import { fetchPublicStories } from '../../features/stories/store/operation';
 import { selectPublicStories } from '../../features/stories/store/selectors';
-import {
-  appendPublicStories,
-  setPublicStories,
-} from '../../features/stories/store/slice';
 import Container from '../common/Container/Container';
 import Section from '../Section/Section';
 import Button from '../UI/Button/Button';
@@ -27,22 +23,8 @@ const Popular = () => {
 
   // ! effects
   useEffect(() => {
-    fetchPublicStories();
-
-    async function fetchPublicStories() {
-      try {
-        const response = await fetchPublicStoriesApi(page, perPage);
-
-        page === 1
-          ? dispatch(setPublicStories(response))
-          : dispatch(appendPublicStories(response));
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
-    // eslint-disable-next-line
-  }, [page]);
+    dispatch(fetchPublicStories({ page, perPage }));
+  }, [dispatch, page, perPage]);
 
   //todo handlers
   const handleClick = () => {

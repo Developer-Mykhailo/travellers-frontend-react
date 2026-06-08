@@ -1,19 +1,19 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
-
 import PublicLayout from './components/Layouts/PublicLayout';
 import SharedLayout from './components/Layouts/SharedLayout';
 import PublishedStories from './features/stories/components/PublishedStories/PublishedStories';
 import SavedStories from './features/stories/components/SavedStories/SavedStories';
 import AddStoryPage from './pages/AddStoryPage/AddStoryPage';
+import EditStoryPage from './pages/EditStoryPage/EditStoryPage';
 import HomePage from './pages/HomePage/HomePage';
 import ProfilePage from './pages/ProfilePage/ProfilePage/ProfilePage';
 import StoriesPage from './pages/StoriesPage/StoriesPage';
 import StoryPage from './pages/StoryPage/StoryPage';
 import TravellerPage from './pages/TravellerPage/TravellerPage';
 import TravellersPage from './pages/TravellersPage/TravellersPage';
-import EditStoryPage from './pages/EditStoryPage/EditStoryPage';
 
 function App() {
+  // JSX
   return (
     <Routes>
       <Route path="/" element={<SharedLayout />}>

@@ -1,11 +1,10 @@
 import axios from 'axios';
-
-axios.defaults.baseURL = 'https://travellers-backend.onrender.com/api';
+import { api } from '../../../api/client';
 
 // !
 export const fetchTravellersApi = async (page, perPage) => {
   try {
-    const response = await axios.get('/users', {
+    const response = await api.get('/users', {
       params: {
         page,
         perPage,

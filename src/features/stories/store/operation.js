@@ -1,23 +1,21 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'https://travellers-backend.onrender.com/api';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { fetchPublicStoriesApi } from '../api/storiesApi';
 
-// !
-export const fetchPublicStoriesApi = async (page, perPage, category) => {
-  try {
-    const response = await axios.get('/stories', {
-      params: {
-        page,
-        perPage,
-        category,
-      },
-    });
+//!
+export const fetchPublicStories = createAsyncThunk(
+  'publicStories/fetchPublicStories',
+  async ({ page, perPage, category }, thunkApi) => {
+    try {
+      const response = await fetchPublicStoriesApi(page, perPage, category);
 
-    return response.data.data;
-  } catch (error) {
-    console.log(error);
+      return { response, page };
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
   }
-};
+);
 
 // !
 export const fetchPublicStoryByIdApi = async (id) => {

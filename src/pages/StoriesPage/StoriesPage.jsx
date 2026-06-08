@@ -8,7 +8,7 @@ import Button from '../../components/UI/Button/Button';
 import TravellersStories from '../../features/stories/components/TravellersStories/TravellersStories';
 import {
   fetchCategoriesApi,
-  fetchPublicStoriesApi,
+  // fetchPublicStoriesApi,
 } from '../../features/stories/store/operation';
 import {
   selectCategories,
