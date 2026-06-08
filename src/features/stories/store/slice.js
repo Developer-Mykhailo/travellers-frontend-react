@@ -1,51 +1,83 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchCategories, fetchPublicStories } from './operation';
+import {
+  fetchCategories,
+  fetchPublicStories,
+  fetchPublicStoryById,
+} from './operation';
 
-const slice = createSlice({
+const publicStoriesSlice = createSlice({
   name: 'publicStories',
 
   initialState: {
-    items: [],
-    hasNextPage: false,
+    stories: {
+      items: [],
+      hasNextPage: false,
+      isFetchingStories: false,
+      storiesError: null,
+    },
 
-    categories: [],
-    isFetchingStories: false,
-    isFetchingCategories: false,
+    categories: {
+      items: [],
+      isFetchingCategories: false,
+      categoriesError: null,
+    },
 
-    error: null,
+    story: {
+      storyData: {},
+      isfetchingStoryById: false,
+      storyError: null,
+    },
   },
 
   //!---------------------------
   extraReducers: (builder) => {
     builder
+      // Public Stories
       .addCase(fetchPublicStories.pending, (state) => {
-        state.isFetchingStories = true;
+        state.stories.isFetchingStories = true;
       })
       .addCase(fetchPublicStories.fulfilled, (state, action) => {
-        state.isFetchingStories = false;
-        state.error = null;
+        state.stories.isFetchingStories = false;
+        state.stories.storiesError = null;
 
         action.meta.arg.page === 1
-          ? (state.items = action.payload.data)
-          : state.items.push(...action.payload.data);
+          ? (state.stories.items = action.payload.data)
+          : state.stories.items.push(...action.payload.data);
 
-        state.hasNextPage = action.payload.hasNextPage;
+        state.stories.hasNextPage = action.payload.hasNextPage;
       })
       .addCase(fetchPublicStories.rejected, (state, action) => {
-        state.isFetchingStories = false;
-        state.error = action.payload;
+        state.stories.isFetchingStories = false;
+        state.stories.storiesError = action.payload;
       })
 
       // Categories
       .addCase(fetchCategories.pending, (state) => {
-        state.isFetchingCategories = true;
+        state.categories.isFetchingCategories = true;
       })
       .addCase(fetchCategories.fulfilled, (state, { payload }) => {
-        state.categories = payload;
+        state.categories.isFetchingCategories = false;
+        state.categories.items = payload;
+      })
+      .addCase(fetchCategories.rejected, (state, { payload }) => {
+        state.categories.isFetchingCategories = false;
+        state.categories.categoriesError = payload;
+      })
+
+      // Story By Id
+      .addCase(fetchPublicStoryById.pending, (state) => {
+        state.isfetchingStoryById = true;
+      })
+      .addCase(fetchPublicStoryById.fulfilled, (state, { payload }) => {
+        state.isfetchingStoryById = false;
+        state.story.storyData = payload;
+        state.story.storyError = null;
+      })
+      .addCase(fetchPublicStoryById.rejected, (state, { payload }) => {
+        state.isfetchingStoryById = false;
+        state.story.storyError = payload;
       });
   },
 });
 
-export const { setPublicStories, appendPublicStories, setCategories } =
-  slice.actions;
-export default slice.reducer;
+export default publicStoriesSlice.reducer;

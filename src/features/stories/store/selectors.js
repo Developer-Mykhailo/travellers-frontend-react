@@ -1,2 +1,5 @@
-export const selectPublicStories = (state) => state.publicStories;
-export const selectCategories = (state) => state.publicStories.categories;
+export const selectPublicStories = (state) => state.publicStories.stories;
+
+export const selectCategories = (state) => state.publicStories.categories.items;
+
+export const selectStory = (state) => state.publicStories.story.storyData;

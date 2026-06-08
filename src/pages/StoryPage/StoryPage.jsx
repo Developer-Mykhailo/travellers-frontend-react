@@ -1,34 +1,28 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import placeholder from '../../assets/images/placeholder.jpg';
 import Popular from '../../components/PopularStories/Popular';
 import Section from '../../components/Section/Section';
 import Button from '../../components/UI/Button/Button';
 import Container from '../../components/common/Container/Container';
-// import { fetchPublicStoryByIdApi } from '../../features/stories/store/operation';
+import { fetchPublicStoryById } from '../../features/stories/store/operation';
+import { selectStory } from '../../features/stories/store/selectors';
 
 import css from './StoryPage.module.css';
 
 const StoryPage = () => {
-  const [data, setData] = useState({});
+  const dispatch = useDispatch();
 
   const { storyId } = useParams();
 
-  const { owner, title, date, category, article, img } = data;
+  const { owner, title, date, category, article, img } =
+    useSelector(selectStory);
 
   // ! effects
   useEffect(() => {
-    fetchPublicStorieById();
-
-    async function fetchPublicStorieById() {
-      try {
-        // const response = await fetchPublicStoryByIdApi(storyId);
-        setData(response);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  }, [storyId]);
+    dispatch(fetchPublicStoryById(storyId));
+  }, [dispatch, storyId]);
 
   // JSX
   return (

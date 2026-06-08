@@ -23,6 +23,7 @@ const StoriesPage = () => {
   const dispatch = useDispatch();
 
   const { items, hasNextPage } = useSelector(selectPublicStories); //state
+
   const categories = useSelector(selectCategories);
 
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1439 });

@@ -12,7 +12,7 @@ import css from './Popular.module.css';
 
 const Popular = () => {
   const dispatch = useDispatch();
-  const { items: stories, hasNextPage } = useSelector(selectPublicStories); //state
+  const { items, hasNextPage } = useSelector(selectPublicStories); //state
 
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1439 });
   const isMobile = useMediaQuery({ maxWidth: 767 });
@@ -37,7 +37,7 @@ const Popular = () => {
       <Container>
         <h2 className={css.title}>Popular stories</h2>
 
-        <TravellersStories stories={stories} />
+        <TravellersStories stories={items} />
 
         {!isMobile && hasNextPage && (
           <Button onClick={handleClick} className={css.viewMoreBtn}>
