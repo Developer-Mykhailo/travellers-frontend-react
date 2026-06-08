@@ -52,8 +52,9 @@ const travellersSlice = createSlice({
         state.travellersData.hasNextPage = action.payload.hasNextPage;
         state.travellersData.travellersError = null;
       })
-      .addCase(fetchTravellers.rejected, (state) => {
+      .addCase(fetchTravellers.rejected, (state, { payload }) => {
         state.travellersData.isTravellersFetching = false;
+        state.travellersData.travellersError = payload;
       });
   },
 });
