@@ -61,12 +61,6 @@ const TravellerPage = () => {
     setVisibleCount(isDeskTop ? 3 : 2);
   }, [isDeskTop]);
 
-  // //!
-  useEffect(() => {
-    console.log('visibleStories => ', visibleStories.length);
-    console.log('visibleCount => ', visibleCount);
-  }, [visibleCount]);
-
   // todo handlers
   const handleShowMore = () => {
     const increment = isDeskTop ? 3 : 2;
