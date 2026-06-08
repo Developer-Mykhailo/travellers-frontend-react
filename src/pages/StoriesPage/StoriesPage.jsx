@@ -7,97 +7,79 @@ import Section from '../../components/Section/Section';
 import Button from '../../components/UI/Button/Button';
 import TravellersStories from '../../features/stories/components/TravellersStories/TravellersStories';
 import {
-  fetchCategoriesApi,
-  // fetchPublicStoriesApi,
+  fetchCategories,
+  fetchPublicStories,
 } from '../../features/stories/store/operation';
 import {
   selectCategories,
   selectPublicStories,
 } from '../../features/stories/store/selectors';
-import {
-  appendPublicStories,
-  setCategories,
-  setPublicStories,
-} from '../../features/stories/store/slice';
 
 import css from './StoriesPage.module.css';
 
+const PER_PAGE = 12;
+
 const StoriesPage = () => {
   const dispatch = useDispatch();
-  const { items: stories, hasNextPage } = useSelector(selectPublicStories); //state
 
+  const { items, hasNextPage } = useSelector(selectPublicStories); //state
   const categories = useSelector(selectCategories);
-  const allCategories = useMemo(
-    () => [{ _id: 'all', name: 'All Stories' }, ...categories],
-    [categories]
-  );
 
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1439 });
 
   const [page, setPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [visibleCount, setVisibleCount] = useState(isTablet ? 8 : 9);
 
+  const allCategories = useMemo(
+    () => [{ _id: 'all', name: 'All Stories' }, ...categories],
+    [categories]
+  );
   //! effects
-
   //fetch stories
   useEffect(() => {
-    fetchPublicStories();
-
-    async function fetchPublicStories() {
-      try {
-        const currentPerPage =
-          page === 1 ? (isTablet ? 8 : 9) : isTablet ? 4 : 3;
-
-        const category =
-          selectedCategory === 'All Stories' ? null : selectedCategory;
-
-        const response = await fetchPublicStoriesApi(
-          page,
-          currentPerPage,
-          category
-        );
-
-        page === 1
-          ? dispatch(setPublicStories(response))
-          : dispatch(appendPublicStories(response));
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
-    // eslint-disable-next-line
-  }, [page, selectedCategory, dispatch]);
+    dispatch(
+      fetchPublicStories({
+        page,
+        perPage: PER_PAGE,
+        category: selectedCategory === 'All Stories' ? null : selectedCategory,
+      })
+    );
+  }, [dispatch, page, selectedCategory]);
 
   // fetch categories
   useEffect(() => {
-    fetchCategories();
-
-    async function fetchCategories() {
-      const response = await fetchCategoriesApi();
-
-      dispatch(setCategories(response));
-    }
+    dispatch(fetchCategories());
   }, [dispatch]);
+
+  // breakpoint change
+  useEffect(() => {
+    //eslint-disable-next-line
+    setVisibleCount(isTablet ? 8 : 9);
+  }, [isTablet]);
 
   //todo handlers
   const handleShowMore = () => {
-    if (page === 1 && isTablet) {
-      setPage(3);
+    const increment = isTablet ? 4 : 3;
+    const nextVisibleCount = visibleCount + increment;
+
+    if (items.length >= nextVisibleCount) {
+      setVisibleCount(nextVisibleCount);
       return;
     }
 
-    if (page === 1 && !isTablet) {
-      setPage(4);
-      return;
-    }
+    setVisibleCount(nextVisibleCount);
 
-    setPage((prev) => prev + 1);
+    hasNextPage && setPage((prev) => prev + 1);
   };
 
   const handleChangeCategory = (category) => {
     setPage(1);
     setSelectedCategory(category);
+    setVisibleCount(isTablet ? 8 : 9);
   };
+
+  const visibleStories = items.slice(0, visibleCount);
 
   // JSX
   return (
@@ -141,7 +123,7 @@ const StoriesPage = () => {
             )}
           </>
 
-          <TravellersStories stories={stories} />
+          <TravellersStories stories={visibleStories} />
 
           {hasNextPage && (
             <Button className={css.showMoreBtn} onClick={handleShowMore}>

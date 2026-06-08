@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchPublicStories } from './operation';
+import { fetchCategories, fetchPublicStories } from './operation';
 
 const slice = createSlice({
   name: 'publicStories',
@@ -7,47 +7,41 @@ const slice = createSlice({
   initialState: {
     items: [],
     hasNextPage: false,
+
     categories: [],
-    isLoading: false,
+    isFetchingStories: false,
+    isFetchingCategories: false,
+
     error: null,
-  },
-  reducers: {
-    // setPublicStories: (state, action) => {
-    //   state.items = action.payload.data;
-    //   state.hasNextPage = action.payload.hasNextPage;
-    // },
-
-    // appendPublicStories: (state, action) => {
-    //   state.items.push(...action.payload.data);
-    //   state.hasNextPage = action.payload.hasNextPage;
-    // },
-
-    setCategories: (state, action) => {
-      state.categories = action.payload;
-    },
   },
 
   //!---------------------------
   extraReducers: (builder) => {
     builder
       .addCase(fetchPublicStories.pending, (state) => {
-        state.isLoading = true;
+        state.isFetchingStories = true;
       })
       .addCase(fetchPublicStories.fulfilled, (state, action) => {
-        state.isLoading = false;
+        state.isFetchingStories = false;
         state.error = null;
 
-        const { response, page } = action.payload;
+        action.meta.arg.page === 1
+          ? (state.items = action.payload.data)
+          : state.items.push(...action.payload.data);
 
-        page === 1
-          ? (state.items = response.data)
-          : state.items.push(...response.data);
-
-        state.hasNextPage = response.hasNextPage;
+        state.hasNextPage = action.payload.hasNextPage;
       })
       .addCase(fetchPublicStories.rejected, (state, action) => {
-        state.isLoading = false;
+        state.isFetchingStories = false;
         state.error = action.payload;
+      })
+
+      // Categories
+      .addCase(fetchCategories.pending, (state) => {
+        state.isFetchingCategories = true;
+      })
+      .addCase(fetchCategories.fulfilled, (state, { payload }) => {
+        state.categories = payload;
       });
   },
 });

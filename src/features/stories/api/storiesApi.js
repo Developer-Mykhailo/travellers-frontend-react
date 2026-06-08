@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { api } from '../../../api/client';
 
 // !
@@ -16,22 +15,12 @@ export const fetchPublicStoriesApi = async (page, perPage, category) => {
 
 // !
 export const fetchPublicStoryByIdApi = async (id) => {
-  try {
-    const response = await axios.get(`/stories/${id}`);
-
-    return response.data.data;
-  } catch (error) {
-    console.log(error);
-  }
+  const response = await api.get(`/stories/${id}`);
+  return response.data.data;
 };
 
 // !
 export const fetchCategoriesApi = async () => {
-  try {
-    const response = await axios.get('/stories/categories', {});
-
-    return response.data.data;
-  } catch (error) {
-    console.log(error);
-  }
+  const response = await api.get('/stories/categories');
+  return response.data.data;
 };

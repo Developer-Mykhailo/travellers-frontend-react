@@ -1,7 +1,5 @@
-import axios from 'axios';
-
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { fetchPublicStoriesApi } from '../api/storiesApi';
+import { fetchCategoriesApi, fetchPublicStoriesApi } from '../api/storiesApi';
 
 //!
 export const fetchPublicStories = createAsyncThunk(
@@ -10,7 +8,7 @@ export const fetchPublicStories = createAsyncThunk(
     try {
       const response = await fetchPublicStoriesApi(page, perPage, category);
 
-      return { response, page };
+      return response;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
     }
@@ -18,23 +16,16 @@ export const fetchPublicStories = createAsyncThunk(
 );
 
 // !
-export const fetchPublicStoryByIdApi = async (id) => {
-  try {
-    const response = await axios.get(`/stories/${id}`);
+export const fetchCategories = createAsyncThunk(
+  'publicStories/fetchCategories',
 
-    return response.data.data;
-  } catch (error) {
-    console.log(error);
+  async (_, thunkApi) => {
+    try {
+      const response = await fetchCategoriesApi();
+
+      return response;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
   }
-};
-
-// !
-export const fetchCategoriesApi = async () => {
-  try {
-    const response = await axios.get('/stories/categories', {});
-
-    return response.data.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
+);

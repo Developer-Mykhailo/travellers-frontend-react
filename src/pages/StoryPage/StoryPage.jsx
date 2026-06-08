@@ -5,7 +5,7 @@ import Popular from '../../components/PopularStories/Popular';
 import Section from '../../components/Section/Section';
 import Button from '../../components/UI/Button/Button';
 import Container from '../../components/common/Container/Container';
-import { fetchPublicStoryByIdApi } from '../../features/stories/store/operation';
+// import { fetchPublicStoryByIdApi } from '../../features/stories/store/operation';
 
 import css from './StoryPage.module.css';
 
@@ -22,7 +22,7 @@ const StoryPage = () => {
 
     async function fetchPublicStorieById() {
       try {
-        const response = await fetchPublicStoryByIdApi(storyId);
+        // const response = await fetchPublicStoryByIdApi(storyId);
         setData(response);
       } catch (error) {
         console.log(error);
