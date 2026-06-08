@@ -1,5 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchTravellerById, fetchTravellers } from './operation';
+import {
+  fetchTravellerById,
+  fetchTravellers,
+  fetchTravellerStoriesByIds,
+} from './operation';
 
 const travellersSlice = createSlice({
   name: 'travellers',
@@ -14,7 +18,15 @@ const travellersSlice = createSlice({
     },
 
     oneTraveller: {
+      data: {},
       isOneTravellerFetching: false,
+      travellerError: null,
+
+      travellerPublicStories: {
+        items: [],
+        isPublicStoriesFetching: false,
+        publicStoriesError: false,
+      },
     },
   },
   // reducers: {
@@ -65,6 +77,33 @@ const travellersSlice = createSlice({
       // traveller by id
       .addCase(fetchTravellerById.pending, (state) => {
         state.oneTraveller.isOneTravellerFetching = true;
+      })
+      .addCase(fetchTravellerById.fulfilled, (state, { payload }) => {
+        state.oneTraveller.isOneTravellerFetching = false;
+        state.oneTraveller.data = payload;
+      })
+      .addCase(fetchTravellerById.rejected, (state, { payload }) => {
+        state.oneTraveller.isOneTravellerFetching = false;
+        state.oneTraveller.travellerError = payload;
+      })
+
+      // traveller public stories
+      .addCase(fetchTravellerStoriesByIds.pending, (state) => {
+        state.oneTraveller.travellerPublicStories.isPublicStoriesFetching = true;
+      })
+      .addCase(
+        fetchTravellerStoriesByIds.fulfilled,
+        (state, { payload: { page, response } }) => {
+          state.oneTraveller.travellerPublicStories.isPublicStoriesFetching = false;
+
+          page === 1
+            ? (state.oneTraveller.travellerPublicStories.items = response)
+            : state.oneTraveller.travellerPublicStories.items.push(...response);
+        }
+      )
+      .addCase(fetchTravellerStoriesByIds.rejected, (state, payload) => {
+        state.oneTraveller.travellerPublicStories.isPublicStoriesFetching = false;
+        state.oneTraveller.travellerPublicStories.publicStoriesError = payload;
       });
   },
 });

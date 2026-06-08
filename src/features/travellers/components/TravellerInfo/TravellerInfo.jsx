@@ -1,8 +1,6 @@
 import css from './TravellerInfo.module.css';
 
-const TravellerInfo = ({ userData }) => {
-  const { name, avatar, description } = userData;
-
+const TravellerInfo = ({ traveller: { name, avatar, description } }) => {
   // JSX
   return (
     <div className={css.travellerBlock}>
