@@ -7,9 +7,8 @@ import Section from '../../components/Section/Section';
 import Button from '../../components/UI/Button/Button';
 import MessageNoStories from '../../features/stories/components/MessageNoStories/MessageNoStories';
 import TravellersStories from '../../features/stories/components/TravellersStories/TravellersStories';
-// import { fetchPublicStoryByIdApi } from '../../features/stories/store/operation';
 import TravellerInfo from '../../features/travellers/components/TravellerInfo/TravellerInfo';
-// import { fetchTravellerByIdApi } from '../../features/travellers/store/operation';
+import { fetchTravellerById } from '../../features/travellers/store/operation';
 import {
   selectLoadedPublilcStories,
   selectUserData,
@@ -40,64 +39,65 @@ const TravellerPage = () => {
   //! effects
   // user
   useEffect(() => {
-    dispatch(setUser({}));
-    dispatch(setUserPublicStories([]));
+    dispatch(fetchTravellerById(travallerId));
+    // dispatch(setUser({}));
+    // dispatch(setUserPublicStories([]));
 
-    (() => {
-      setPage(1);
-      setPublicStoriesIds([]);
-    })();
+    // (() => {
+    //   setPage(1);
+    //   setPublicStoriesIds([]);
+    // })();
 
-    fetchTraveller();
+    // fetchTraveller();
 
-    async function fetchTraveller() {
-      try {
-        const travellerData = await fetchTravellerByIdApi(travallerId);
+    // async function fetchTraveller() {
+    //   try {
+    //     const travellerData = await fetchTravellerById(travallerId);
 
-        dispatch(setUser(travellerData));
+    //     dispatch(setUser(travellerData));
 
-        setPublicStoriesIds(travellerData?.publicStories ?? []);
-      } catch (error) {
-        console.log(error);
-      }
-    }
+    //     setPublicStoriesIds(travellerData?.publicStories ?? []);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // }
   }, [travallerId, dispatch]);
 
   // stories
-  useEffect(() => {
-    if (!publicStoriesIds.length) return;
+  // useEffect(() => {
+  //   if (!publicStoriesIds.length) return;
 
-    const requiredStoriesCount = page * pageSize;
+  //   const requiredStoriesCount = page * pageSize;
 
-    const missingStories = requiredStoriesCount - loadedPublilcStories.length;
+  //   const missingStories = requiredStoriesCount - loadedPublilcStories.length;
 
-    if (missingStories <= 0) return;
+  //   if (missingStories <= 0) return;
 
-    loadStories();
+  //   loadStories();
 
-    async function loadStories() {
-      try {
-        const ids = publicStoriesIds.slice(
-          loadedPublilcStories.length,
-          loadedPublilcStories.length + missingStories
-        );
+  //   async function loadStories() {
+  //     try {
+  //       const ids = publicStoriesIds.slice(
+  //         loadedPublilcStories.length,
+  //         loadedPublilcStories.length + missingStories
+  //       );
 
-        const stories = await Promise.all(
-          ids.map((id) => fetchPublicStoryByIdApi(id))
-        );
+  //       const stories = await Promise.all(
+  //         ids.map((id) => fetchPublicStoryByIdApi(id))
+  //       );
 
-        if (!stories.length) return;
+  //       if (!stories.length) return;
 
-        if (loadedPublilcStories.length === 0) {
-          dispatch(setUserPublicStories(stories));
-        } else {
-          dispatch(appendUserPublicStories(stories));
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  }, [publicStoriesIds, page, pageSize, loadedPublilcStories.length, dispatch]);
+  //       if (loadedPublilcStories.length === 0) {
+  //         dispatch(setUserPublicStories(stories));
+  //       } else {
+  //         dispatch(appendUserPublicStories(stories));
+  //       }
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   }
+  // }, [publicStoriesIds, page, pageSize, loadedPublilcStories.length, dispatch]);
 
   // todo handlers
   const handleShowMore = () => {

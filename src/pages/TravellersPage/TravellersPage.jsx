@@ -1,58 +1,54 @@
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useMediaQuery } from 'react-responsive';
 import Section from '../../components/Section/Section.jsx';
 import Button from '../../components/UI/Button/Button.jsx';
 import Container from '../../components/common/Container/Container';
-// import TravellersList from '../../features/travellers/components/TravellersList/TravellersList.jsx';
+import { PER_PAGE } from '../../constants/pagination.js';
+import TravellersList from '../../features/travellers/components/TravellersList/TravellersList.jsx';
+import { fetchTravellers } from '../../features/travellers/store/operation.js';
+import { selectTravellers } from '../../features/travellers/store/selectors.js';
 
 import css from './TravellersPage.module.css';
-import { selectTravellers } from '../../features/travellers/store/selectors.js';
-import { useEffect, useState } from 'react';
-// import { fetchTravellersApi } from '../../features/travellers/store/operation.js';
-import {
-  appendTravellers,
-  setTravellers,
-} from '../../features/travellers/store/slice.js';
-import { useMediaQuery } from 'react-responsive';
 
 const TravellersPage = () => {
   const dispatch = useDispatch();
-  const { items, hasNextPage } = useSelector(selectTravellers);
+  const { items, hasNextPage, totalItems } = useSelector(selectTravellers);
 
   const isDeskTop = useMediaQuery({ minWidth: 1440 });
 
   const [page, setPage] = useState(1);
-
-  const initialPerPage = isDeskTop ? 12 : 8;
+  const [visibleCount, setVisibleCount] = useState(isDeskTop ? 12 : 8);
 
   //! effects
+  // fetch travellers
   useEffect(() => {
-    fetchTravellers();
+    dispatch(fetchTravellers({ page, perPage: PER_PAGE }));
+  }, [dispatch, page]);
 
-    async function fetchTravellers() {
-      try {
-        const currentPerPage = page === 1 ? (isDeskTop ? 12 : 8) : 4;
-
-        const response = await fetchTravellersApi(page, currentPerPage);
-
-        page === 1
-          ? dispatch(setTravellers(response))
-          : dispatch(appendTravellers(response));
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    // eslint-disable-next-line
-  }, [page, dispatch]);
+  // change breakepoint
+  useEffect(() => {
+    //eslint-disable-next-line
+    setVisibleCount(isDeskTop ? 12 : 8);
+  }, [isDeskTop]);
 
   //todo handlers
   const handleClick = () => {
-    if (page === 1) {
-      setPage(initialPerPage / 4 + 1);
+    const increment = 4;
+
+    const nextVisibleCount = visibleCount + increment;
+
+    if (items.length >= nextVisibleCount) {
+      setVisibleCount(nextVisibleCount);
       return;
     }
 
-    setPage((prev) => prev + 1);
+    setVisibleCount(nextVisibleCount);
+
+    hasNextPage && setPage((prev) => prev + 1);
   };
+
+  const visibleTravellers = items.slice(0, visibleCount);
 
   // JSX
   return (
@@ -60,9 +56,9 @@ const TravellersPage = () => {
       <Container>
         <h1 className={css.travellersTitle}>Travellers</h1>
 
-        {/* <TravellersList travellers={items} /> */}
+        <TravellersList travellers={visibleTravellers} />
 
-        {hasNextPage && (
+        {totalItems > visibleTravellers.length && (
           <Button onClick={handleClick} className={css.showMoreBtn}>
             Show more
           </Button>

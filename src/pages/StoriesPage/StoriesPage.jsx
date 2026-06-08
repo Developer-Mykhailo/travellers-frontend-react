@@ -5,6 +5,7 @@ import ArrowDown from '../../assets/icons/keyboard_arrow_down.svg?react';
 import Container from '../../components/common/Container/Container';
 import Section from '../../components/Section/Section';
 import Button from '../../components/UI/Button/Button';
+import { PER_PAGE } from '../../constants/pagination';
 import TravellersStories from '../../features/stories/components/TravellersStories/TravellersStories';
 import {
   fetchCategories,
@@ -16,8 +17,6 @@ import {
 } from '../../features/stories/store/selectors';
 
 import css from './StoriesPage.module.css';
-
-const PER_PAGE = 12;
 
 const StoriesPage = () => {
   const dispatch = useDispatch();

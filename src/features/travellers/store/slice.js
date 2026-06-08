@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchTravellers } from './operation';
+import { fetchTravellerById, fetchTravellers } from './operation';
 
 const travellersSlice = createSlice({
   name: 'travellers',
@@ -7,12 +7,15 @@ const travellersSlice = createSlice({
   initialState: {
     travellersData: {
       items: [],
+      totalItems: 0,
       hasNextPage: false,
       isTravellersFetching: false,
       travellersError: null,
     },
 
-    userPublicStories: [],
+    oneTraveller: {
+      isOneTravellerFetching: false,
+    },
   },
   // reducers: {
   //   setTravellers: (state, action) => {
@@ -39,6 +42,7 @@ const travellersSlice = createSlice({
   // },
   extraReducers: (builder) => {
     builder
+      // travellers
       .addCase(fetchTravellers.pending, (state) => {
         state.travellersData.isTravellersFetching = true;
       })
@@ -50,11 +54,17 @@ const travellersSlice = createSlice({
           : state.travellersData.items.push(...action.payload.data);
 
         state.travellersData.hasNextPage = action.payload.hasNextPage;
+        state.travellersData.totalItems = action.payload.totalItems;
         state.travellersData.travellersError = null;
       })
       .addCase(fetchTravellers.rejected, (state, { payload }) => {
         state.travellersData.isTravellersFetching = false;
         state.travellersData.travellersError = payload;
+      })
+
+      // traveller by id
+      .addCase(fetchTravellerById.pending, (state) => {
+        state.oneTraveller.isOneTravellerFetching = true;
       });
   },
 });
