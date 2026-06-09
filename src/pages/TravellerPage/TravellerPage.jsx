@@ -32,7 +32,7 @@ const TravellerPage = () => {
 
   const [page, setPage] = useState(1);
 
-  const [visibleCount, setVisibleCount] = useState(isDeskTop ? 3 : 2);
+  const [visibleCount, setVisibleCount] = useState(isDeskTop ? 6 : 4);
   const [slice, setSlice] = useState({ start: 0, end: PER_PAGE });
 
   const visibleStories = loadedPublilcStories.slice(0, visibleCount);
@@ -57,7 +57,7 @@ const TravellerPage = () => {
   // change breakpoint
   useEffect(() => {
     // eslint-disable-next-line
-    setVisibleCount(isDeskTop ? 3 : 2);
+    setVisibleCount(isDeskTop ? 6 : 4);
   }, [isDeskTop]);
 
   // todo handlers
