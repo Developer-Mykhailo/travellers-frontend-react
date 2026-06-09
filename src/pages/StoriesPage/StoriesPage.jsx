@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
 import ArrowDown from '../../assets/icons/keyboard_arrow_down.svg?react';
@@ -38,6 +38,8 @@ const StoriesPage = () => {
 
   const visibleStories = items.slice(0, visibleCount);
 
+  const storiesRef = useRef(null);
+
   //! effects
   //fetch stories
   useEffect(() => {
@@ -57,9 +59,19 @@ const StoriesPage = () => {
 
   // breakpoint change
   useEffect(() => {
-    //eslint-disable-next-line
+    // eslint-disable-next-line
     setVisibleCount(isTablet ? 8 : 9);
   }, [isTablet]);
+
+  // scroll
+  useEffect(() => {
+    const liHeight = storiesRef?.current?.firstElementChild?.offsetHeight ?? 0;
+
+    window.scrollBy({
+      top: liHeight + 24,
+      behavior: 'smooth',
+    });
+  }, [visibleCount]);
 
   //todo handlers
   const handleShowMore = () => {
@@ -76,6 +88,7 @@ const StoriesPage = () => {
     hasNextPage && setPage((prev) => prev + 1);
   };
 
+  //
   const handleChangeCategory = (category) => {
     setPage(1);
     setSelectedCategory(category);
@@ -124,7 +137,7 @@ const StoriesPage = () => {
             )}
           </>
 
-          <TravellersStories stories={visibleStories} />
+          <TravellersStories stories={visibleStories} storiesRef={storiesRef} />
 
           {visibleStories.length < totalItems && (
             <Button className={css.showMoreBtn} onClick={handleShowMore}>
