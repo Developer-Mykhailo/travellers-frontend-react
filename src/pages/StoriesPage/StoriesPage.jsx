@@ -63,7 +63,7 @@ const StoriesPage = () => {
     const increment = isTablet ? 4 : 3;
     const nextVisibleCount = visibleCount + increment;
 
-    if (items.length >= nextVisibleCount) {
+    if (items.length > nextVisibleCount) {
       setVisibleCount(nextVisibleCount);
       return;
     }

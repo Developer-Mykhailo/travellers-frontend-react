@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import Container from '../../components/common/Container/Container';
 import Section from '../../components/Section/Section';
 import Button from '../../components/UI/Button/Button';
+import { PER_PAGE } from '../../constants/pagination';
 import MessageNoStories from '../../features/stories/components/MessageNoStories/MessageNoStories';
 import TravellersStories from '../../features/stories/components/TravellersStories/TravellersStories';
 import TravellerInfo from '../../features/travellers/components/TravellerInfo/TravellerInfo';
@@ -18,8 +19,6 @@ import {
 } from '../../features/travellers/store/selectors';
 
 import css from './TravellerPage.module.css';
-
-const PER_PAGE = 6;
 
 const TravellerPage = () => {
   const dispatch = useDispatch();
@@ -39,7 +38,7 @@ const TravellerPage = () => {
   const visibleStories = loadedPublilcStories.slice(0, visibleCount);
 
   //! effects
-  //  traveller
+  //  fetch traveller
   useEffect(() => {
     dispatch(fetchTravellerById(travallerId));
   }, [travallerId, dispatch]);
@@ -67,7 +66,7 @@ const TravellerPage = () => {
 
     const nextVisibleCount = visibleCount + increment;
 
-    if (loadedPublilcStories.length >= nextVisibleCount) {
+    if (loadedPublilcStories.length > nextVisibleCount) {
       setVisibleCount(nextVisibleCount);
       return;
     }
@@ -88,7 +87,7 @@ const TravellerPage = () => {
 
           <TravellersStories stories={visibleStories} />
 
-          {!visibleCount <= visibleStories.length && (
+          {visibleStories.length < loadedPublilcStories.length && (
             <Button className={css.showMoreBtn} onClick={handleShowMore}>
               Show more
             </Button>
