@@ -12,6 +12,7 @@ const publicStoriesSlice = createSlice({
     stories: {
       items: [],
       hasNextPage: false,
+      totalItems: 0,
       isFetchingStories: false,
       storiesError: null,
     },
@@ -45,6 +46,7 @@ const publicStoriesSlice = createSlice({
           : state.stories.items.push(...action.payload.data);
 
         state.stories.hasNextPage = action.payload.hasNextPage;
+        state.stories.totalItems = action.payload.totalItems;
       })
       .addCase(fetchPublicStories.rejected, (state, action) => {
         state.stories.isFetchingStories = false;

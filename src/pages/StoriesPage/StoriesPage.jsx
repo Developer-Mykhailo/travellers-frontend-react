@@ -21,7 +21,7 @@ import css from './StoriesPage.module.css';
 const StoriesPage = () => {
   const dispatch = useDispatch();
 
-  const { items, hasNextPage } = useSelector(selectPublicStories); //state
+  const { items, hasNextPage, totalItems } = useSelector(selectPublicStories); //state
 
   const categories = useSelector(selectCategories);
 
@@ -35,6 +35,9 @@ const StoriesPage = () => {
     () => [{ _id: 'all', name: 'All Stories' }, ...categories],
     [categories]
   );
+
+  const visibleStories = items.slice(0, visibleCount);
+
   //! effects
   //fetch stories
   useEffect(() => {
@@ -78,8 +81,6 @@ const StoriesPage = () => {
     setSelectedCategory(category);
     setVisibleCount(isTablet ? 8 : 9);
   };
-
-  const visibleStories = items.slice(0, visibleCount);
 
   // JSX
   return (
@@ -125,7 +126,7 @@ const StoriesPage = () => {
 
           <TravellersStories stories={visibleStories} />
 
-          {hasNextPage && (
+          {visibleStories.length < totalItems && (
             <Button className={css.showMoreBtn} onClick={handleShowMore}>
               Show more
             </Button>
