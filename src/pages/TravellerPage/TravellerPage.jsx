@@ -15,6 +15,7 @@ import {
 } from '../../features/travellers/store/operation';
 import {
   selectTravellerData,
+  selectTravellerError,
   selectTravellerPublicStories,
 } from '../../features/travellers/store/selectors';
 
@@ -23,6 +24,7 @@ import css from './TravellerPage.module.css';
 const TravellerPage = () => {
   const dispatch = useDispatch();
   const { data } = useSelector(selectTravellerData);
+  const travellerError = useSelector(selectTravellerError);
 
   const loadedPublilcStories = useSelector(selectTravellerPublicStories) || [];
 
@@ -40,19 +42,33 @@ const TravellerPage = () => {
   //! effects
   //  fetch traveller
   useEffect(() => {
+    // eslint-disable-next-line
+    setPage(1);
+    setSlice({ start: 0, end: PER_PAGE });
+
     dispatch(fetchTravellerById(travallerId));
   }, [travallerId, dispatch]);
 
   // fetch traveller stories
   useEffect(() => {
+    if (data._id !== travallerId) return;
+
     const storiesIds = data.publicStories;
 
-    if (storiesIds) {
-      const ids = storiesIds.slice(slice.start, slice.end);
+    if (!storiesIds?.length) return;
 
-      dispatch(fetchTravellerStoriesByIds({ page, ids }));
-    }
-  }, [dispatch, data, page, slice.end, slice.start]);
+    const ids = storiesIds.slice(slice.start, slice.end);
+
+    dispatch(fetchTravellerStoriesByIds({ page, ids }));
+  }, [
+    dispatch,
+    data.publicStories,
+    page,
+    slice.end,
+    slice.start,
+    data._id,
+    travallerId,
+  ]);
 
   // change breakpoint
   useEffect(() => {
@@ -80,7 +96,7 @@ const TravellerPage = () => {
   return (
     <Section className={css.travellerSection}>
       <Container>
-        <TravellerInfo traveller={data} />
+        {!travellerError && <TravellerInfo traveller={data} />}
 
         <article className={css.travellerStrories}>
           <h1 className={css.title}>Traveller's Stories</h1>
@@ -95,7 +111,11 @@ const TravellerPage = () => {
 
           {!visibleStories.length && (
             <MessageNoStories
-              message="This user has not posted any stories yet"
+              message={
+                travellerError
+                  ? 'Sorry, no user found'
+                  : 'This user has not posted any stories yet'
+              }
               messageClassName={css.desktopMessage}
               linkText={'Back to travellers'}
               link={'/travellers'}

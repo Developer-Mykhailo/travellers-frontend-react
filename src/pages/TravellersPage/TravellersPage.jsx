@@ -14,6 +14,7 @@ import css from './TravellersPage.module.css';
 const TravellersPage = () => {
   const dispatch = useDispatch();
   const { items, hasNextPage, totalItems } = useSelector(selectTravellers);
+  // const store = useSelector((state) => state);
 
   const isDeskTop = useMediaQuery({ minWidth: 1440 });
 
@@ -31,6 +32,11 @@ const TravellersPage = () => {
     //eslint-disable-next-line
     setVisibleCount(isDeskTop ? 12 : 8);
   }, [isDeskTop]);
+
+  // // //
+  // useEffect(() => {
+  //   console.log(store);
+  // }, [store]);
 
   //todo handlers
   const handleClick = () => {

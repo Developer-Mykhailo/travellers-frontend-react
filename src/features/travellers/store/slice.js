@@ -29,29 +29,7 @@ const travellersSlice = createSlice({
       },
     },
   },
-  // reducers: {
-  //   setTravellers: (state, action) => {
-  //     state.items = action.payload.data;
-  //     state.hasNextPage = action.payload.hasNextPage;
-  //   },
 
-  //   appendTravellers: (state, action) => {
-  //     state.items.push(...action.payload.data);
-  //     state.hasNextPage = action.payload.hasNextPage;
-  //   },
-
-  //   setUser: (state, action) => {
-  //     state.user = action.payload;
-  //   },
-
-  //   setUserPublicStories: (state, action) => {
-  //     state.userPublicStories = action.payload;
-  //   },
-
-  //   appendUserPublicStories: (state, action) => {
-  //     state.userPublicStories.push(...action.payload);
-  //   },
-  // },
   extraReducers: (builder) => {
     builder
       // travellers
@@ -77,6 +55,9 @@ const travellersSlice = createSlice({
       // traveller by id
       .addCase(fetchTravellerById.pending, (state) => {
         state.oneTraveller.isOneTravellerFetching = true;
+        state.oneTraveller.data = {};
+        state.oneTraveller.travellerPublicStories.items = [];
+        state.oneTraveller.travellerError = null;
       })
       .addCase(fetchTravellerById.fulfilled, (state, { payload }) => {
         state.oneTraveller.isOneTravellerFetching = false;
@@ -108,11 +89,5 @@ const travellersSlice = createSlice({
   },
 });
 
-export const {
-  setTravellers,
-  appendTravellers,
-  setUser,
-  appendUserPublicStories,
-  setUserPublicStories,
-} = travellersSlice.actions;
+// export const { clearTravellerStories } = travellersSlice.actions;
 export default travellersSlice.reducer;
