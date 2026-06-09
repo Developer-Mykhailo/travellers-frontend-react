@@ -22,6 +22,15 @@ const StoryPage = () => {
   // ! effects
   useEffect(() => {
     dispatch(fetchPublicStoryById(storyId));
+
+    document.documentElement.style.scrollBehavior = 'smooth';
+
+    setTimeout(() => {
+      window.scrollTo({
+        top: 120,
+        behavior: 'smooth',
+      });
+    }, 100);
   }, [dispatch, storyId]);
 
   // JSX
