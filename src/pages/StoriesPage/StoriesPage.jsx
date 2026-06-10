@@ -64,14 +64,14 @@ const StoriesPage = () => {
   }, [isTablet]);
 
   // scroll
-  useEffect(() => {
-    const liHeight = storiesRef?.current?.firstElementChild?.offsetHeight ?? 0;
+  // useEffect(() => {
+  //   const liHeight = storiesRef?.current?.firstElementChild?.offsetHeight ?? 0;
 
-    window.scrollBy({
-      top: liHeight + 24,
-      behavior: 'smooth',
-    });
-  }, [visibleCount]);
+  //   window.scrollBy({
+  //     top: liHeight + 24,
+  //     behavior: 'smooth',
+  //   });
+  // }, [visibleCount]);
 
   //todo handlers
   const handleShowMore = () => {

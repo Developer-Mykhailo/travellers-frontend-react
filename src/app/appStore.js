@@ -1,12 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 
+import authReducer from '../features/auth/store/slice';
 import publicStoriesReducer from '../features/stories/store/slice';
-import travellers from '../features/travellers/store/slice';
+import travellersReduser from '../features/travellers/store/slice';
 
 const appStore = configureStore({
   reducer: {
+    auth: authReducer,
     publicStories: publicStoriesReducer,
-    travellers: travellers,
+    travellers: travellersReduser,
   },
 });
 

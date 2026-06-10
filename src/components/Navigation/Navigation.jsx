@@ -1,16 +1,19 @@
 import clsx from 'clsx';
-import { Link, useLocation } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
+import { Link, useLocation } from 'react-router-dom';
+
+import { useSelector } from 'react-redux';
+import { selectIsAuth } from '../../features/auth/store/selectors';
 
 import ui from '../UI/ui.module.css';
 import css from './Navigation.module.css';
 
 const Navigation = ({ place, classList }) => {
+  const isAuth = useSelector(selectIsAuth);
+
   const location = useLocation();
   const isHome = location.pathname === '/';
-  const isDesktop = useMediaQuery({ query: '(min-width: 1440px)' });
-  const isloggedIn = true;
-  // const isloggedIn = false;
+  const isDesktop = useMediaQuery({ minWidth: 1440 });
 
   // JSX
   return (
@@ -32,7 +35,7 @@ const Navigation = ({ place, classList }) => {
 
       {/* //! Login & Registr links */}
 
-      {!isloggedIn && place !== 'footer' && (
+      {!isAuth && place !== 'footer' && (
         <>
           {isDesktop && (
             <li>
@@ -66,7 +69,7 @@ const Navigation = ({ place, classList }) => {
 
       {/* //! Profile & Publish story links */}
 
-      {isloggedIn && place !== 'footer' && (
+      {isAuth && place !== 'footer' && (
         <>
           {isDesktop && (
             <li>

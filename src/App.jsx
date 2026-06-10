@@ -11,8 +11,12 @@ import StoriesPage from './pages/StoriesPage/StoriesPage';
 import StoryPage from './pages/StoryPage/StoryPage';
 import TravellerPage from './pages/TravellerPage/TravellerPage';
 import TravellersPage from './pages/TravellersPage/TravellersPage';
+import { useSelector } from 'react-redux';
+import { selectIsAuth } from './features/auth/store/selectors';
 
 function App() {
+  const isAuth = useSelector(selectIsAuth);
+
   // JSX
   return (
     <Routes>
@@ -27,13 +31,17 @@ function App() {
         </Route>
 
         {/* Private routes */}
-        <Route path="profile" element={<ProfilePage />}>
-          <Route index element={<Navigate to="saved-stories" replace />} />
-          <Route path="saved-stories" element={<SavedStories />} />
-          <Route path="published-stories" element={<PublishedStories />} />
-        </Route>
-        <Route path="stories/create" element={<AddStoryPage />} />
-        <Route path="stories/:storyId/edit" element={<EditStoryPage />} />
+        {isAuth && (
+          <>
+            <Route path="profile" element={<ProfilePage />}>
+              <Route index element={<Navigate to="saved-stories" replace />} />
+              <Route path="saved-stories" element={<SavedStories />} />
+              <Route path="published-stories" element={<PublishedStories />} />
+            </Route>
+            <Route path="stories/create" element={<AddStoryPage />} />
+            <Route path="stories/:storyId/edit" element={<EditStoryPage />} />
+          </>
+        )}
       </Route>
       <Route path="*" element={<h1>Not found</h1>} />
     </Routes>

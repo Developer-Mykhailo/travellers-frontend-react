@@ -13,7 +13,7 @@ const ProfilePage = () => {
   return (
     <Section className={css.profilePage}>
       <Container>
-        <TravellerInfo />
+        {/* <TravellerInfo /> */}
 
         <StoriesToggle />
 
