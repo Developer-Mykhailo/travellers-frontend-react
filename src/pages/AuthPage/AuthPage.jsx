@@ -1,12 +1,21 @@
-import css from './AuthPage.module.css';
-
-import { NavLink, Outlet } from 'react-router-dom';
+import clsx from 'clsx';
+import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import Container from '../../components/common/Container/Container';
 import Section from '../../components/Section/Section';
 
-import clsx from 'clsx';
+import css from './AuthPage.module.css';
 
 const AuthPage = () => {
+  const location = useLocation();
+
+  const title = location.pathname === '/auth/register' ? 'Register' : 'Login';
+
+  const descr =
+    location.pathname === '/auth/register'
+      ? 'Glad to see you in the traveller community!'
+      : 'Welcome back to the traveller community!';
+
+  //
   const buildLinkClass = ({ isActive }) => {
     return clsx(css.link, isActive && css.active);
   };
@@ -28,6 +37,9 @@ const AuthPage = () => {
               </NavLink>
             </li>
           </ul>
+
+          <h1 className={css.title}>{title}</h1>
+          <p className={css.descr}>{descr}</p>
 
           <Outlet />
         </Container>

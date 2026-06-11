@@ -12,6 +12,10 @@
   overflow: hidden;
 }
 
+.avatar {
+  height: 100%;
+}
+
 .contentWrap {
   max-width: 310px;
 }

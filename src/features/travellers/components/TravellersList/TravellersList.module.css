@@ -24,6 +24,10 @@
   margin-bottom: 24px;
 }
 
+.userAvatar {
+  height: 100%;
+}
+
 .userName {
   font-weight: 600;
   font-size: 18px;

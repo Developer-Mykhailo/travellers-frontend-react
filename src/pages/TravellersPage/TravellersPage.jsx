@@ -33,11 +33,6 @@ const TravellersPage = () => {
     setVisibleCount(isDeskTop ? 12 : 8);
   }, [isDeskTop]);
 
-  // // //
-  // useEffect(() => {
-  //   console.log(store);
-  // }, [store]);
-
   //todo handlers
   const handleClick = () => {
     const increment = 4;
