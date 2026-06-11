@@ -13,6 +13,7 @@ import TravellerPage from './pages/TravellerPage/TravellerPage';
 import TravellersPage from './pages/TravellersPage/TravellersPage';
 import { useSelector } from 'react-redux';
 import { selectIsAuth } from './features/auth/store/selectors';
+import AuthPage from './pages/AuthPage/AuthPage';
 
 function App() {
   const isAuth = useSelector(selectIsAuth);
@@ -28,6 +29,13 @@ function App() {
           <Route path="stories/:storyId" element={<StoryPage />} />
           <Route path="travellers" element={<TravellersPage />} />
           <Route path="travellers/:travallerId" element={<TravellerPage />} />
+
+          {/* Regidter */}
+          <Route path="auth" element={<AuthPage />}>
+            <Route index element={<Navigate to="register" replace />} />
+            <Route path="register" element={<h1> Register Form</h1>} />
+            <Route path="login" element={<h1> Login Form</h1>} />
+          </Route>
         </Route>
 
         {/* Private routes */}

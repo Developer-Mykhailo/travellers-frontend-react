@@ -20,6 +20,9 @@ const Header = () => {
   const location = useLocation();
   const isHome = location.pathname === '/';
 
+  const register = location.pathname === '/auth/register';
+  const login = location.pathname === '/auth/login';
+
   // JSX
   return (
     <>
@@ -28,21 +31,28 @@ const Header = () => {
           <nav className={css.nav}>
             <Logo place="header" />
 
-            {(isDesktop || isTablet) && (
-              <Navigation place="header" classList={isHome && css.classList} />
-            )}
+            {!register && !login && (
+              <>
+                {(isDesktop || isTablet) && (
+                  <Navigation
+                    place="header"
+                    classList={isHome && css.classList}
+                  />
+                )}
 
-            {!isDesktop && (
-              <Button
-                className={css.menuBtn}
-                variant={isHome ? 'accent2' : 'secondary'}
-              >
-                <MenuIcon />
-              </Button>
+                {!isDesktop && (
+                  <Button
+                    className={css.menuBtn}
+                    variant={isHome ? 'accent2' : 'secondary'}
+                  >
+                    <MenuIcon />
+                  </Button>
+                )}
+              </>
             )}
           </nav>
 
-          {isAuth && isDesktop && <UserBar />}
+          {!register && !login && isAuth && isDesktop && <UserBar />}
         </Container>
       </header>
     </>

@@ -45,7 +45,7 @@ const Navigation = ({ place, classList }) => {
                     ? clsx(ui.shared, ui.accent2)
                     : clsx(ui.shared, ui.secondary)
                 }
-                to={'/login'}
+                to={'auth/login'}
               >
                 Log In
               </Link>
@@ -59,7 +59,7 @@ const Navigation = ({ place, classList }) => {
                   ? clsx(ui.shared, ui.accent)
                   : clsx(ui.shared, ui.primary)
               }
-              to={'/register'}
+              to={'auth/register'}
             >
               Register
             </Link>
