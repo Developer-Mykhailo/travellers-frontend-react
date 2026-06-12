@@ -29,7 +29,16 @@ const AuthForm = () => {
     try {
       if (register) {
         await dispatch(registerUser(values)).unwrap();
-        navigate('/auth/login');
+
+        await dispatch(
+          loginUser({
+            email: values.email,
+            password: values.password,
+          })
+        ).unwrap();
+
+        navigate('/');
+        //
       } else {
         await dispatch(loginUser(values)).unwrap();
         navigate('/');

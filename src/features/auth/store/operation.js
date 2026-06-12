@@ -7,7 +7,6 @@ export const registerUser = createAsyncThunk(
   async (formData, thunkApi) => {
     try {
       const { data } = await registerUserApi(formData);
-      console.log(data);
 
       return data;
     } catch (error) {

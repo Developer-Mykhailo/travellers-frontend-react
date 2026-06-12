@@ -6,7 +6,6 @@ export const fetchUser = createAsyncThunk(
   async (_, thunkApi) => {
     try {
       const { data } = await fetchUserApi();
-      console.log(data);
 
       return data;
     } catch (error) {
