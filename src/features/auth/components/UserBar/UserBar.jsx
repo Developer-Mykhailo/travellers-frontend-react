@@ -9,6 +9,7 @@ import { fetchUser } from '../../../user/store/operation';
 import { selectUser } from '../../../user/store/selectors';
 
 import css from './UserBar.module.css';
+import { logoutUser } from '../../store/operation';
 
 const UserBar = () => {
   const dispatch = useDispatch();
@@ -17,9 +18,16 @@ const UserBar = () => {
 
   const user = useSelector(selectUser);
 
+  //! effects
   useEffect(() => {
     dispatch(fetchUser());
   }, [dispatch]);
+
+  //todo handlers
+
+  const handleLogout = () => {
+    dispatch(logoutUser());
+  };
 
   // JSX
   return (
@@ -39,6 +47,7 @@ const UserBar = () => {
       <Button
         variant={isHome ? 'accent' : 'secondary'}
         className={isHome ? css.logout : css.logoutAccent}
+        onClick={handleLogout}
       >
         <Logout />
       </Button>
