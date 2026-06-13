@@ -7,6 +7,8 @@ import Edit from '../../../../assets/icons/edit.svg?react';
 
 import ui from '../../../../components/UI/ui.module.css';
 import css from './TravellersStoriesItem.module.css';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../../../user/store/selectors';
 
 const TravellersStoriesItem = ({ story }) => {
   const {
@@ -19,6 +21,8 @@ const TravellersStoriesItem = ({ story }) => {
     date,
     favoriteCount,
   } = story;
+
+  const user = useSelector(selectUser);
 
   const location = useLocation();
 
@@ -38,11 +42,11 @@ const TravellersStoriesItem = ({ story }) => {
 
         <div className={css.userInfoWrap}>
           <div className={css.avatarWrap}>
-            <img src={avatar} alt="avatar" />
+            <img src={avatar ?? user?.avatar} alt="avatar" />
           </div>
 
           <div className={css.userContent}>
-            <p className={css.userName}>{name}</p>
+            <p className={css.userName}>{name ?? user?.name}</p>
 
             <div className={css.userInfo}>
               <span>{date}</span>

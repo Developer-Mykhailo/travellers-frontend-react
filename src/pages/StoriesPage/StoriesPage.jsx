@@ -75,7 +75,7 @@ const StoriesPage = () => {
 
   //todo handlers
   const handleShowMore = () => {
-    const increment = isTablet ? 4 : 3;
+    const increment = isTablet ? 8 : 9;
     const nextVisibleCount = visibleCount + increment;
 
     if (items.length > nextVisibleCount) {
