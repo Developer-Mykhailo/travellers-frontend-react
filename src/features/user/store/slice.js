@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchUser, fetchUserPublicStoriesByIds } from './operation';
+import { fetchUserPublicStoriesByIds } from './operation';
 
 const userSlice = createSlice({
   name: 'user',
@@ -15,23 +15,19 @@ const userSlice = createSlice({
       items: [],
     },
   },
+  reducers: {
+    setUser(state, action) {
+      state.data = action.payload;
+    },
+
+    clearUser(state) {
+      state.data = {};
+    },
+  },
   extraReducers: (buider) => {
     buider
-      // User
-      .addCase(fetchUser.pending, (state) => {
-        state.isUserLoading = true;
-      })
-      .addCase(fetchUser.fulfilled, (state, { payload }) => {
-        state.isUserLoading = false;
-        state.userError = null;
-        state.data = payload;
-      })
-      .addCase(fetchUser.rejected, (state, { payload }) => {
-        state.isUserLoading = false;
-        state.userError = payload;
-      })
 
-      //User Public Stories
+      // #region User Public Stories
       .addCase(fetchUserPublicStoriesByIds.pending, (state) => {
         state.isPublicStoriesLoading = true;
         state.userPublicStories.publicStoriesError = null;
@@ -46,8 +42,13 @@ const userSlice = createSlice({
       .addCase(fetchUserPublicStoriesByIds.rejected, (state, { payload }) => {
         state.isPublicStoriesLoading = false;
         state.userPublicStories.publicStoriesError = payload;
-      });
+      })
+      // #endregion User Public Stories
+
+      .addDefaultCase(() => {});
   },
 });
+
+export const { setUser, clearUser } = userSlice.actions;
 
 export default userSlice.reducer;

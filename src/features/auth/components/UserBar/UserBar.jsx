@@ -18,10 +18,10 @@ const UserBar = () => {
 
   const user = useSelector(selectUser);
 
-  //! effects
-  useEffect(() => {
-    dispatch(fetchUser());
-  }, [dispatch]);
+  // //! effects
+  // useEffect(() => {
+  //   dispatch(fetchUser());
+  // }, [dispatch]);
 
   //todo handlers
 

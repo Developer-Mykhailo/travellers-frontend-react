@@ -1,5 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { loginUserApi, logoutUserApi, registerUserApi } from '../api/authApi';
+import {
+  clearToken,
+  loginUserApi,
+  logoutUserApi,
+  registerUserApi,
+  setToken,
+} from '../api/authApi';
+import { fetchUserApi } from '../../user/api/userApi';
+import { clearUser, setUser } from '../../user/store/slice';
 
 //!
 export const registerUser = createAsyncThunk(
@@ -22,8 +30,37 @@ export const loginUser = createAsyncThunk(
     try {
       const { data } = await loginUserApi(formData);
 
+      const userResponse = await fetchUserApi();
+
+      thunkApi.dispatch(setUser(userResponse.data));
+
       return data;
     } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+  }
+);
+
+//!
+export const initializeAuth = createAsyncThunk(
+  'auth/initialize',
+  async (_, thunkApi) => {
+    try {
+      const token = thunkApi.getState().auth.accessToken;
+      setToken(token);
+
+      if (!token) return null;
+
+      const userResponse = await fetchUserApi();
+
+      thunkApi.dispatch(setUser(userResponse.data));
+
+      return token;
+    } catch (error) {
+      clearToken();
+
+      thunkApi.dispatch(clearUser());
+
       return thunkApi.rejectWithValue(error.message);
     }
   }
@@ -35,6 +72,8 @@ export const logoutUser = createAsyncThunk(
   async (_, thunkApi) => {
     try {
       await logoutUserApi();
+
+      thunkApi.dispatch(clearUser());
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
     }

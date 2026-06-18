@@ -1,8 +1,11 @@
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import PrivateRoute from './components/Layouts/PrivateRoute';
 import PublicLayout from './components/Layouts/PublicLayout';
 import SharedLayout from './components/Layouts/SharedLayout';
 import AuthForm from './features/auth/components/AuthForm/AuthForm';
+import { initializeAuth } from './features/auth/store/operation';
 import PublishedStories from './features/stories/components/PublishedStories/PublishedStories';
 import SavedStories from './features/stories/components/SavedStories/SavedStories';
 import AddStoryPage from './pages/AddStoryPage/AddStoryPage';
@@ -16,6 +19,13 @@ import TravellerPage from './pages/TravellerPage/TravellerPage';
 import TravellersPage from './pages/TravellersPage/TravellersPage';
 
 function App() {
+  const dispatch = useDispatch();
+
+  //! effects
+  useEffect(() => {
+    dispatch(initializeAuth());
+  }, [dispatch]);
+
   // JSX
   return (
     <Routes>

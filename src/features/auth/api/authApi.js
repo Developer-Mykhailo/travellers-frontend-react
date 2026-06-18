@@ -1,6 +1,6 @@
 import { api } from '../../../api/client';
 
-const setToken = (token) =>
+export const setToken = (token) =>
   (api.defaults.headers.common.Authorization = `Bearer ${token}`);
 
 export const clearToken = () => {
@@ -25,11 +25,11 @@ export const loginUserApi = async (formData) => {
 
 //!
 export const logoutUserApi = async () => {
-  clearToken();
-
   try {
     await api.post('/auth/logout');
   } catch (error) {
     console.error(error);
   }
+
+  clearToken();
 };

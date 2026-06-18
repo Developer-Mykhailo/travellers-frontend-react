@@ -1,43 +1,69 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { loginUser, logoutUser, registerUser } from './operation';
+import {
+  loginUser,
+  logoutUser,
+  registerUser,
+  initializeAuth,
+} from './operation';
 
 const authSlice = createSlice({
   name: 'auth',
+
   initialState: {
-    isAuth: false,
     isLoading: false,
     error: null,
     accessToken: '',
+    isAuth: false,
   },
+
   extraReducers: (builder) =>
     builder
-      // register
+      // #region register
       .addCase(registerUser.pending, (state) => {
         state.isLoading = true;
+        state.error = null;
       })
       .addCase(registerUser.fulfilled, (state) => {
         state.isLoading = false;
-        state.error = null;
       })
       .addCase(registerUser.rejected, (state, { payload }) => {
-        state.error = payload;
         state.isLoading = false;
+        state.error = payload;
       })
-      //login
+      // #endregion register
+
+      // #region login
       .addCase(loginUser.pending, (state) => {
         state.isLoading = true;
         state.error = null;
       })
       .addCase(loginUser.fulfilled, (state, { payload }) => {
         state.isLoading = false;
-        state.error = null;
         state.accessToken = payload.accessToken;
         state.isAuth = true;
       })
       .addCase(loginUser.rejected, (state, { payload }) => {
-        state.error = payload;
         state.isLoading = false;
+        state.error = payload;
       })
+      // #endregion login
+
+      // #region initialize
+      .addCase(initializeAuth.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(initializeAuth.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isAuth = Boolean(action.payload);
+      })
+      .addCase(initializeAuth.rejected, (state) => {
+        state.isLoading = false;
+        state.isAuth = false;
+        state.accessToken = '';
+      })
+      // #endregion initialize
+
+      // #region logout
       .addCase(logoutUser.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -50,7 +76,10 @@ const authSlice = createSlice({
       .addCase(logoutUser.rejected, (state) => {
         state.isLoading = false;
         state.isAuth = false;
-      }),
+        state.accessToken = '';
+      })
+      // #endregion logout
+      .addDefaultCase(() => {}),
 });
 
 export default authSlice.reducer;
