@@ -45,8 +45,21 @@
   margin-bottom: 32px;
 }
 
+.copyright {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  font-size: 12px;
+  line-height: 150%;
+  color: var(--color-scheme-1-text);
+  text-align: center;
+  padding-bottom: 27px;
+}
+
 @media (min-width: 768px) {
-  .list {
+  .container {
+    padding: 0;
     max-width: 644px;
   }
 

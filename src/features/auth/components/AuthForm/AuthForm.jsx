@@ -1,10 +1,10 @@
-// import React from 'react'
-
-import { Formik, Form, Field } from 'formik';
-import Button from '../../../../components/UI/Button/Button';
+import { Field, Form, Formik } from 'formik';
 import { useDispatch } from 'react-redux';
-import { loginUser, registerUser } from '../../store/operation';
 import { useLocation, useNavigate } from 'react-router-dom';
+import Button from '../../../../components/UI/Button/Button';
+import { loginUser, registerUser } from '../../store/operation';
+
+import css from './AuthForm.module.css';
 
 const AuthForm = () => {
   const dispatch = useDispatch();
@@ -51,30 +51,51 @@ const AuthForm = () => {
 
   // JSX
   return (
-    <div>
+    <>
       <Formik
         key={register ? 'register' : 'login'}
         initialValues={initialValues}
         onSubmit={handleSubmit}
       >
-        <Form>
+        <Form className={css.form}>
           {register && (
-            <>
-              <label htmlFor="name">Name*</label>
-              <Field name="name" id="name" />
-            </>
+            <div className={css.wrapField}>
+              <label htmlFor="name">
+                Full Name<span className={css.star}>*</span>
+              </label>
+              <Field
+                name="name"
+                id="name"
+                placeholder="Your name and surname"
+              />
+            </div>
           )}
 
-          <label htmlFor="email">Email*</label>
-          <Field name="email" id="email" />
+          <div className={css.wrapField}>
+            <label htmlFor="email">
+              Email<span className={css.star}>*</span>
+            </label>
+            <Field name="email" id="email" />
+          </div>
 
-          <label htmlFor="password">Password*</label>
-          <Field name="password" id="password" type="password" />
+          <div className={css.wrapField}>
+            <label htmlFor="password">
+              Password<span className={css.star}>*</span>
+            </label>
+            <Field
+              name="password"
+              id="password"
+              type="password"
+              placeholder="********"
+            />
+          </div>
 
-          <Button type="submit">{register ? 'Register' : 'Login'}</Button>
+          <Button className={css.submit} type="submit">
+            {register ? 'Register' : 'Login'}
+          </Button>
         </Form>
       </Formik>
-    </div>
+    </>
   );
 };
 

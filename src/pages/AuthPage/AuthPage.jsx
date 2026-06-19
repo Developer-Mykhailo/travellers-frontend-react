@@ -24,7 +24,7 @@ const AuthPage = () => {
   return (
     <>
       <Section>
-        <Container>
+        <Container className={css.container}>
           <ul className={css.list}>
             <li>
               <NavLink className={buildLinkClass} to={'register'}>
@@ -42,6 +42,8 @@ const AuthPage = () => {
           <p className={css.descr}>{descr}</p>
 
           <Outlet />
+
+          <small className={css.copyright}>© 2026 Подорожники</small>
         </Container>
       </Section>
     </>

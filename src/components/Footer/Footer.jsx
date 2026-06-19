@@ -4,23 +4,30 @@ import Container from '../common/Container/Container';
 import Navigation from '../Navigation/Navigation';
 
 import css from './Footer.module.css';
+import { useLocation } from 'react-router-dom';
 
 const Footer = () => {
+  const location = useLocation();
+
+  const forbidden = location.pathname === '/auth/register' || '/auth/login';
+
   // JSX
   return (
     <>
-      <footer className={css.footer}>
-        <Container className={css.footerContainer}>
-          <Logo place="footer" localClass={css.footerLogo} />
-          <Social />
+      {!forbidden && (
+        <footer className={css.footer}>
+          <Container className={css.footerContainer}>
+            <Logo place="footer" localClass={css.footerLogo} />
+            <Social />
 
-          <Navigation classList={css.footerNav} place="footer" />
+            <Navigation classList={css.footerNav} place="footer" />
 
-          <span className={css.copyriht}>
-            <small>© 2025 Travellers. All rights reserved.</small>
-          </span>
-        </Container>
-      </footer>
+            <span className={css.copyriht}>
+              <small>© 2025 Travellers. All rights reserved.</small>
+            </span>
+          </Container>
+        </footer>
+      )}
     </>
   );
 };
