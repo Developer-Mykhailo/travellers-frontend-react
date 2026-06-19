@@ -6,8 +6,6 @@ export const fetchUser = createAsyncThunk(
   'user/fetchUser',
   async (_, thunkApi) => {
     try {
-      // const state = thunkApi.getState();
-
       const { data } = await fetchUserApi();
 
       return data;
