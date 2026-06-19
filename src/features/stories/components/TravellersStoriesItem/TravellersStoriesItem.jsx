@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import { Link, useLocation } from 'react-router-dom';
 import Bookmark from '../../../../assets/icons/bookmark.svg?react';
 import placeholder from '../../../../assets/images/placeholder.jpg';
+import avatarPLaceholder from '../../../../assets/icons/avatar.svg';
 import Button from '../../../../components/UI/Button/Button';
 import Edit from '../../../../assets/icons/edit.svg?react';
 
@@ -42,7 +43,10 @@ const TravellersStoriesItem = ({ story }) => {
 
         <div className={css.userInfoWrap}>
           <div className={css.avatarWrap}>
-            <img src={avatar ?? user?.avatar} alt="avatar" />
+            <img
+              src={avatar ?? (user?.avatar || avatarPLaceholder)}
+              alt="avatar"
+            />
           </div>
 
           <div className={css.userContent}>

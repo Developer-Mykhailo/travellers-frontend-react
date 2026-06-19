@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
-import placeholder1 from '../../../../assets/images/placeholder1.png';
+import avatarPLaceholder from '../../../../assets/icons/avatar.svg';
 
 import ui from '/src/components/UI/ui.module.css';
 import css from './TravellersList.module.css';
@@ -14,7 +14,7 @@ const TravellersList = ({ travellers }) => {
           <li key={user._id} className={css.userItem}>
             <div className={css.avatarWrap}>
               <img
-                src={user?.avatar || placeholder1}
+                src={user?.avatar || avatarPLaceholder}
                 alt="avatar"
                 className={css.userAvatar}
               />

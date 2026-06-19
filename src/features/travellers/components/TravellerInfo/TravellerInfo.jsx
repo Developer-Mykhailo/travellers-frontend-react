@@ -1,4 +1,4 @@
-import placeholder1 from '../../../../assets/images/placeholder1.png';
+import avatarPLaceholder from '../../../../assets/icons/avatar.svg';
 
 import css from './TravellerInfo.module.css';
 
@@ -9,7 +9,7 @@ const TravellerInfo = ({ traveller: { name, avatar, description } }) => {
       <div className={css.imgWrap}>
         <img
           className={css.avatar}
-          src={avatar || placeholder1}
+          src={avatar || avatarPLaceholder}
           alt={description}
         />
       </div>

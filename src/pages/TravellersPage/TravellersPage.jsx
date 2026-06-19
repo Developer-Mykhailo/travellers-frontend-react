@@ -14,7 +14,6 @@ import css from './TravellersPage.module.css';
 const TravellersPage = () => {
   const dispatch = useDispatch();
   const { items, hasNextPage, totalItems } = useSelector(selectTravellers);
-  // const store = useSelector((state) => state);
 
   const isDeskTop = useMediaQuery({ minWidth: 1440 });
 
@@ -22,8 +21,18 @@ const TravellersPage = () => {
   const [visibleCount, setVisibleCount] = useState(isDeskTop ? 12 : 8);
 
   //! effects
-  // fetch travellers
+  // fetch travellers first time
   useEffect(() => {
+    if (page !== 1) return;
+    if (items.length > 0) return;
+
+    dispatch(fetchTravellers({ page, perPage: PER_PAGE }));
+  }, [dispatch, page, items.length]);
+
+  // fetch travellers next time
+  useEffect(() => {
+    if (page === 1) return;
+
     dispatch(fetchTravellers({ page, perPage: PER_PAGE }));
   }, [dispatch, page]);
 

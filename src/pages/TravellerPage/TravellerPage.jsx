@@ -98,7 +98,7 @@ const TravellerPage = () => {
       <Container>
         {!travellerError && <TravellerInfo traveller={data} />}
 
-        <article className={css.travellerStrories}>
+        <div className={css.travellerStrories}>
           <h1 className={css.title}>Traveller's Stories</h1>
 
           <TravellersStories stories={visibleStories} />
@@ -121,7 +121,7 @@ const TravellerPage = () => {
               link={'/travellers'}
             />
           )}
-        </article>
+        </div>
       </Container>
     </Section>
   );
