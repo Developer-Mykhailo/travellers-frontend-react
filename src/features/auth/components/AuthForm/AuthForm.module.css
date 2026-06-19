@@ -18,13 +18,20 @@
     border: 1px solid var(--opacity-neutral-darkest-15);
     border-radius: 8px;
     padding: 10px;
-
     outline: none;
+  }
+  & input:focus {
+    border: 1px solid var(--color-scheme-1-accent);
   }
 }
 
+.errorMessage {
+  font-size: 12px;
+  color: var(--color-red);
+}
+
 .star {
-  color: red;
+  color: var(--color-red);
 }
 
 .submit {

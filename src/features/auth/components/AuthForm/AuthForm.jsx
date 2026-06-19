@@ -1,8 +1,9 @@
-import { Field, Form, Formik } from 'formik';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Button from '../../../../components/UI/Button/Button';
 import { loginUser, registerUser } from '../../store/operation';
+import { getSchema } from './AuthForm.config';
 
 import css from './AuthForm.module.css';
 
@@ -55,6 +56,7 @@ const AuthForm = () => {
       <Formik
         key={register ? 'register' : 'login'}
         initialValues={initialValues}
+        validationSchema={getSchema(register)}
         onSubmit={handleSubmit}
       >
         <Form className={css.form}>
@@ -67,6 +69,12 @@ const AuthForm = () => {
                 name="name"
                 id="name"
                 placeholder="Your name and surname"
+                autoFocus
+              />
+              <ErrorMessage
+                className={css.errorMessage}
+                name="name"
+                component="span"
               />
             </div>
           )}
@@ -75,7 +83,12 @@ const AuthForm = () => {
             <label htmlFor="email">
               Email<span className={css.star}>*</span>
             </label>
-            <Field name="email" id="email" />
+            <Field name="email" id="email" autoFocus={!register} />
+            <ErrorMessage
+              className={css.errorMessage}
+              name="email"
+              component="span"
+            />
           </div>
 
           <div className={css.wrapField}>
@@ -87,6 +100,11 @@ const AuthForm = () => {
               id="password"
               type="password"
               placeholder="********"
+            />
+            <ErrorMessage
+              className={css.errorMessage}
+              name="password"
+              component="span"
             />
           </div>
 
