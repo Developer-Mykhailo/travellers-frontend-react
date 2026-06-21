@@ -7,34 +7,39 @@ import Container from '../../components/common/Container/Container';
 import { PER_PAGE } from '../../constants/pagination.js';
 import TravellersList from '../../features/travellers/components/TravellersList/TravellersList.jsx';
 import { fetchTravellers } from '../../features/travellers/store/operation.js';
-import { selectTravellers } from '../../features/travellers/store/selectors.js';
+import {
+  selectTravellers,
+  selectTravellersStorePage,
+} from '../../features/travellers/store/selectors.js';
 
 import css from './TravellersPage.module.css';
+import { setTravellersStorePage } from '../../features/travellers/store/slice.js';
 
 const TravellersPage = () => {
   const dispatch = useDispatch();
   const { items, hasNextPage, totalItems } = useSelector(selectTravellers);
+  const storePage = useSelector(selectTravellersStorePage); //state
 
   const isDeskTop = useMediaQuery({ minWidth: 1440 });
 
-  const [page, setPage] = useState(1);
   const [visibleCount, setVisibleCount] = useState(isDeskTop ? 12 : 8);
 
   //! effects
   // fetch travellers first time
   useEffect(() => {
-    if (page !== 1) return;
     if (items.length > 0) return;
 
-    dispatch(fetchTravellers({ page, perPage: PER_PAGE }));
-  }, [dispatch, page, items.length]);
+    dispatch(fetchTravellers({ page: 1, perPage: PER_PAGE }));
+  }, [dispatch, items.length]);
 
-  // fetch travellers next time
+  /** next loading */
   useEffect(() => {
-    if (page === 1) return;
+    const hasTobePage = Math.ceil(items.length / PER_PAGE);
 
-    dispatch(fetchTravellers({ page, perPage: PER_PAGE }));
-  }, [dispatch, page]);
+    if (storePage === 1 || hasTobePage >= storePage) return;
+
+    dispatch(fetchTravellers({ page: storePage, perPage: PER_PAGE }));
+  }, [dispatch, storePage, items.length]);
 
   // change breakepoint
   useEffect(() => {
@@ -44,9 +49,7 @@ const TravellersPage = () => {
 
   //todo handlers
   const handleClick = () => {
-    const increment = 4;
-
-    const nextVisibleCount = visibleCount + increment;
+    const nextVisibleCount = visibleCount + 4;
 
     if (items.length >= nextVisibleCount) {
       setVisibleCount(nextVisibleCount);
@@ -55,7 +58,7 @@ const TravellersPage = () => {
 
     setVisibleCount(nextVisibleCount);
 
-    hasNextPage && setPage((prev) => prev + 1);
+    hasNextPage && dispatch(setTravellersStorePage(storePage + 1));
   };
 
   const visibleTravellers = items.slice(0, visibleCount);

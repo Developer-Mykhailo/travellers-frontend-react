@@ -1,12 +1,20 @@
 import { api } from '../../../api/client';
 
 // !
-export const fetchPublicStoriesApi = async (page, perPage, category) => {
+export const fetchPublicStoriesApi = async ({
+  page,
+  perPage,
+  category,
+  sortBy,
+  sortOrder = 'desc',
+}) => {
   const response = await api.get('/stories', {
     params: {
       page,
       perPage,
       category,
+      sortBy,
+      sortOrder,
     },
   });
 

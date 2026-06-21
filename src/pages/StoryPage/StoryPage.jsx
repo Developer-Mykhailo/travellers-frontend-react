@@ -42,7 +42,7 @@ const StoryPage = () => {
           <div className={css.storyData}>
             <p className={css.nameAuthor}>
               <span>Author </span>
-              {owner}
+              {owner?.name}
             </p>
             <p className={css.published}>
               <span>Published </span>

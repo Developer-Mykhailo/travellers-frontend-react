@@ -17,6 +17,8 @@ const travellersSlice = createSlice({
       travellersError: null,
     },
 
+    storePage: 1,
+
     oneTraveller: {
       data: {},
       isOneTravellerFetching: false,
@@ -30,9 +32,18 @@ const travellersSlice = createSlice({
     },
   },
 
+  reducers: {
+    setTravellersStorePage: (state, { payload }) => {
+      state.storePage = payload;
+
+      console.log(payload);
+    },
+  },
+
+  //!
   extraReducers: (builder) => {
     builder
-      // travellers
+      // #region travellers
       .addCase(fetchTravellers.pending, (state) => {
         state.travellersData.isTravellersFetching = true;
       })
@@ -51,8 +62,9 @@ const travellersSlice = createSlice({
         state.travellersData.isTravellersFetching = false;
         state.travellersData.travellersError = payload;
       })
+      // #endregion travellers
 
-      // traveller by id
+      // #region traveller by id
       .addCase(fetchTravellerById.pending, (state) => {
         state.oneTraveller.isOneTravellerFetching = true;
         state.oneTraveller.data = {};
@@ -67,8 +79,9 @@ const travellersSlice = createSlice({
         state.oneTraveller.isOneTravellerFetching = false;
         state.oneTraveller.travellerError = payload;
       })
+      // #endregion traveller by id
 
-      // traveller public stories
+      // #region traveller public stories
       .addCase(fetchTravellerStoriesByIds.pending, (state) => {
         state.oneTraveller.travellerPublicStories.isPublicStoriesFetching = true;
       })
@@ -85,9 +98,11 @@ const travellersSlice = createSlice({
       .addCase(fetchTravellerStoriesByIds.rejected, (state, payload) => {
         state.oneTraveller.travellerPublicStories.isPublicStoriesFetching = false;
         state.oneTraveller.travellerPublicStories.publicStoriesError = payload;
-      });
+      })
+      // #endregion traveller public stories
+      .addDefaultCase();
   },
 });
 
-// export const { clearTravellerStories } = travellersSlice.actions;
+export const { setTravellersStorePage } = travellersSlice.actions;
 export default travellersSlice.reducer;

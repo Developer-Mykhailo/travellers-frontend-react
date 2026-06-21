@@ -8,9 +8,9 @@ import {
 //!
 export const fetchPublicStories = createAsyncThunk(
   'publicStories/fetchPublicStories',
-  async ({ page, perPage, category }, thunkApi) => {
+  async (queryParams, thunkApi) => {
     try {
-      const response = await fetchPublicStoriesApi(page, perPage, category);
+      const response = await fetchPublicStoriesApi(queryParams);
 
       return response;
     } catch (error) {

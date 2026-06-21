@@ -19,11 +19,12 @@ const userSlice = createSlice({
     setUser(state, action) {
       state.data = action.payload;
     },
-
     clearUser(state) {
       state.data = {};
     },
   },
+
+  //!
   extraReducers: (buider) => {
     buider
 
@@ -49,6 +50,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUser, clearUser } = userSlice.actions;
+export const { setUser, clearUser, setUserStorePage } = userSlice.actions;
 
 export default userSlice.reducer;

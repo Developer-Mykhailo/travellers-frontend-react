@@ -13,22 +13,25 @@ import {
 } from '../../features/stories/store/operation';
 import {
   selectCategories,
+  selectCurrentCategory,
   selectPublicStories,
+  selectStorePage,
 } from '../../features/stories/store/selectors';
 
 import css from './StoriesPage.module.css';
+import { setCategory, setStorePage } from '../../features/stories/store/slice';
 
 const StoriesPage = () => {
   const dispatch = useDispatch();
 
   const { items, hasNextPage, totalItems } = useSelector(selectPublicStories); //state
+  const storePage = useSelector(selectStorePage); //state
+  const selectedCategory = useSelector(selectCurrentCategory); //state
 
   const categories = useSelector(selectCategories);
 
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1439 });
 
-  const [page, setPage] = useState(1);
-  const [selectedCategory, setSelectedCategory] = useState(null);
   const [visibleCount, setVisibleCount] = useState(isTablet ? 8 : 9);
 
   const allCategories = useMemo(
@@ -41,37 +44,52 @@ const StoriesPage = () => {
   const storiesRef = useRef(null);
 
   //! effects
-  //fetch stories
+  //fetch stories  /** first loading */
   useEffect(() => {
+    if (items.length > 0) return;
+
     dispatch(
       fetchPublicStories({
-        page,
+        page: 1,
         perPage: PER_PAGE,
         category: selectedCategory === 'All Stories' ? null : selectedCategory,
       })
     );
-  }, [dispatch, page, selectedCategory]);
+  }, [dispatch, selectedCategory, items.length, storePage]);
+
+  //fetch stories  /** next loading */
+  useEffect(() => {
+    const hasTobePage = Math.ceil(items.length / PER_PAGE);
+
+    if (
+      (storePage === 1 || hasTobePage >= storePage) &&
+      selectedCategory === null
+    ) {
+      return;
+    }
+
+    console.log('second', hasTobePage, '\n ');
+
+    dispatch(
+      fetchPublicStories({
+        page: storePage,
+        perPage: PER_PAGE,
+        category: selectedCategory === 'All Stories' ? null : selectedCategory,
+      })
+    );
+  }, [dispatch, selectedCategory, storePage]);
 
   // fetch categories
   useEffect(() => {
+    if (categories.length > 0) return;
     dispatch(fetchCategories());
-  }, [dispatch]);
+  }, [dispatch, categories.length]);
 
   // breakpoint change
   useEffect(() => {
     // eslint-disable-next-line
     setVisibleCount(isTablet ? 8 : 9);
   }, [isTablet]);
-
-  // scroll
-  // useEffect(() => {
-  //   const liHeight = storiesRef?.current?.firstElementChild?.offsetHeight ?? 0;
-
-  //   window.scrollBy({
-  //     top: liHeight + 24,
-  //     behavior: 'smooth',
-  //   });
-  // }, [visibleCount]);
 
   //todo handlers
   const handleShowMore = () => {
@@ -85,13 +103,13 @@ const StoriesPage = () => {
 
     setVisibleCount(nextVisibleCount);
 
-    hasNextPage && setPage((prev) => prev + 1);
+    hasNextPage && dispatch(setStorePage(storePage + 1));
   };
 
   //
   const handleChangeCategory = (category) => {
-    setPage(1);
-    setSelectedCategory(category);
+    dispatch(setStorePage(1));
+    dispatch(setCategory(category));
     setVisibleCount(isTablet ? 8 : 9);
   };
 

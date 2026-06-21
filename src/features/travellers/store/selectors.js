@@ -7,3 +7,5 @@ export const selectTravellerPublicStories = (state) =>
 
 export const selectTravellerError = (state) =>
   state.travellers.oneTraveller.travellerError;
+
+export const selectTravellersStorePage = (state) => state.travellers.storePage;

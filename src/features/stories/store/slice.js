@@ -13,12 +13,14 @@ const publicStoriesSlice = createSlice({
       items: [],
       hasNextPage: false,
       totalItems: 0,
+      storePage: 1,
       isFetchingStories: false,
       storiesError: null,
     },
 
     categories: {
       items: [],
+      selectedCategory: null,
       isFetchingCategories: false,
       categoriesError: null,
     },
@@ -30,10 +32,23 @@ const publicStoriesSlice = createSlice({
     },
   },
 
+  reducers: {
+    setCategory: (state, { payload }) => {
+      state.categories.selectedCategory = payload;
+    },
+    deleteCategory: (state) => {
+      state.categories.selectedCategory = null;
+    },
+
+    setStorePage: (state, { payload }) => {
+      state.stories.storePage = payload;
+    },
+  },
+
   //!---------------------------
   extraReducers: (builder) => {
     builder
-      // Public Stories
+      // #region Public Stories
       .addCase(fetchPublicStories.pending, (state) => {
         state.stories.isFetchingStories = true;
       })
@@ -52,8 +67,9 @@ const publicStoriesSlice = createSlice({
         state.stories.isFetchingStories = false;
         state.stories.storiesError = action.payload;
       })
+      // #endregion Public Stories
 
-      // Categories
+      // #region Categories
       .addCase(fetchCategories.pending, (state) => {
         state.categories.isFetchingCategories = true;
       })
@@ -65,8 +81,9 @@ const publicStoriesSlice = createSlice({
         state.categories.isFetchingCategories = false;
         state.categories.categoriesError = payload;
       })
+      // #endregion Categories
 
-      // Story By Id
+      // #region Story By Id
       .addCase(fetchPublicStoryById.pending, (state) => {
         state.isfetchingStoryById = true;
       })
@@ -78,8 +95,14 @@ const publicStoriesSlice = createSlice({
       .addCase(fetchPublicStoryById.rejected, (state, { payload }) => {
         state.isfetchingStoryById = false;
         state.story.storyError = payload;
-      });
+      })
+      // #endregion Story By Id
+
+      .addDefaultCase();
   },
 });
+
+export const { setCategory, deleteCategory, setStorePage } =
+  publicStoriesSlice.actions;
 
 export default publicStoriesSlice.reducer;
