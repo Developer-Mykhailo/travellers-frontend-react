@@ -13,7 +13,6 @@ const authSlice = createSlice({
     isLoading: false,
     error: null,
     accessToken: '',
-    isAuth: false,
   },
 
   extraReducers: (builder) =>
@@ -30,7 +29,6 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.error = payload;
       })
-      // #endregion register
 
       // #region login
       .addCase(loginUser.pending, (state) => {
@@ -40,7 +38,6 @@ const authSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, { payload }) => {
         state.isLoading = false;
         state.accessToken = payload.accessToken;
-        state.isAuth = true;
       })
       .addCase(loginUser.rejected, (state, { payload }) => {
         state.isLoading = false;
@@ -52,13 +49,11 @@ const authSlice = createSlice({
       .addCase(initializeAuth.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(initializeAuth.fulfilled, (state, action) => {
+      .addCase(initializeAuth.fulfilled, (state) => {
         state.isLoading = false;
-        state.isAuth = Boolean(action.payload);
       })
       .addCase(initializeAuth.rejected, (state) => {
         state.isLoading = false;
-        state.isAuth = false;
         state.accessToken = '';
       })
       // #endregion initialize
@@ -70,12 +65,12 @@ const authSlice = createSlice({
       })
       .addCase(logoutUser.fulfilled, (state) => {
         state.isLoading = false;
-        state.isAuth = false;
+
         state.accessToken = '';
       })
       .addCase(logoutUser.rejected, (state) => {
         state.isLoading = false;
-        state.isAuth = false;
+
         state.accessToken = '';
       })
       // #endregion logout

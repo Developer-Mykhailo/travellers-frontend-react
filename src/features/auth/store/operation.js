@@ -54,8 +54,6 @@ export const initializeAuth = createAsyncThunk(
       const userResponse = await fetchUserApi();
 
       thunkApi.dispatch(setUser(userResponse.data));
-
-      return token;
     } catch (error) {
       clearToken();
 
