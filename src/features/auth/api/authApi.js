@@ -10,6 +10,7 @@ export const clearToken = () => {
 //!
 export const registerUserApi = async (formData) => {
   const { data } = await api.post('auth/register', formData);
+
   return data;
 };
 

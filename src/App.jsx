@@ -56,8 +56,9 @@ function App() {
           <Route path="stories/create" element={<AddStoryPage />} />
           <Route path="stories/:storyId/edit" element={<EditStoryPage />} />
         </Route>
+
+        <Route path="*" element={<h1>Not found</h1>} />
       </Route>
-      <Route path="*" element={<h1>Not found</h1>} />
     </Routes>
   );
 }

@@ -59,8 +59,17 @@ export const initializeAuth = createAsyncThunk(
 
       thunkApi.dispatch(clearUser());
 
-      return thunkApi.rejectWithValue(error.message);
+      return thunkApi.rejectWithValue({
+        message: error.message,
+        status: error.status,
+      });
     }
+  },
+  {
+    condition(_, { getState }) {
+      const { auth } = getState();
+      return Boolean(auth.accessToken);
+    },
   }
 );
 
