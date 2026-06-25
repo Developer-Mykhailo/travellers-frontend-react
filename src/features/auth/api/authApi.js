@@ -25,6 +25,16 @@ export const loginUserApi = async (formData) => {
 };
 
 //!
+export const refreshUserApi = async () => {
+  const { data } = await api.post('auth/refresh');
+  const accessToken = data.data.accessToken;
+
+  setToken(accessToken);
+
+  return data;
+};
+
+//!
 export const logoutUserApi = async () => {
   try {
     await api.post('/auth/logout');

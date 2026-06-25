@@ -4,6 +4,7 @@ import {
   logoutUser,
   registerUser,
   initializeAuth,
+  refreshToken,
 } from './operation';
 
 const initialState = {
@@ -16,13 +17,6 @@ const initialState = {
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-
-  reducers: {
-    setAccessTokenObj(state, { payload }) {
-      state.accessToken = payload.accessToken;
-      state.accessTokenValidUntil = payload.accessTokenValidUntil;
-    },
-  },
 
   //!
   extraReducers: (builder) =>
@@ -57,6 +51,22 @@ const authSlice = createSlice({
       })
       // #endregion login
 
+      // #region refresh
+      .addCase(refreshToken.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(refreshToken.fulfilled, (state, { payload }) => {
+        state.isLoading = false;
+        state.accessToken = payload.accessToken;
+        state.accessTokenValidUntil = payload.accessTokenValidUntil;
+      })
+      .addCase(refreshToken.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        state.error = payload;
+      })
+      // #endregion login
+
       // #region initialize
       .addCase(initializeAuth.pending, (state) => {
         state.isLoading = true;
@@ -84,5 +94,4 @@ const authSlice = createSlice({
       .addDefaultCase(() => {}),
 });
 
-export const { setAccessTokenObj } = authSlice.actions;
 export default authSlice.reducer;

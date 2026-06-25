@@ -1,5 +1,5 @@
 import { appStore } from '../app/appStore';
-import { setAccessTokenObj } from '../Features/AUTH/store/slice';
+import { logoutUser, refreshToken } from '../features/auth/store/operation';
 import { api } from './client';
 
 export const setupInterseptors = () => {
@@ -9,27 +9,20 @@ export const setupInterseptors = () => {
     async (error) => {
       const originalRequest = error.config;
 
-      if (
-        error.response.status === 401 &&
-        !originalRequest._retry &&
-        originalRequest.url !== '/auth/refresh'
-      ) {
+      if (error.response.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
 
         try {
-          const { data } = await api.post('auth/refresh');
+          if (originalRequest.url === 'auth/refresh') throw error;
 
-          originalRequest.headers.Authorization = `Bearer ${data.data.accessToken}`;
+          const payload = await appStore.dispatch(refreshToken()).unwrap();
 
-          appStore.dispatch(
-            setAccessTokenObj({
-              accessToken: data.data.accessToken,
-              accessTokenValidUntil: data.data.accessTokenValidUntil,
-            })
-          );
+          originalRequest.headers.Authorization = `Bearer ${payload.accessToken}`;
 
           return api(originalRequest);
         } catch (refreshError) {
+          appStore.dispatch(logoutUser());
+
           return Promise.reject(refreshError);
         }
       }

@@ -17,6 +17,7 @@ import StoriesPage from './pages/StoriesPage/StoriesPage';
 import StoryPage from './pages/StoryPage/StoryPage';
 import TravellerPage from './pages/TravellerPage/TravellerPage';
 import TravellersPage from './pages/TravellersPage/TravellersPage';
+import TokenMonitor from './components/TokenMonitor/TokenMonitor';
 
 function App() {
   const dispatch = useDispatch();
@@ -28,38 +29,38 @@ function App() {
 
   // JSX
   return (
-    <Routes>
-      <Route path="/" element={<SharedLayout />}>
-        {/* Public routes */}
-        <Route element={<PublicLayout />}>
-          <Route index element={<HomePage />} />
-          <Route path="stories" element={<StoriesPage />} />
-          <Route path="stories/:storyId" element={<StoryPage />} />
-          <Route path="travellers" element={<TravellersPage />} />
-          <Route path="travellers/:travallerId" element={<TravellerPage />} />
-
-          {/* Regidter */}
-          <Route path="auth" element={<AuthPage />}>
-            <Route index element={<Navigate to="register" replace />} />
-            <Route path="register" element={<AuthForm />} />
-            <Route path="login" element={<AuthForm />} />
+    <>
+      <Routes>
+        <Route path="/" element={<SharedLayout />}>
+          {/* Public routes */}
+          <Route element={<PublicLayout />}>
+            <Route index element={<HomePage />} />
+            <Route path="stories" element={<StoriesPage />} />
+            <Route path="stories/:storyId" element={<StoryPage />} />
+            <Route path="travellers" element={<TravellersPage />} />
+            <Route path="travellers/:travallerId" element={<TravellerPage />} />
+            {/* Regidter */}
+            <Route path="auth" element={<AuthPage />}>
+              <Route index element={<Navigate to="register" replace />} />
+              <Route path="register" element={<AuthForm />} />
+              <Route path="login" element={<AuthForm />} />
+            </Route>
           </Route>
-        </Route>
-
-        {/* Private routes */}
-        <Route element={<PrivateRoute />}>
-          <Route path="profile" element={<ProfilePage />}>
-            <Route index element={<Navigate to="saved-stories" replace />} />
-            <Route path="saved-stories" element={<SavedStories />} />
-            <Route path="published-stories" element={<PublishedStories />} />
+          {/* Private routes */}
+          <Route element={<PrivateRoute />}>
+            <Route path="profile" element={<ProfilePage />}>
+              <Route index element={<Navigate to="saved-stories" replace />} />
+              <Route path="saved-stories" element={<SavedStories />} />
+              <Route path="published-stories" element={<PublishedStories />} />
+            </Route>
+            <Route path="stories/create" element={<AddStoryPage />} />
+            <Route path="stories/:storyId/edit" element={<EditStoryPage />} />
           </Route>
-          <Route path="stories/create" element={<AddStoryPage />} />
-          <Route path="stories/:storyId/edit" element={<EditStoryPage />} />
+          <Route path="*" element={<h1>Not found</h1>} />
         </Route>
-
-        <Route path="*" element={<h1>Not found</h1>} />
-      </Route>
-    </Routes>
+      </Routes>
+      <TokenMonitor />
+    </>
   );
 }
 

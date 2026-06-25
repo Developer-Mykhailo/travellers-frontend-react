@@ -3,6 +3,7 @@ import {
   clearToken,
   loginUserApi,
   logoutUserApi,
+  refreshUserApi,
   registerUserApi,
   setToken,
 } from '../api/authApi';
@@ -33,6 +34,20 @@ export const loginUser = createAsyncThunk(
       const userResponse = await fetchUserApi();
 
       thunkApi.dispatch(setUser(userResponse.data));
+
+      return data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+  }
+);
+
+//!
+export const refreshToken = createAsyncThunk(
+  'auth/refresh',
+  async (_, thunkApi) => {
+    try {
+      const { data } = await refreshUserApi();
 
       return data;
     } catch (error) {
