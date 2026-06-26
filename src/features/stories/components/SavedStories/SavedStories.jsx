@@ -51,6 +51,12 @@ const SavedStories = () => {
     // eslint-disable-next-line
   }, [dispatch, page]);
 
+  // breakpoint change
+  useEffect(() => {
+    // eslint-disable-next-line
+    setVisibleCount(isTablet ? 4 : 3);
+  }, [isTablet]);
+
   //todo handlers
   const handleShowMore = () => {
     const increment = isTablet ? 4 : 3;
