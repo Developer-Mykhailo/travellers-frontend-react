@@ -1,20 +1,32 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchUserPublicStoriesByIds } from './operation';
+import {
+  fetchUserPublicStoriesByIds,
+  fetchUserSavedStoriesByIds,
+} from './operation';
+
+const initialState = {
+  isUserLoading: false,
+  userError: null,
+  data: {},
+
+  userPublicStories: {
+    isPublicStoriesLoading: false,
+    publicStoriesError: null,
+    items: [],
+  },
+
+  userSavedStories: {
+    isSavedStoriesLoading: false,
+    savedStoriesError: null,
+    items: [],
+  },
+};
 
 const userSlice = createSlice({
   name: 'user',
 
-  initialState: {
-    isUserLoading: false,
-    userError: null,
-    data: {},
+  initialState,
 
-    userPublicStories: {
-      isPublicStoriesLoading: false,
-      publicStoriesError: null,
-      items: [],
-    },
-  },
   reducers: {
     setUser(state, action) {
       state.data = action.payload;
@@ -43,6 +55,24 @@ const userSlice = createSlice({
       .addCase(fetchUserPublicStoriesByIds.rejected, (state, { payload }) => {
         state.isPublicStoriesLoading = false;
         state.userPublicStories.publicStoriesError = payload;
+      })
+      // #endregion User Public Stories
+
+      // #region User Public Stories
+      .addCase(fetchUserSavedStoriesByIds.pending, (state) => {
+        state.isSavedStoriesLoading = true;
+        state.userSavedStories.savedStoriesError = null;
+      })
+      .addCase(fetchUserSavedStoriesByIds.fulfilled, (state, action) => {
+        state.isSavedStoriesLoading = false;
+
+        action.meta.arg.page === 1
+          ? (state.userSavedStories.items = action.payload.response)
+          : state.userSavedStories.items.push(...action.payload.response);
+      })
+      .addCase(fetchUserSavedStoriesByIds.rejected, (state, { payload }) => {
+        state.isSavedStoriesLoading = false;
+        state.userSavedStories.savedStoriesError = payload;
       })
       // #endregion User Public Stories
 

@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { fetchUserApi } from '../api/userApi';
 import { fetchPublicStoryByIdApi } from '../../stories/api/storiesApi';
 
+//!
 export const fetchUser = createAsyncThunk(
   'user/fetchUser',
   async (_, thunkApi) => {
@@ -15,12 +16,29 @@ export const fetchUser = createAsyncThunk(
   }
 );
 
+//!
 export const fetchUserPublicStoriesByIds = createAsyncThunk(
   'user/fetchUserPublicStoriesByIds',
-  async ({ page, publicIds }, thunkApi) => {
+  async ({ page, storiesIds }, thunkApi) => {
     try {
       const response = await Promise.all(
-        publicIds.map((id) => fetchPublicStoryByIdApi(id))
+        storiesIds.map((id) => fetchPublicStoryByIdApi(id))
+      );
+
+      return { response, page };
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+  }
+);
+
+//!
+export const fetchUserSavedStoriesByIds = createAsyncThunk(
+  'user/fetchUserSavedStoriesByIds',
+  async ({ page, storiesIds }, thunkApi) => {
+    try {
+      const response = await Promise.all(
+        storiesIds.map((id) => fetchPublicStoryByIdApi(id))
       );
 
       return { response, page };

@@ -52,9 +52,6 @@ const Popular = () => {
 
     if (storePage === 1 || hasTobePage >= storePage) return;
 
-    console.log('second');
-    console.log('storePage is', storePage, '\n  ');
-
     dispatch(fetchPublicStories({ page: storePage, perPage: PER_PAGE }));
   }, [dispatch, storePage]);
 
