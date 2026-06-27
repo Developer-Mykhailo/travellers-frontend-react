@@ -34,6 +34,14 @@ const userSlice = createSlice({
     clearUser(state) {
       state.data = {};
     },
+
+    changeSavedStories(state, { payload }) {
+      state.data.savedStories = payload;
+    },
+
+    changeSavedStoriesItems(state, { payload }) {
+      state.userSavedStories.items = payload;
+    },
   },
 
   //!
@@ -80,6 +88,12 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUser, clearUser, setUserStorePage } = userSlice.actions;
+export const {
+  setUser,
+  clearUser,
+  setUserStorePage,
+  changeSavedStoriesItems,
+  changeSavedStories,
+} = userSlice.actions;
 
 export default userSlice.reducer;

@@ -31,7 +31,7 @@ const Popular = () => {
 
   const [visibleCount, setVisibleCount] = useState(isTablet ? 4 : 3);
 
-  const visibleStories = items.slice(0, visibleCount);
+  const visibleStories = items?.slice(0, visibleCount);
 
   // ! effects
   /** first loading */

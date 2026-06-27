@@ -6,7 +6,7 @@ import { PER_PAGE } from '../../../../constants/pagination';
 import { fetchUserSavedStoriesByIds } from '../../../user/store/operation';
 import {
   selectUser,
-  selectUserSavedStories,
+  selectUserSavedStoriesItems,
 } from '../../../user/store/selectors';
 import TravellersStories from '../TravellersStories/TravellersStories';
 
@@ -15,9 +15,7 @@ import css from './SavedStories.module.css';
 const SavedStories = () => {
   const dispatch = useDispatch();
   const { savedStories } = useSelector(selectUser);
-  const userSavedStories = useSelector(selectUserSavedStories);
-
-  const totalStoriesIds = savedStories ?? [];
+  const userSavedStoriesItems = useSelector(selectUserSavedStoriesItems);
 
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1439 });
 
@@ -31,13 +29,13 @@ const SavedStories = () => {
   const storiesIds =
     savedStories?.slice(partToFetch.start, partToFetch.end) ?? [];
 
-  const visibleStories = userSavedStories.slice(0, visibleCount);
+  const visibleStories = userSavedStoriesItems?.slice(0, visibleCount);
 
   //! fetch saved stories
   /** first loading */
   useEffect(() => {
     if (!savedStories?.length) return;
-    if (userSavedStories.length > 0) return;
+    if (userSavedStoriesItems.length > 0) return;
 
     dispatch(fetchUserSavedStoriesByIds({ page, storiesIds }));
     // eslint-disable-next-line
@@ -62,13 +60,12 @@ const SavedStories = () => {
     const increment = isTablet ? 4 : 3;
     const nextVisibleCount = visibleCount + increment;
 
-    if (userSavedStories.length >= nextVisibleCount) {
+    if (userSavedStoriesItems.length >= nextVisibleCount) {
       setVisibleCount(nextVisibleCount);
       return;
     }
 
     setVisibleCount(nextVisibleCount);
-
     setPartToFetch({ start: partToFetch.end, end: partToFetch.end + PER_PAGE });
     setPage((prev) => prev + 1);
   };
@@ -78,7 +75,7 @@ const SavedStories = () => {
     <div>
       <TravellersStories stories={visibleStories} />
 
-      {visibleStories.length < totalStoriesIds.length && (
+      {visibleStories.length < savedStories?.length && (
         <Button onClick={handleShowMore} className={css.viewMoreBtn}>
           View more
         </Button>

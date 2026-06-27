@@ -72,12 +72,6 @@
   margin-right: 8px;
 }
 
-.bookmark {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 /*  */
 .wrapperButtons {
   display: flex;

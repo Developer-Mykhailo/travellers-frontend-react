@@ -5,32 +5,34 @@ import {
   fetchPublicStoryById,
 } from './operation';
 
+const initialState = {
+  stories: {
+    items: [],
+    hasNextPage: false,
+    totalItems: 0,
+    storePage: 1,
+    isFetchingStories: false,
+    storiesError: null,
+  },
+
+  categories: {
+    items: [],
+    selectedCategory: null,
+    isFetchingCategories: false,
+    categoriesError: null,
+  },
+
+  story: {
+    storyData: {},
+    isfetchingStoryById: false,
+    storyError: null,
+  },
+};
+
 const publicStoriesSlice = createSlice({
   name: 'publicStories',
 
-  initialState: {
-    stories: {
-      items: [],
-      hasNextPage: false,
-      totalItems: 0,
-      storePage: 1,
-      isFetchingStories: false,
-      storiesError: null,
-    },
-
-    categories: {
-      items: [],
-      selectedCategory: null,
-      isFetchingCategories: false,
-      categoriesError: null,
-    },
-
-    story: {
-      storyData: {},
-      isfetchingStoryById: false,
-      storyError: null,
-    },
-  },
+  initialState,
 
   reducers: {
     setCategory: (state, { payload }) => {

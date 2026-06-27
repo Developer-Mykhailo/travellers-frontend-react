@@ -8,7 +8,7 @@ const TravellersStories = ({ stories = [], storiesRef }) => {
       <ul className={css.list} ref={storiesRef}>
         {stories.map((story) => (
           <li className={css.item} key={story._id}>
-            <TravellersStoriesItem story={story ?? story} />
+            <TravellersStoriesItem story={story} />
           </li>
         ))}
       </ul>

@@ -1,15 +1,16 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { fetchUserApi } from '../api/userApi';
+import { fetchUserApi, toggleSaveStoryApi } from '../api/userApi';
 import { fetchPublicStoryByIdApi } from '../../stories/api/storiesApi';
+import { setUser } from './slice';
 
 //!
 export const fetchUser = createAsyncThunk(
   'user/fetchUser',
   async (_, thunkApi) => {
     try {
-      const { data } = await fetchUserApi();
+      const userResponse = await fetchUserApi();
 
-      return data;
+      thunkApi.dispatch(setUser(userResponse.data));
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
     }
@@ -42,6 +43,20 @@ export const fetchUserSavedStoriesByIds = createAsyncThunk(
       );
 
       return { response, page };
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+  }
+);
+
+//!
+export const toggleSaveStory = createAsyncThunk(
+  'user/toggleSaveStory',
+  async (id, thunkApi) => {
+    try {
+      const responce = await toggleSaveStoryApi(id);
+
+      return responce;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
     }

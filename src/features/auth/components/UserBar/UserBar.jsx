@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 import placeholderAvatar from '../../../../assets/icons/avatar.svg';
 import Logout from '../../../../assets/icons/logout.svg?react';
 import Button from '../../../../components/UI/Button/Button';
-import { fetchUser } from '../../../user/store/operation';
+
 import { selectUser } from '../../../user/store/selectors';
 
 import css from './UserBar.module.css';
@@ -17,11 +17,6 @@ const UserBar = () => {
   const isHome = location.pathname === '/';
 
   const user = useSelector(selectUser);
-
-  // //! effects
-  // useEffect(() => {
-  //   dispatch(fetchUser());
-  // }, [dispatch]);
 
   //todo handlers
 

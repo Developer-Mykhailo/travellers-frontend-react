@@ -35,8 +35,6 @@ const travellersSlice = createSlice({
   reducers: {
     setTravellersStorePage: (state, { payload }) => {
       state.storePage = payload;
-
-      console.log(payload);
     },
   },
 

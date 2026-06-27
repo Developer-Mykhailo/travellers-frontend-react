@@ -6,3 +6,10 @@ export const fetchUserApi = async () => {
 
   return data;
 };
+
+//!
+export const toggleSaveStoryApi = async (id) => {
+  const { data } = await api.patch(`users/toggle-save-story/${id}`);
+
+  return data;
+};

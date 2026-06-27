@@ -68,8 +68,6 @@ const StoriesPage = () => {
       return;
     }
 
-    console.log('second', hasTobePage, '\n ');
-
     dispatch(
       fetchPublicStories({
         page: storePage,
