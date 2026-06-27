@@ -11,6 +11,7 @@ import {
 import TravellersStories from '../TravellersStories/TravellersStories';
 
 import css from './SavedStories.module.css';
+import MessageNoStories from '../MessageNoStories/MessageNoStories';
 
 const SavedStories = () => {
   const dispatch = useDispatch();
@@ -74,6 +75,14 @@ const SavedStories = () => {
   return (
     <div>
       <TravellersStories stories={visibleStories} />
+
+      {!visibleStories.length && (
+        <MessageNoStories
+          message="You has not saved any stories yet"
+          link="/stories"
+          linkText="Back to stories"
+        />
+      )}
 
       {visibleStories.length < savedStories?.length && (
         <Button onClick={handleShowMore} className={css.viewMoreBtn}>

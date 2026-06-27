@@ -16,7 +16,10 @@ const Join = () => {
             Join a community of travelers who share their stories and inspire
             unforgettable new adventures.
           </p>
-          <Link className={clsx(ui.shared, ui.primary, css.signUp)}>
+          <Link
+            to="/auth/login"
+            className={clsx(ui.shared, ui.primary, css.signUp)}
+          >
             Sign up
           </Link>
         </div>

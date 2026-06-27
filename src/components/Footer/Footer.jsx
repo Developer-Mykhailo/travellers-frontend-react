@@ -8,13 +8,12 @@ import { useLocation } from 'react-router-dom';
 
 const Footer = () => {
   const location = useLocation();
-
-  const forbidden = location.pathname === '/auth/register' || '/auth/login';
+  const forbidden = ['/auth/register', '/auth/login'];
 
   // JSX
   return (
     <>
-      {!forbidden && (
+      {!forbidden.includes(location.pathname) && (
         <footer className={css.footer}>
           <Container className={css.footerContainer}>
             <Logo place="footer" localClass={css.footerLogo} />
