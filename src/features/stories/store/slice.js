@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
+  createStory,
   fetchCategories,
   fetchPublicStories,
   fetchPublicStoryById,
@@ -24,7 +25,7 @@ const initialState = {
 
   story: {
     storyData: {},
-    isfetchingStoryById: false,
+    isLoading: false,
     storyError: null,
   },
 };
@@ -87,18 +88,33 @@ const publicStoriesSlice = createSlice({
 
       // #region Story By Id
       .addCase(fetchPublicStoryById.pending, (state) => {
-        state.isfetchingStoryById = true;
+        state.story.isLoadingStory = true;
       })
       .addCase(fetchPublicStoryById.fulfilled, (state, { payload }) => {
-        state.isfetchingStoryById = false;
+        state.story.isLoading = false;
         state.story.storyData = payload;
         state.story.storyError = null;
       })
       .addCase(fetchPublicStoryById.rejected, (state, { payload }) => {
-        state.isfetchingStoryById = false;
+        state.story.isLoading = false;
         state.story.storyError = payload;
       })
       // #endregion Story By Id
+
+      // #region Create Story
+      .addCase(createStory.pending, (state) => {
+        state.story.isLoading = true;
+        state.story.storyError = null;
+      })
+      .addCase(createStory.fulfilled, (state, { payload }) => {
+        state.story.isLoading = false;
+        state.story.storyData = payload;
+      })
+      .addCase(createStory.rejected, (state, { payload }) => {
+        state.story.isLoading = false;
+        state.story.storyError = payload;
+      })
+      // #endregion Create Story
 
       .addDefaultCase();
   },

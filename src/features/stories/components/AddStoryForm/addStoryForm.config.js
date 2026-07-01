@@ -5,14 +5,12 @@ export const validationSchema = Yup.object({
     .min(3, 'Too Short!')
     .max(50, 'Too Long!')
     .required('Required'),
-  descr: Yup.string()
-    .min(15, 'Too Short!')
-    .max(170, 'Too Long!')
-    .required('Required'),
+
   article: Yup.string()
-    .min(25, 'Too Short!')
+    .min(30, 'Too Short!')
     .max(2043, 'Too Long!')
     .required('Required'),
+
   photo: Yup.mixed()
     .required('Photo is required')
     .test('fileType', 'Only image files are allowed', (value) => {
@@ -29,7 +27,6 @@ export const initialValues = {
   title: '',
   article: '',
   category: '',
-  descr: '',
   photo: null,
 };
 

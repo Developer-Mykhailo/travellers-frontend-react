@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
+  createStoryApi,
   fetchCategoriesApi,
   fetchPublicStoriesApi,
   fetchPublicStoryByIdApi,
@@ -40,6 +41,28 @@ export const fetchCategories = createAsyncThunk(
   async (_, thunkApi) => {
     try {
       const response = await fetchCategoriesApi();
+
+      return response;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+  }
+);
+
+// !
+export const createStory = createAsyncThunk(
+  'publicStories/createStory',
+
+  async (values, thunkApi) => {
+    const formData = new FormData();
+
+    formData.append('title', values.title);
+    formData.append('article', values.article);
+    formData.append('category', values.category);
+    formData.append('photo', values.photo);
+
+    try {
+      const response = await createStoryApi(formData);
 
       return response;
     } catch (error) {

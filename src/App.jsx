@@ -1,9 +1,11 @@
 import { useEffect } from 'react';
+import { Toaster } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import PrivateRoute from './components/Layouts/PrivateRoute';
 import PublicLayout from './components/Layouts/PublicLayout';
 import SharedLayout from './components/Layouts/SharedLayout';
+import TokenMonitor from './components/TokenMonitor/TokenMonitor';
 import AuthForm from './features/auth/components/AuthForm/AuthForm';
 import { initializeAuth } from './features/auth/store/operation';
 import PublishedStories from './features/stories/components/PublishedStories/PublishedStories';
@@ -17,7 +19,6 @@ import StoriesPage from './pages/StoriesPage/StoriesPage';
 import StoryPage from './pages/StoryPage/StoryPage';
 import TravellerPage from './pages/TravellerPage/TravellerPage';
 import TravellersPage from './pages/TravellersPage/TravellersPage';
-import TokenMonitor from './components/TokenMonitor/TokenMonitor';
 
 function App() {
   const dispatch = useDispatch();
@@ -60,6 +61,7 @@ function App() {
         </Route>
       </Routes>
       <TokenMonitor />
+      <Toaster />
     </>
   );
 }

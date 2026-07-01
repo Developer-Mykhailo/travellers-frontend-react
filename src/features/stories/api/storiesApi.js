@@ -32,3 +32,9 @@ export const fetchCategoriesApi = async () => {
   const response = await api.get('/stories/categories');
   return response.data.data;
 };
+
+// !
+export const createStoryApi = async (formData) => {
+  const response = await api.post('/stories', formData);
+  return response.data.data;
+};

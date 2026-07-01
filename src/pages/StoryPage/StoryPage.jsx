@@ -16,11 +16,13 @@ const StoryPage = () => {
 
   const { storyId } = useParams();
 
-  const { owner, title, date, category, article, img } =
-    useSelector(selectStory);
+  const story = useSelector(selectStory);
+  const { owner, title, date, category, article, img, _id } = story;
 
   // ! effects
   useEffect(() => {
+    if (_id === storyId) return;
+
     dispatch(fetchPublicStoryById(storyId));
 
     document.documentElement.style.scrollBehavior = 'smooth';
@@ -31,7 +33,7 @@ const StoryPage = () => {
         behavior: 'smooth',
       });
     }, 100);
-  }, [dispatch, storyId]);
+  }, [dispatch, storyId, _id]);
 
   // JSX
   return (
@@ -48,7 +50,7 @@ const StoryPage = () => {
               <span>Published </span>
               {date}
             </p>
-            <span className={css.category}>{category}</span>
+            <span className={css.category}>{category?.name || category}</span>
           </div>
           <div className={css.wrapImg}>
             <img src={img || placeholder} alt="story picture" />
