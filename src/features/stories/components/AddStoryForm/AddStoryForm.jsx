@@ -86,9 +86,13 @@ const AddStoryForm = () => {
       navigate(`/stories/${_id}`);
 
       resetFormUI(resetForm);
-    } catch (error) {
-      toast.error(error);
-      console.log(error);
+    } catch (message) {
+      toast.error(
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <p>Something went wrong</p>
+          <p>{message}</p>
+        </div>
+      );
     }
   };
 
