@@ -13,13 +13,13 @@ import {
   selectUser,
   selectUserSavedStoriesItems,
 } from '../../../user/store/selectors';
-
-import ui from '../../../../components/UI/ui.module.css';
 import {
   changeSavedStories,
   changeSavedStoriesItems,
 } from '../../../user/store/slice';
 import { fetchPublicStoryById } from '../../store/operation';
+
+import ui from '../../../../components/UI/ui.module.css';
 import css from './TravellersStoriesItem.module.css';
 
 const TravellersStoriesItem = ({ story }) => {
@@ -126,7 +126,11 @@ const TravellersStoriesItem = ({ story }) => {
               <Edit />
             </Link>
           ) : (
-            <Button variant="secondary" onClick={handleToggleSaveStory}>
+            <Button
+              className={saved && css.isSaved}
+              variant="secondary"
+              onClick={handleToggleSaveStory}
+            >
               <Bookmark />
             </Button>
           )}

@@ -93,6 +93,10 @@
   flex-grow: 0;
 }
 
+.isSaved {
+  opacity: 0.3;
+}
+
 @media (min-width: 768px) {
   .wrapImg {
     height: 226px;
