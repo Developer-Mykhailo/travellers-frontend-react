@@ -10,7 +10,7 @@ const EditStoryPage = () => {
       <Container>
         <h1 className="title">Edit Story</h1>
 
-        <AddStoryForm />
+        <AddStoryForm mode="edit" />
       </Container>
     </Section>
   );

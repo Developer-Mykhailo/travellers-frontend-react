@@ -3,35 +3,82 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useEffect, useId, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
 import ArrowDown from '../../../../assets/icons/keyboard_arrow_down.svg?react';
 import placeHolder from '../../../../assets/images/placeholder1.png';
 import Button from '../../../../components/UI/Button/Button';
-import { createStory, fetchCategories } from '../../store/operation';
+import {
+  createStory,
+  fetchCategories,
+  fetchPublicStoryById,
+  updateStory,
+} from '../../store/operation';
 import { selectCategories } from '../../store/selectors';
 import {
   autoResizeTextArea,
   initialValues,
   validationSchema,
 } from './addStoryForm.config';
-
+import { selectUserPublicStories } from '../../../user/store/selectors';
 import css from './AddStoryForm.module.css';
-import { useNavigate } from 'react-router-dom';
+import { setUpdatedStoryItem } from '../../../user/store/slice';
 
-const AddStoryForm = () => {
+const AddStoryForm = ({ mode }) => {
   const dispatch = useDispatch();
-  const categories = useSelector(selectCategories);
-
   const navigate = useNavigate();
+  const categories = useSelector(selectCategories);
+  const storiesRedux = useSelector(selectUserPublicStories);
 
-  const [preview, setPreview] = useState(null);
-  const inputRef = useRef(null);
+  const { storyId } = useParams();
+  const isEdit = mode === 'edit';
+
+  const photoRef = useRef(null);
   const articleRef = useRef(null);
   const id = useId();
 
+  const [preview, setPreview] = useState(null);
+  const [story, setStory] = useState(null);
+
+  const formValues = isEdit
+    ? {
+        title: story?.title ?? '',
+        article: story?.article ?? '',
+        category: story?.category ?? '',
+        photo: null,
+      }
+    : initialValues;
+
   //! effects
+  // fetch story to edit
+  useEffect(() => {
+    if (!isEdit) return;
+
+    const story = storiesRedux.find((item) => item._id === storyId);
+    if (story) {
+      // eslint-disable-next-line
+      setStory(story);
+      setPreview(story.img);
+      return;
+    }
+
+    const getStory = async () => {
+      try {
+        const data = await dispatch(fetchPublicStoryById(storyId)).unwrap();
+
+        setStory(data);
+        setPreview(data.img);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getStory();
+  }, [dispatch, storyId, storiesRedux, isEdit]);
+
   // fetch categories
   useEffect(() => {
     if (categories.length > 0) return;
+
     dispatch(fetchCategories());
   }, [dispatch, categories.length]);
 
@@ -40,17 +87,18 @@ const AddStoryForm = () => {
     resetForm();
     setPreview(null);
 
-    if (inputRef.current) inputRef.current.value = '';
+    if (photoRef.current) photoRef.current.value = '';
 
     if (articleRef.current) articleRef.current.style.height = 'auto';
   };
 
   const handleOpenPicker = () => {
-    inputRef.current?.click();
+    photoRef.current?.click();
   };
 
   const handleFileChange = (e, setFieldValue, setFieldTouched) => {
     const file = e.target.files[0];
+
     setFieldTouched('photo', true);
 
     if (!file) {
@@ -67,7 +115,7 @@ const AddStoryForm = () => {
     setPreview(null);
     setFieldValue('photo', null);
 
-    if (inputRef.current) inputRef.current.value = '';
+    if (photoRef.current) photoRef.current.value = '';
   };
 
   const handleTextAreaChange = (e, setFieldValue) => {
@@ -79,11 +127,19 @@ const AddStoryForm = () => {
 
   const handleSubmit = async (values, { resetForm }) => {
     try {
-      const { _id } = await dispatch(createStory(values)).unwrap();
+      const data = isEdit
+        ? await dispatch(updateStory({ id: storyId, values })).unwrap()
+        : await dispatch(createStory(values)).unwrap();
 
-      toast.success('The story was created successfully!');
+      // console.log('data', data);
 
-      navigate(`/stories/${_id}`);
+      isEdit && dispatch(setUpdatedStoryItem(data));
+
+      isEdit
+        ? toast.success('The story was updated successfully!')
+        : toast.success('The story was created successfully!');
+
+      navigate(`/stories/${data._id}`, { replace: true });
 
       resetFormUI(resetForm);
     } catch (message) {
@@ -100,9 +156,10 @@ const AddStoryForm = () => {
   return (
     <>
       <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
+        initialValues={formValues}
+        validationSchema={validationSchema(isEdit)}
         onSubmit={handleSubmit}
+        enableReinitialize
       >
         {({
           /* receive from formik */ values,
@@ -119,12 +176,12 @@ const AddStoryForm = () => {
               <Form className={css.form}>
                 <div className={css.wrapContent}>
                   <div className={css.wrapImg}>
-                    <img src={preview || placeHolder} alt="preview" />
+                    <img src={preview ?? placeHolder} alt="preview" />
                   </div>
                   <input
                     type="file"
                     name="photo"
-                    ref={inputRef}
+                    ref={photoRef}
                     accept="image/*"
                     id={id + '-file'}
                     style={{ display: 'none' }}
@@ -142,12 +199,18 @@ const AddStoryForm = () => {
                     className={css.uploadPhotoBtn}
                     variant="secondary"
                     onClick={
-                      !values.photo
+                      isEdit
                         ? handleOpenPicker
-                        : () => handleDeletePhoto(setFieldValue)
+                        : !values.photo
+                          ? handleOpenPicker
+                          : () => handleDeletePhoto(setFieldValue)
                     }
                   >
-                    {values.photo ? 'Delete photo' : 'Upload photo'}
+                    {isEdit
+                      ? 'Change photo'
+                      : values.photo
+                        ? 'Delete photo'
+                        : 'Upload photo'}
                   </Button>
                   {/* Title */}
                   <div className={css.wrapField}>
@@ -206,6 +269,7 @@ const AddStoryForm = () => {
                     />
                   </div>
                 </div>
+
                 {/* Save / Calcel */}
                 <div className={css.wrapButtons}>
                   <Button type="submit" disabled={!dirty || !isValid}>

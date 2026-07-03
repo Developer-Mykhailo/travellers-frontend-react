@@ -42,6 +42,17 @@ const userSlice = createSlice({
     changeSavedStoriesItems(state, { payload }) {
       state.userSavedStories.items = payload;
     },
+
+    setUpdatedStoryItem(state, { payload }) {
+      const item = state.userPublicStories.items.find(
+        (item) => item._id === payload._id
+      );
+
+      if (item) {
+        const preparedData = { ...payload, category: payload.category.name };
+        Object.assign(item, preparedData);
+      }
+    },
   },
 
   //!
@@ -94,6 +105,7 @@ export const {
   setUserStorePage,
   changeSavedStoriesItems,
   changeSavedStories,
+  setUpdatedStoryItem,
 } = userSlice.actions;
 
 export default userSlice.reducer;

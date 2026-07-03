@@ -4,6 +4,7 @@ import {
   fetchCategories,
   fetchPublicStories,
   fetchPublicStoryById,
+  updateStory,
 } from './operation';
 
 const initialState = {
@@ -115,6 +116,21 @@ const publicStoriesSlice = createSlice({
         state.story.storyError = payload;
       })
       // #endregion Create Story
+
+      // #region Update Story
+      .addCase(updateStory.pending, (state) => {
+        state.story.isLoading = true;
+        state.story.storyError = null;
+      })
+      .addCase(updateStory.fulfilled, (state, { payload }) => {
+        state.story.isLoading = false;
+        state.story.storyData = payload;
+      })
+      .addCase(updateStory.rejected, (state, { payload }) => {
+        state.story.isLoading = false;
+        state.story.storyError = payload;
+      })
+      // #endregion Update Story
 
       .addDefaultCase();
   },

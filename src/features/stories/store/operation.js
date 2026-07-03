@@ -4,6 +4,7 @@ import {
   fetchCategoriesApi,
   fetchPublicStoriesApi,
   fetchPublicStoryByIdApi,
+  updateStoryApi,
 } from '../api/storiesApi';
 
 //!
@@ -64,6 +65,27 @@ export const createStory = createAsyncThunk(
     try {
       const response = await createStoryApi(formData);
 
+      return response;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+  }
+);
+
+// !
+export const updateStory = createAsyncThunk(
+  'publicStories/updateStory',
+
+  async ({ id, values }, thunkApi) => {
+    const formData = new FormData();
+
+    formData.append('title', values.title);
+    formData.append('article', values.article);
+    formData.append('category', values.category);
+    formData.append('photo', values.photo);
+
+    try {
+      const response = await updateStoryApi(id, formData);
       return response;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);

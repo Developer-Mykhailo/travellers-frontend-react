@@ -38,3 +38,9 @@ export const createStoryApi = async (formData) => {
   const response = await api.post('/stories', formData);
   return response.data.data;
 };
+
+//!
+export const updateStoryApi = async (id, formData) => {
+  const response = await api.patch(`/stories/update-story/${id}`, formData);
+  return response.data.data;
+};
