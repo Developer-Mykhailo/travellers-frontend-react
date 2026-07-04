@@ -82,7 +82,9 @@ export const updateStory = createAsyncThunk(
     formData.append('title', values.title);
     formData.append('article', values.article);
     formData.append('category', values.category);
-    formData.append('photo', values.photo);
+    if (values.photo instanceof File) {
+      formData.append('photo', values.photo);
+    }
 
     try {
       const response = await updateStoryApi(id, formData);

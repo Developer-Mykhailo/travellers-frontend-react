@@ -49,7 +49,11 @@ const userSlice = createSlice({
       );
 
       if (item) {
-        const preparedData = { ...payload, category: payload.category.name };
+        const preparedData = {
+          ...payload,
+          category: payload.category.name,
+          isChanged: true,
+        };
         Object.assign(item, preparedData);
       }
     },

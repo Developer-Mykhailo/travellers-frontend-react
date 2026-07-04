@@ -13,7 +13,7 @@ export const validationSchema = (isEdit) => {
       .required('Required'),
 
     photo: isEdit
-      ? Yup.mixed()
+      ? Yup.mixed().required('Required')
       : Yup.mixed()
           .required('Photo is required')
           .test('fileType', 'Only image files are allowed', (value) => {

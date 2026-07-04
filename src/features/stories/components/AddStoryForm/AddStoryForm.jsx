@@ -47,7 +47,7 @@ const AddStoryForm = ({ mode }) => {
         title: story?.title ?? '',
         article: story?.article ?? '',
         category: story?.category ?? '',
-        photo: null,
+        photo: story?.img ?? '',
       }
     : initialValues;
 
@@ -93,7 +93,7 @@ const AddStoryForm = ({ mode }) => {
   //todo handlers
   const resetFormUI = (resetForm) => {
     resetForm();
-    setPreview(null);
+    setPreview(story.img);
 
     if (photoRef.current) photoRef.current.value = '';
 
@@ -187,8 +187,8 @@ const AddStoryForm = ({ mode }) => {
           handleBlur,
           resetForm,
           setFieldTouched,
-          isValid,
-          dirty,
+          // isValid,
+          // dirty,
         }) => {
           return (
             <>
@@ -293,9 +293,8 @@ const AddStoryForm = ({ mode }) => {
                 {/* Save / Calcel */}
                 <div className={css.wrapButtons}>
                   <div className={css.saveButtons}>
-                    <Button type="submit" disabled={!dirty || !isValid}>
-                      Save
-                    </Button>
+                    {/* <Button type="submit" disabled={!dirty || !isValid}> */}
+                    <Button type="submit">Save</Button>
                     <Button
                       variant="secondary"
                       onClick={() => resetFormUI(resetForm)}
