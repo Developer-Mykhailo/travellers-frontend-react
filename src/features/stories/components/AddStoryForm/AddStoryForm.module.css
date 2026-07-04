@@ -86,10 +86,18 @@
   height: auto;
 }
 
-.wrapButtons {
+.wrapButtons,
+.saveButtons {
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+
+.deleteStory {
+  background-color: red;
+  color: white;
+  margin-top: auto;
+  flex-shrink: 0;
 }
 
 .wrapButtons button {
@@ -138,8 +146,16 @@
 
   .wrapButtons {
     width: 100%;
+  }
+
+  .saveButtons {
+    gap: 24px;
     position: sticky;
     top: 24px;
-    align-self: flex-start;
+  }
+
+  .deleteStory {
+    position: sticky;
+    bottom: 24px;
   }
 }

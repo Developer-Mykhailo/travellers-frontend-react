@@ -7,6 +7,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import ArrowDown from '../../../../assets/icons/keyboard_arrow_down.svg?react';
 import placeHolder from '../../../../assets/images/placeholder1.png';
 import Button from '../../../../components/UI/Button/Button';
+import { deleteMyStory } from '../../../user/store/operation';
+import { selectUserPublicStoriesItems } from '../../../user/store/selectors';
+import { setUpdatedStoryItem } from '../../../user/store/slice';
 import {
   createStory,
   fetchCategories,
@@ -19,15 +22,14 @@ import {
   initialValues,
   validationSchema,
 } from './addStoryForm.config';
-import { selectUserPublicStories } from '../../../user/store/selectors';
+
 import css from './AddStoryForm.module.css';
-import { setUpdatedStoryItem } from '../../../user/store/slice';
 
 const AddStoryForm = ({ mode }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const categories = useSelector(selectCategories);
-  const storiesRedux = useSelector(selectUserPublicStories);
+  const userPublicStoriesItems = useSelector(selectUserPublicStoriesItems);
 
   const { storyId } = useParams();
   const isEdit = mode === 'edit';
@@ -38,6 +40,7 @@ const AddStoryForm = ({ mode }) => {
 
   const [preview, setPreview] = useState(null);
   const [story, setStory] = useState(null);
+  const [isDeletingStory, setIsDeletingStory] = useState(false);
 
   const formValues = isEdit
     ? {
@@ -52,8 +55,9 @@ const AddStoryForm = ({ mode }) => {
   // fetch story to edit
   useEffect(() => {
     if (!isEdit) return;
+    if (isDeletingStory) return;
 
-    const story = storiesRedux.find((item) => item._id === storyId);
+    const story = userPublicStoriesItems.find((item) => item._id === storyId);
     if (story) {
       // eslint-disable-next-line
       setStory(story);
@@ -73,14 +77,18 @@ const AddStoryForm = ({ mode }) => {
     };
 
     getStory();
-  }, [dispatch, storyId, storiesRedux, isEdit]);
+  }, [dispatch, storyId, userPublicStoriesItems, isEdit, isDeletingStory]);
 
   // fetch categories
   useEffect(() => {
     if (categories.length > 0) return;
-
     dispatch(fetchCategories());
   }, [dispatch, categories.length]);
+
+  // scroll to top
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   //todo handlers
   const resetFormUI = (resetForm) => {
@@ -131,8 +139,6 @@ const AddStoryForm = ({ mode }) => {
         ? await dispatch(updateStory({ id: storyId, values })).unwrap()
         : await dispatch(createStory(values)).unwrap();
 
-      // console.log('data', data);
-
       isEdit && dispatch(setUpdatedStoryItem(data));
 
       isEdit
@@ -149,6 +155,20 @@ const AddStoryForm = ({ mode }) => {
           <p>{message}</p>
         </div>
       );
+    }
+  };
+
+  const handleDeleteStory = async () => {
+    setIsDeletingStory(true);
+    try {
+      await dispatch(deleteMyStory(storyId)).unwrap();
+
+      toast.success('The story was deleted successfully!');
+
+      navigate('/profile/published-stories', { replace: true });
+    } catch (error) {
+      toast.error('Oops! Somemthing went wrong!');
+      console.log(error);
     }
   };
 
@@ -272,16 +292,29 @@ const AddStoryForm = ({ mode }) => {
 
                 {/* Save / Calcel */}
                 <div className={css.wrapButtons}>
-                  <Button type="submit" disabled={!dirty || !isValid}>
-                    Save
-                  </Button>
+                  <div className={css.saveButtons}>
+                    <Button type="submit" disabled={!dirty || !isValid}>
+                      Save
+                    </Button>
+                    <Button
+                      variant="secondary"
+                      onClick={() => resetFormUI(resetForm)}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
 
-                  <Button
-                    variant="secondary"
-                    onClick={() => resetFormUI(resetForm)}
-                  >
-                    Cancel
-                  </Button>
+                  {isEdit && (
+                    <>
+                      <Button
+                        className={css.deleteStory}
+                        variant="secondary"
+                        onClick={handleDeleteStory}
+                      >
+                        Delete Story
+                      </Button>
+                    </>
+                  )}
                 </div>
               </Form>
             </>

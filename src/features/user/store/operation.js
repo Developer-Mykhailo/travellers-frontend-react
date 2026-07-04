@@ -1,7 +1,16 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { fetchUserApi, toggleSaveStoryApi } from '../api/userApi';
+import {
+  deleteMyStoryApi,
+  fetchUserApi,
+  toggleSaveStoryApi,
+  udateUserInfoApi,
+} from '../api/userApi';
 import { fetchPublicStoryByIdApi } from '../../stories/api/storiesApi';
-import { setUser } from './slice';
+import {
+  changePublicStoriesIds,
+  changePublicStoriesItems,
+  setUser,
+} from './slice';
 
 //!
 export const fetchUser = createAsyncThunk(
@@ -9,6 +18,20 @@ export const fetchUser = createAsyncThunk(
   async (_, thunkApi) => {
     try {
       const userResponse = await fetchUserApi();
+
+      thunkApi.dispatch(setUser(userResponse.data));
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+  }
+);
+
+//!
+export const udateUserInfo = createAsyncThunk(
+  'user/udateUserInfo',
+  async (changedData, thunkApi) => {
+    try {
+      const userResponse = await udateUserInfoApi(changedData);
 
       thunkApi.dispatch(setUser(userResponse.data));
     } catch (error) {
@@ -57,6 +80,22 @@ export const toggleSaveStory = createAsyncThunk(
       const responce = await toggleSaveStoryApi(id);
 
       return responce;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+  }
+);
+
+//!
+export const deleteMyStory = createAsyncThunk(
+  'publicStories/deleteStory',
+
+  async (id, thunkApi) => {
+    try {
+      await deleteMyStoryApi(id);
+
+      thunkApi.dispatch(changePublicStoriesIds(id));
+      thunkApi.dispatch(changePublicStoriesItems(id));
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
     }

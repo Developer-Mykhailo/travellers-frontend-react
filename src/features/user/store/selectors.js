@@ -1,6 +1,6 @@
 export const selectUser = (state) => state.user.data;
 
-export const selectUserPublicStories = (state) =>
+export const selectUserPublicStoriesItems = (state) =>
   state.user.userPublicStories.items;
 
 export const selectUserSavedStoriesItems = (state) =>

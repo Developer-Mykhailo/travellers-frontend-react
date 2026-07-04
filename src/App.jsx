@@ -5,6 +5,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import PrivateRoute from './components/Layouts/PrivateRoute';
 import PublicLayout from './components/Layouts/PublicLayout';
 import SharedLayout from './components/Layouts/SharedLayout';
+import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 import TokenMonitor from './components/TokenMonitor/TokenMonitor';
 import AuthForm from './features/auth/components/AuthForm/AuthForm';
 import { initializeAuth } from './features/auth/store/operation';
@@ -31,6 +32,7 @@ function App() {
   // JSX
   return (
     <>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<SharedLayout />}>
           {/* Public routes */}

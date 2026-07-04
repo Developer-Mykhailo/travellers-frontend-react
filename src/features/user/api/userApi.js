@@ -13,3 +13,16 @@ export const toggleSaveStoryApi = async (id) => {
 
   return data;
 };
+
+//!
+export const udateUserInfoApi = async (changedData) => {
+  const { data } = await api.post(`users/update-info`, changedData);
+
+  return data;
+};
+
+//!
+export const deleteMyStoryApi = async (id) => {
+  const response = await api.delete(`/stories/${id}`);
+  return response.data.data;
+};

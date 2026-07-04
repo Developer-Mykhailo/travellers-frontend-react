@@ -5,7 +5,7 @@ import { PER_PAGE } from '../../../../constants/pagination';
 import { fetchUserPublicStoriesByIds } from '../../../user/store/operation';
 import {
   selectUser,
-  selectUserPublicStories,
+  selectUserPublicStoriesItems,
 } from '../../../user/store/selectors';
 import TravellersStories from '../TravellersStories/TravellersStories';
 
@@ -15,7 +15,7 @@ import Button from '../../../../components/UI/Button/Button';
 const PublishedStories = () => {
   const dispatch = useDispatch();
   const { publicStories } = useSelector(selectUser);
-  const userPublicStories = useSelector(selectUserPublicStories);
+  const userPublicStories = useSelector(selectUserPublicStoriesItems);
 
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1439 });
 

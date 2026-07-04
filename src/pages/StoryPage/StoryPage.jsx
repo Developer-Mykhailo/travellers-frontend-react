@@ -24,16 +24,11 @@ const StoryPage = () => {
     if (_id === storyId) return;
 
     dispatch(fetchPublicStoryById(storyId));
-
-    document.documentElement.style.scrollBehavior = 'smooth';
-
-    setTimeout(() => {
-      window.scrollTo({
-        top: 120,
-        behavior: 'smooth',
-      });
-    }, 100);
   }, [dispatch, storyId, _id]);
+
+  useEffect(() => {
+    window.scrollTo(0, 236);
+  });
 
   // JSX
   return (

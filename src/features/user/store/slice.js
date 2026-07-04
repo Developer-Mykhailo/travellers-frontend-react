@@ -53,6 +53,18 @@ const userSlice = createSlice({
         Object.assign(item, preparedData);
       }
     },
+
+    changePublicStoriesIds(state, { payload }) {
+      state.data.publicStories = state.data.publicStories.filter(
+        (id) => id !== payload
+      );
+    },
+
+    changePublicStoriesItems(state, { payload }) {
+      state.userPublicStories.items = state.userPublicStories.items.filter(
+        (item) => item._id !== payload
+      );
+    },
   },
 
   //!
@@ -106,6 +118,8 @@ export const {
   changeSavedStoriesItems,
   changeSavedStories,
   setUpdatedStoryItem,
+  changePublicStoriesIds,
+  changePublicStoriesItems,
 } = userSlice.actions;
 
 export default userSlice.reducer;
