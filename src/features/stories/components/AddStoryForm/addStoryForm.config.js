@@ -31,7 +31,7 @@ export const initialValues = {
   title: '',
   article: '',
   category: '',
-  photo: null,
+  photo: null, // ось тут проблема
 };
 
 export const autoResizeTextArea = (el, length) => {

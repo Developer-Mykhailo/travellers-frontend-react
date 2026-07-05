@@ -29,6 +29,9 @@ const initialState = {
     isLoading: false,
     storyError: null,
   },
+
+  draftCreateStory: {},
+  draftEditStory: {},
 };
 
 const publicStoriesSlice = createSlice({
@@ -46,6 +49,14 @@ const publicStoriesSlice = createSlice({
 
     setStorePage: (state, { payload }) => {
       state.stories.storePage = payload;
+    },
+
+    updateCreateDraft: (state, { payload }) => {
+      state.draftCreateStory = payload;
+    },
+
+    updateEditDraft: (state, { payload }) => {
+      state.draftEditStory = payload;
     },
   },
 
@@ -136,7 +147,12 @@ const publicStoriesSlice = createSlice({
   },
 });
 
-export const { setCategory, deleteCategory, setStorePage } =
-  publicStoriesSlice.actions;
+export const {
+  setCategory,
+  deleteCategory,
+  setStorePage,
+  updateEditDraft,
+  updateCreateDraft,
+} = publicStoriesSlice.actions;
 
 export default publicStoriesSlice.reducer;

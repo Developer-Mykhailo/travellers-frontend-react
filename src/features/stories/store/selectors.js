@@ -8,3 +8,9 @@ export const selectCurrentCategory = (state) =>
   state.publicStories.categories.selectedCategory;
 
 export const selectStorePage = (state) => state.publicStories.stories.storePage;
+
+export const selectDraftCreateStory = (state) =>
+  state.publicStories.draftCreateStory;
+
+export const selectDraftEditStory = (state) =>
+  state.publicStories.draftEditStory;

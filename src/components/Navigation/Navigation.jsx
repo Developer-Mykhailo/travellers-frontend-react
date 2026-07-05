@@ -1,8 +1,7 @@
 import clsx from 'clsx';
+import { useSelector } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
 import { Link, useLocation } from 'react-router-dom';
-
-import { useSelector } from 'react-redux';
 import { selectIsAuth } from '../../features/auth/store/selectors';
 
 import ui from '../UI/ui.module.css';
@@ -14,6 +13,7 @@ const Navigation = ({ place, classList }) => {
   const location = useLocation();
   const isHome = location.pathname === '/';
   const isDesktop = useMediaQuery({ minWidth: 1440 });
+  const createStroyPage = location.pathname === '/stories/create';
 
   // JSX
   return (
@@ -82,7 +82,11 @@ const Navigation = ({ place, classList }) => {
               className={
                 isHome
                   ? clsx(ui.shared, ui.accent)
-                  : clsx(ui.shared, ui.primary)
+                  : clsx(
+                      ui.shared,
+                      ui.primary,
+                      createStroyPage && css.disabledLink
+                    )
               }
               to={'/stories/create'}
             >

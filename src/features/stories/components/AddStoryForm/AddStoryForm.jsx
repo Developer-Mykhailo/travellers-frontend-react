@@ -16,12 +16,18 @@ import {
   fetchPublicStoryById,
   updateStory,
 } from '../../store/operation';
-import { selectCategories } from '../../store/selectors';
+import {
+  selectCategories,
+  selectDraftCreateStory,
+  selectDraftEditStory,
+} from '../../store/selectors';
+import { updateCreateDraft, updateEditDraft } from '../../store/slice';
 import {
   autoResizeTextArea,
   initialValues,
   validationSchema,
 } from './addStoryForm.config';
+import DraftSaver from './components/DraftSaver';
 
 import css from './AddStoryForm.module.css';
 
@@ -30,6 +36,8 @@ const AddStoryForm = ({ mode }) => {
   const navigate = useNavigate();
   const categories = useSelector(selectCategories);
   const userPublicStoriesItems = useSelector(selectUserPublicStoriesItems);
+  const draftCreateStory = useSelector(selectDraftCreateStory);
+  const draftEditStory = useSelector(selectDraftEditStory);
 
   const { storyId } = useParams();
   const isEdit = mode === 'edit';
@@ -42,14 +50,28 @@ const AddStoryForm = ({ mode }) => {
   const [story, setStory] = useState(null);
   const [isDeletingStory, setIsDeletingStory] = useState(false);
 
-  const formValues = isEdit
-    ? {
-        title: story?.title ?? '',
-        article: story?.article ?? '',
-        category: story?.category ?? '',
-        photo: story?.img ?? '',
-      }
-    : initialValues;
+  // console.log(preview);
+
+  const oldStory = {
+    title: story?.title ?? '',
+    article: story?.article ?? '',
+    category: story?.category ?? '',
+    photo: story?.img ?? '',
+  };
+
+  function setInitValues(oldStory, initValues, draft) {
+    const storeIsEmty = Object.keys(draft).length === 0;
+
+    if (isEdit) return storeIsEmty ? oldStory : draft;
+
+    return storeIsEmty ? initialValues : draft;
+  }
+
+  const formValues = setInitValues(
+    oldStory,
+    initialValues,
+    isEdit ? draftEditStory : draftCreateStory
+  );
 
   //! effects
   // fetch story to edit
@@ -90,10 +112,21 @@ const AddStoryForm = ({ mode }) => {
     window.scrollTo(0, 0);
   }, []);
 
+  // unmount
+  useEffect(() => {
+    return () => {
+      isEdit ? dispatch(updateEditDraft({})) : dispatch(updateCreateDraft({}));
+    };
+    // eslint-disable-next-line
+  }, []);
+
   //todo handlers
   const resetFormUI = (resetForm) => {
+    isEdit ? dispatch(updateEditDraft({})) : dispatch(updateCreateDraft({}));
+
     resetForm();
-    setPreview(story.img);
+
+    isEdit ? setPreview(story.img) : setPreview(null);
 
     if (photoRef.current) photoRef.current.value = '';
 
@@ -187,13 +220,15 @@ const AddStoryForm = ({ mode }) => {
           handleBlur,
           resetForm,
           setFieldTouched,
-          isValid,
-          dirty,
+          // isValid,
+          // dirty,
         }) => {
           return (
             <>
               <span className={css.cover}>Article cover</span>
               <Form className={css.form}>
+                <DraftSaver />
+
                 <div className={css.wrapContent}>
                   <div className={css.wrapImg}>
                     <img src={preview ?? placeHolder} alt="preview" />
@@ -293,9 +328,8 @@ const AddStoryForm = ({ mode }) => {
                 {/* Save / Calcel */}
                 <div className={css.wrapButtons}>
                   <div className={css.saveButtons}>
-                    <Button type="submit" disabled={!dirty || !isValid}>
-                      Save
-                    </Button>
+                    <Button type="submit">Save</Button>
+
                     <Button
                       variant="secondary"
                       onClick={() => resetFormUI(resetForm)}

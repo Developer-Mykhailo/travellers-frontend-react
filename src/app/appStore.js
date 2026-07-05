@@ -24,13 +24,25 @@ const authPersistConfig = {
   whitelist: ['accessToken', 'accessTokenValidUntil'],
 };
 
+const publicStoriesPersistConfig = {
+  key: 'draftStory',
+  version: 1,
+  storage,
+  whitelist: ['draftCreateStory', 'draftEditStory'],
+};
+
 const persistedAuthReducer = persistReducer(authPersistConfig, authReducer);
+
+const persitPublicStoriesReducer = persistReducer(
+  publicStoriesPersistConfig,
+  publicStoriesReducer
+);
 
 export const appStore = configureStore({
   reducer: {
     auth: persistedAuthReducer,
     user: userReducer,
-    publicStories: publicStoriesReducer,
+    publicStories: persitPublicStoriesReducer,
     travellers: travellersReduser,
   },
   middleware: (getDefaultMiddleware) =>
