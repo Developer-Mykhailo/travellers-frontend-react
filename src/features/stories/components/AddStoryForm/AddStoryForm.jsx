@@ -187,8 +187,8 @@ const AddStoryForm = ({ mode }) => {
           handleBlur,
           resetForm,
           setFieldTouched,
-          // isValid,
-          // dirty,
+          isValid,
+          dirty,
         }) => {
           return (
             <>
@@ -293,8 +293,9 @@ const AddStoryForm = ({ mode }) => {
                 {/* Save / Calcel */}
                 <div className={css.wrapButtons}>
                   <div className={css.saveButtons}>
-                    {/* <Button type="submit" disabled={!dirty || !isValid}> */}
-                    <Button type="submit">Save</Button>
+                    <Button type="submit" disabled={!dirty || !isValid}>
+                      Save
+                    </Button>
                     <Button
                       variant="secondary"
                       onClick={() => resetFormUI(resetForm)}
