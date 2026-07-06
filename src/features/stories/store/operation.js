@@ -88,6 +88,7 @@ export const updateStory = createAsyncThunk(
 
     try {
       const response = await updateStoryApi(id, formData);
+
       return response;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);

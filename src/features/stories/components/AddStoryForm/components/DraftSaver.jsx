@@ -12,20 +12,18 @@ const DraftSaver = () => {
   // eslint-disable-next-line
   const { photo, ...rest } = values;
 
-  delete (
-    // !
-    useEffect(() => {
-      if (pathname !== '/stories/create') return;
+  // !
+  useEffect(() => {
+    if (pathname !== '/stories/create') return;
 
-      const timer = setTimeout(() => {
-        dispatch(updateCreateDraft(rest));
-      }, 1000);
+    const timer = setTimeout(() => {
+      dispatch(updateCreateDraft(rest));
+    }, 1000);
 
-      return () => clearTimeout(timer);
-    }, [dispatch, values, pathname, rest])
-  );
+    return () => clearTimeout(timer);
+  }, [dispatch, values, pathname, rest]);
 
-  //
+  // !
   useEffect(() => {
     if (!pathname.includes('edit')) return;
 

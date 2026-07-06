@@ -13,7 +13,7 @@ export const validationSchema = (isEdit) => {
       .required('Required'),
 
     photo: isEdit
-      ? Yup.mixed().required('Required')
+      ? Yup.mixed().nullable()
       : Yup.mixed()
           .required('Photo is required')
           .test('fileType', 'Only image files are allowed', (value) => {
@@ -31,7 +31,7 @@ export const initialValues = {
   title: '',
   article: '',
   category: '',
-  photo: null, // ось тут проблема
+  photo: null,
 };
 
 export const autoResizeTextArea = (el, length) => {

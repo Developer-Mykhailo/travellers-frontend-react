@@ -49,14 +49,13 @@ const AddStoryForm = ({ mode }) => {
   const [preview, setPreview] = useState(null);
   const [story, setStory] = useState(null);
   const [isDeletingStory, setIsDeletingStory] = useState(false);
-
-  // console.log(preview);
+  const [shouldReinitialize, setShouldReinitialize] = useState(true);
 
   const oldStory = {
-    title: story?.title ?? '',
-    article: story?.article ?? '',
+    title: story?.title?.trim() ?? '',
+    article: story?.article?.trim() ?? '',
     category: story?.category ?? '',
-    photo: story?.img ?? '',
+    photo: null,
   };
 
   function setInitValues(oldStory, initValues, draft) {
@@ -119,6 +118,20 @@ const AddStoryForm = ({ mode }) => {
     };
     // eslint-disable-next-line
   }, []);
+
+  //reinitialize
+  useEffect(() => {
+    if (!shouldReinitialize) return;
+
+    if (isEdit && story) {
+      // eslint-disable-next-line
+      setShouldReinitialize(false);
+    }
+
+    if (!isEdit) {
+      setShouldReinitialize(false);
+    }
+  }, [isEdit, story, shouldReinitialize]);
 
   //todo handlers
   const resetFormUI = (resetForm) => {
@@ -212,16 +225,16 @@ const AddStoryForm = ({ mode }) => {
         initialValues={formValues}
         validationSchema={validationSchema(isEdit)}
         onSubmit={handleSubmit}
-        enableReinitialize
+        enableReinitialize={shouldReinitialize}
       >
         {({
-          /* receive from formik */ values,
+          values,
           setFieldValue,
           handleBlur,
           resetForm,
           setFieldTouched,
-          // isValid,
-          // dirty,
+          isValid,
+          dirty,
         }) => {
           return (
             <>
@@ -233,6 +246,7 @@ const AddStoryForm = ({ mode }) => {
                   <div className={css.wrapImg}>
                     <img src={preview ?? placeHolder} alt="preview" />
                   </div>
+
                   <input
                     type="file"
                     name="photo"
@@ -328,7 +342,9 @@ const AddStoryForm = ({ mode }) => {
                 {/* Save / Calcel */}
                 <div className={css.wrapButtons}>
                   <div className={css.saveButtons}>
-                    <Button type="submit">Save</Button>
+                    <Button type="submit" disabled={!dirty || !isValid}>
+                      Save
+                    </Button>
 
                     <Button
                       variant="secondary"
