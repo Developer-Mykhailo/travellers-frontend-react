@@ -77,9 +77,9 @@ export const toggleSaveStory = createAsyncThunk(
   'user/toggleSaveStory',
   async (id, thunkApi) => {
     try {
-      const responce = await toggleSaveStoryApi(id);
+      const response = await toggleSaveStoryApi(id);
 
-      return responce;
+      return response;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
     }

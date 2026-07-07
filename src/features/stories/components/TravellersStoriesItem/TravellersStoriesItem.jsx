@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import avatarPLaceholder from '../../../../assets/icons/avatar.svg';
 import Bookmark from '../../../../assets/icons/bookmark.svg?react';
@@ -7,17 +7,9 @@ import BookmarkSaved from '../../../../assets/icons/bookmarkSaved.svg?react';
 import Edit from '../../../../assets/icons/edit.svg?react';
 import placeholder from '../../../../assets/images/placeholder.jpg';
 import Button from '../../../../components/UI/Button/Button';
+import { useToggleSaveStory } from '../../../../hooks/useToggleSaveStory';
+import { selectUser } from '../../../user/store/selectors';
 import { selectIsAuth } from '../../../auth/store/selectors';
-import { toggleSaveStory } from '../../../user/store/operation';
-import {
-  selectUser,
-  selectUserSavedStoriesItems,
-} from '../../../user/store/selectors';
-import {
-  changeSavedStories,
-  changeSavedStoriesItems,
-} from '../../../user/store/slice';
-import { fetchPublicStoryById } from '../../store/operation';
 
 import ui from '../../../../components/UI/ui.module.css';
 import css from './TravellersStoriesItem.module.css';
@@ -34,45 +26,19 @@ const TravellersStoriesItem = ({ story }) => {
     favoriteCount,
   } = story;
 
-  const dispatch = useDispatch();
-  const isAuth = useSelector(selectIsAuth);
   const user = useSelector(selectUser);
-  const userSavedStoriesItems = useSelector(selectUserSavedStoriesItems);
-
   const location = useLocation();
+  const toggleSaveStory = useToggleSaveStory();
+  const isAuth = useSelector(selectIsAuth);
 
   const isMyStories = location.pathname === '/profile/published-stories';
 
   const saved = user.savedStories?.includes(_id);
 
   //todo handlers
-  const handleToggleSaveStory = async () => {
-    if (!isAuth) return;
-
+  const handleStoryStatus = async () => {
     try {
-      const response = await dispatch(toggleSaveStory(_id)).unwrap();
-
-      const isSaved = response.data.saved;
-
-      if (isSaved) {
-        // add story
-        const story = await dispatch(fetchPublicStoryById(_id)).unwrap();
-
-        dispatch(changeSavedStories([...user.savedStories, _id]));
-
-        dispatch(changeSavedStoriesItems([...userSavedStoriesItems, story]));
-      } else {
-        // remove
-        dispatch(
-          changeSavedStories(user.savedStories.filter((id) => id !== _id))
-        );
-
-        dispatch(
-          changeSavedStoriesItems(
-            userSavedStoriesItems.filter((story) => story._id !== _id)
-          )
-        );
-      }
+      await toggleSaveStory(_id);
     } catch (error) {
       console.log(error);
     }
@@ -92,10 +58,7 @@ const TravellersStoriesItem = ({ story }) => {
 
         <div className={css.userInfoWrap}>
           <div className={css.avatarWrap}>
-            <img
-              src={avatar ?? (user?.avatar || avatarPLaceholder)}
-              alt="avatar"
-            />
+            <img src={avatar ?? avatarPLaceholder} alt="avatar" />
           </div>
 
           <div className={css.userContent}>
@@ -129,7 +92,9 @@ const TravellersStoriesItem = ({ story }) => {
             <Button
               className={saved && css.isSaved}
               variant="secondary"
-              onClick={handleToggleSaveStory}
+              onClick={() =>
+                isAuth ? handleStoryStatus() : alert('You are not logged in')
+              }
             >
               <Bookmark />
             </Button>

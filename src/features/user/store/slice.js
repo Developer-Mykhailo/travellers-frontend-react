@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
   fetchUserPublicStoriesByIds,
   fetchUserSavedStoriesByIds,
+  toggleSaveStory,
 } from './operation';
 
 const initialState = {
@@ -10,15 +11,20 @@ const initialState = {
   data: {},
 
   userPublicStories: {
-    isPublicStoriesLoading: false,
-    publicStoriesError: null,
     items: [],
+    loading: false,
+    error: null,
   },
 
   userSavedStories: {
-    isSavedStoriesLoading: false,
-    savedStoriesError: null,
     items: [],
+    loading: false,
+    error: null,
+  },
+
+  toggleSaveStory: {
+    loading: false,
+    error: null,
   },
 };
 
@@ -77,39 +83,68 @@ const userSlice = createSlice({
 
       // #region User Public Stories
       .addCase(fetchUserPublicStoriesByIds.pending, (state) => {
-        state.isPublicStoriesLoading = true;
-        state.userPublicStories.publicStoriesError = null;
+        state.loading = true;
+        state.userPublicStories.error = null;
       })
       .addCase(fetchUserPublicStoriesByIds.fulfilled, (state, action) => {
-        state.isPublicStoriesLoading = false;
+        state.loading = false;
 
         action.meta.arg.page === 1
           ? (state.userPublicStories.items = action.payload.response)
           : state.userPublicStories.items.push(...action.payload.response);
       })
       .addCase(fetchUserPublicStoriesByIds.rejected, (state, { payload }) => {
-        state.isPublicStoriesLoading = false;
-        state.userPublicStories.publicStoriesError = payload;
+        state.loading = false;
+        state.userPublicStories.error = payload;
       })
       // #endregion User Public Stories
 
-      // #region User Public Stories
+      // #region User Saved Stories
       .addCase(fetchUserSavedStoriesByIds.pending, (state) => {
-        state.isSavedStoriesLoading = true;
-        state.userSavedStories.savedStoriesError = null;
+        state.loading = true;
+        state.userSavedStories.error = null;
       })
       .addCase(fetchUserSavedStoriesByIds.fulfilled, (state, action) => {
-        state.isSavedStoriesLoading = false;
+        state.loading = false;
 
         action.meta.arg.page === 1
           ? (state.userSavedStories.items = action.payload.response)
           : state.userSavedStories.items.push(...action.payload.response);
       })
       .addCase(fetchUserSavedStoriesByIds.rejected, (state, { payload }) => {
-        state.isSavedStoriesLoading = false;
-        state.userSavedStories.savedStoriesError = payload;
+        state.loading = false;
+        state.userSavedStories.error = payload;
       })
-      // #endregion User Public Stories
+      // #endregion User Saved Stories
+
+      // #region Toggle Saved Story
+      .addCase(toggleSaveStory.pending, (state) => {
+        state.toggleSaveStory.loading = true;
+      })
+      .addCase(toggleSaveStory.fulfilled, (state, { payload }) => {
+        state.toggleSaveStory.loading = false;
+        const isSaved = payload.data.saved;
+        const id = payload.data.updatedStory._id;
+        const story = payload.data.updatedStory;
+
+        if (isSaved) {
+          state.data.savedStories.push(id);
+          state.userSavedStories.items.push(story);
+        } else {
+          state.data.savedStories = state.data.savedStories.filter(
+            (elem) => elem !== id
+          );
+
+          state.userSavedStories.items = state.userSavedStories.items.filter(
+            (story) => story._id !== id
+          );
+        }
+      })
+      .addCase(toggleSaveStory.rejected, (state, { payload }) => {
+        state.toggleSaveStory.loading = false;
+        state.toggleSaveStory.error = payload;
+      })
+      // #endregion Toggle Saved Story Stories
 
       .addDefaultCase(() => {});
   },

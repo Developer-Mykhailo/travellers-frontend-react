@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import StoryActions from '../../Features/STORIES/components/StoryActions/StoryActions';
 import placeholder from '../../assets/images/placeholder.jpg';
 import Popular from '../../components/PopularStories/Popular';
 import Section from '../../components/Section/Section';
-import Button from '../../components/UI/Button/Button';
 import Container from '../../components/common/Container/Container';
 import { fetchPublicStoryById } from '../../features/stories/store/operation';
 import { selectStory } from '../../features/stories/store/selectors';
@@ -27,7 +27,7 @@ const StoryPage = () => {
   }, [dispatch, storyId, _id]);
 
   useEffect(() => {
-    window.scrollTo(0, 236);
+    window.scrollTo(0, 242);
   });
 
   // JSX
@@ -53,13 +53,8 @@ const StoryPage = () => {
 
           <div className={css.contentBox}>
             <p className={css.descr}>{article}</p>
-            <div className={css.saveStoryBox}>
-              <p className={css.saveStorytitle}>Keep the story </p>
-              <p className={css.saveStoryDescr}>
-                It will be available in your profile in the saved section
-              </p>
-              <Button className={css.saveStoryBtn}>Save</Button>
-            </div>
+
+            <StoryActions storyId={_id} owner={owner} />
           </div>
         </Container>
       </Section>
