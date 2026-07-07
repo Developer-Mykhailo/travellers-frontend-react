@@ -36,6 +36,7 @@ const ConfirmModal = ({
   const closeButtonRef = useRef(null);
   const modalRef = useRef(null);
   const previousActiveElementRef = useRef(null);
+  const modalRoot = document.getElementById('modal-root');
 
   const handleBackdropClick = (e) => {
     if (e.target === e.currentTarget) {
@@ -109,6 +110,8 @@ const ConfirmModal = ({
     };
   }, [onClose]);
 
+  if (!modalRoot) return null;
+
   //JSX
   return createPortal(
     <div
@@ -150,7 +153,7 @@ const ConfirmModal = ({
         </div>
       </div>
     </div>,
-    document.body
+    modalRoot
   );
 };
 
