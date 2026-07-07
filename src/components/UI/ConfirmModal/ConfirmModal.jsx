@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useId, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import CloseIcon from '../../../assets/icons/close.svg?react';
 import Button from '../Button/Button';
@@ -31,6 +31,12 @@ const ConfirmModal = ({
   onConfirm,
   onCancel,
 }) => {
+  const titleId = useId();
+  const descrId = useId();
+  const closeButtonRef = useRef(null);
+  const modalRef = useRef(null);
+  const previousActiveElementRef = useRef(null);
+
   const handleBackdropClick = (e) => {
     if (e.target === e.currentTarget) {
       onClose();
@@ -38,16 +44,68 @@ const ConfirmModal = ({
   };
 
   useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape') onClose();
+    previousActiveElementRef.current = document.activeElement;
+
+    const getFocusableElements = () => {
+      if (!modalRef.current) return [];
+
+      return Array.from(
+        modalRef.current.querySelectorAll(
+          'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
+      ).filter((element) => !element.hasAttribute('disabled'));
     };
 
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        onClose();
+        return;
+      }
+
+      if (e.key === 'Tab') {
+        const focusableElements = getFocusableElements();
+
+        if (!focusableElements.length) {
+          e.preventDefault();
+          modalRef.current?.focus();
+          return;
+        }
+
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+        const isShiftTab = e.shiftKey;
+        const activeElement = document.activeElement;
+
+        if (isShiftTab) {
+          if (
+            activeElement === firstElement ||
+            !modalRef.current?.contains(activeElement)
+          ) {
+            e.preventDefault();
+            lastElement.focus();
+          }
+        } else if (
+          activeElement === lastElement ||
+          !modalRef.current?.contains(activeElement)
+        ) {
+          e.preventDefault();
+          firstElement.focus();
+        }
+      }
+    };
+
+    closeButtonRef.current?.focus();
     document.addEventListener('keydown', handleKeyDown);
     document.body.style.overflow = 'hidden';
 
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = '';
+
+      if (previousActiveElementRef.current instanceof HTMLElement) {
+        previousActiveElementRef.current.focus();
+      }
     };
   }, [onClose]);
 
@@ -58,11 +116,12 @@ const ConfirmModal = ({
       onClick={handleBackdropClick}
       role="dialog"
       aria-modal="true"
-      aria-labelledby="confirm-modal-title"
-      aria-describedby="confirm-modal-descr"
+      aria-labelledby={titleId}
+      aria-describedby={descrId}
     >
-      <div className={css.modal}>
+      <div className={css.modal} ref={modalRef} tabIndex={-1}>
         <button
+          ref={closeButtonRef}
           className={css.closeButton}
           onClick={onClose}
           aria-label="Close modal"
@@ -70,10 +129,10 @@ const ConfirmModal = ({
           <CloseIcon />
         </button>
 
-        <p className={css.title} id="confirm-modal-title">
+        <h2 className={css.title} id={titleId}>
           {title}
-        </p>
-        <p className={css.descr} id="confirm-modal-descr">
+        </h2>
+        <p className={css.descr} id={descrId}>
           {descr}
         </p>
 

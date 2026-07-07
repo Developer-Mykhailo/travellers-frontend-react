@@ -53,7 +53,8 @@
   transition: all var(--transition-base);
 }
 
-.closeButton:hover {
+.closeButton:hover,
+.closeButton:focus {
   border: 1px solid var(--color-scheme-2-border);
   background: var(--opacity-neutral-darkest-5);
 }
