@@ -1,0 +1,114 @@
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  position: relative;
+  width: 335px;
+  border-radius: 24px;
+  background: var(--color-scheme-2-background);
+  padding: 64px 20px 20px 20px;
+}
+
+.title {
+  font-family: var(--second-family);
+  font-weight: 700;
+  font-size: 26px;
+  line-height: 120%;
+  letter-spacing: -0.01em;
+  text-align: center;
+  color: var(--color-scheme-1-text);
+  margin-bottom: 16px;
+}
+
+.descr {
+  text-align: center;
+  color: var(--color-scheme-1-text);
+  margin-bottom: 32px;
+}
+
+.closeButton {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  border-color: transparent;
+
+  transition: all var(--transition-base);
+}
+
+.closeButton:hover {
+  border: 1px solid var(--color-scheme-2-border);
+  background: var(--opacity-neutral-darkest-5);
+}
+
+.btnWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.confirmBtn,
+.cancelBtn {
+  min-height: 48px;
+}
+
+@media (min-width: 768px) {
+  .modal {
+    padding: 64px 32px;
+    width: 704px;
+  }
+
+  .title {
+    font-size: 32px;
+  }
+
+  .btnWrap {
+    flex-direction: row;
+    justify-content: center;
+    max-width: 430px;
+    margin: 0 auto;
+
+    & button {
+      flex: 1;
+    }
+  }
+}
+
+@media (min-width: 1440px) {
+  .modal {
+    padding: 64px;
+    width: 768px;
+  }
+
+  .title {
+    max-width: 420px;
+    margin: 0 auto;
+    font-size: 48px;
+    margin-bottom: 16px;
+  }
+
+  .descr {
+    font-size: 20px;
+  }
+
+  .btnWrap button {
+    font-size: 18px;
+  }
+}

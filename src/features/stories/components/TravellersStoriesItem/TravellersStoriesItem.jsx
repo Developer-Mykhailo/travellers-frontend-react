@@ -1,15 +1,17 @@
 import clsx from 'clsx';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import avatarPLaceholder from '../../../../assets/icons/avatar.svg';
 import Bookmark from '../../../../assets/icons/bookmark.svg?react';
 import BookmarkSaved from '../../../../assets/icons/bookmarkSaved.svg?react';
 import Edit from '../../../../assets/icons/edit.svg?react';
 import placeholder from '../../../../assets/images/placeholder.jpg';
 import Button from '../../../../components/UI/Button/Button';
+import ConfirmModal from '../../../../components/UI/ConfirmModal/ConfirmModal';
 import { useToggleSaveStory } from '../../../../hooks/useToggleSaveStory';
-import { selectUser } from '../../../user/store/selectors';
 import { selectIsAuth } from '../../../auth/store/selectors';
+import { selectUser } from '../../../user/store/selectors';
 
 import ui from '../../../../components/UI/ui.module.css';
 import css from './TravellersStoriesItem.module.css';
@@ -30,10 +32,15 @@ const TravellersStoriesItem = ({ story }) => {
   const location = useLocation();
   const toggleSaveStory = useToggleSaveStory();
   const isAuth = useSelector(selectIsAuth);
+  const navigate = useNavigate();
 
   const isMyStories = location.pathname === '/profile/published-stories';
 
   const saved = user.savedStories?.includes(_id);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   //todo handlers
   const handleStoryStatus = async () => {
@@ -43,6 +50,9 @@ const TravellersStoriesItem = ({ story }) => {
       console.log(error);
     }
   };
+
+  const handleConfirm = () => navigate('/auth/login');
+  const handleCancel = () => navigate('/auth/register');
 
   // JSX
   return (
@@ -92,15 +102,25 @@ const TravellersStoriesItem = ({ story }) => {
             <Button
               className={saved && css.isSaved}
               variant="secondary"
-              onClick={() =>
-                isAuth ? handleStoryStatus() : alert('You are not logged in')
-              }
+              onClick={() => (isAuth ? handleStoryStatus() : openModal())}
             >
               <Bookmark />
             </Button>
           )}
         </div>
       </div>
+
+      {isModalOpen && (
+        <ConfirmModal
+          onClose={closeModal}
+          title="Error while saving"
+          descr="To save the article, you need to log in, if you don't have an account yet, register"
+          confirmButtonText="Login"
+          cancelButtonText="Register"
+          onConfirm={handleConfirm}
+          onCancel={handleCancel}
+        ></ConfirmModal>
+      )}
     </>
   );
 };
