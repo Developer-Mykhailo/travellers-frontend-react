@@ -1,51 +1,78 @@
 import clsx from 'clsx';
-import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import placeholderAvatar from '../../../../assets/icons/avatar.svg';
 import Logout from '../../../../assets/icons/logout.svg?react';
 import Button from '../../../../components/UI/Button/Button';
-
+import ConfirmModal from '../../../../components/UI/ConfirmModal/ConfirmModal';
+import { useModalState } from '../../../../hooks/useModalState';
 import { selectUser } from '../../../user/store/selectors';
-
-import css from './UserBar.module.css';
 import { logoutUser } from '../../store/operation';
 
+import css from './UserBar.module.css';
+
+/**
+ * UserBar component.
+ * Renders the current user's avatar, first name and a logout button.
+ * The logout action shows a confirmation modal before dispatching.
+ *
+ * @returns {JSX.Element}
+ */
 const UserBar = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const isHome = location.pathname === '/';
+  const { isOpen: isModalOpen, openModal, closeModal } = useModalState();
 
-  const user = useSelector(selectUser);
+  const { avatar, name } = useSelector(selectUser) ?? {};
 
-  //todo handlers
+  const firstName = name?.trim().split(' ')[0] ?? '';
 
-  const handleLogout = () => {
-    dispatch(logoutUser());
+  const avatarSrc = avatar || placeholderAvatar;
+
+  // Handlers
+  /**
+   * Dispatch logout operation and ensure modal is closed afterwards.
+   * @returns {Promise<void>}
+   */
+  const handleLogout = async () => {
+    try {
+      await dispatch(logoutUser());
+    } finally {
+      closeModal();
+    }
   };
 
   // JSX
   return (
     <div className={css.userBar}>
       <div className={css.wrapAvatar}>
-        {user?.avatar ? (
-          <img src={user.avatar} alt="User avatar" />
-        ) : (
-          <img src={placeholderAvatar} alt="avatar" />
-        )}
+        <img src={avatarSrc} alt="User avatar" />
       </div>
 
       <p className={clsx(css.userName, isHome && css.nameAccent)}>
-        {user?.name && user.name.trim().split(' ')[0]}
+        {firstName}
       </p>
 
       <Button
         variant={isHome ? 'accent' : 'secondary'}
         className={isHome ? css.logout : css.logoutAccent}
-        onClick={handleLogout}
+        onClick={openModal}
       >
         <Logout />
       </Button>
+
+      {isModalOpen && (
+        <ConfirmModal
+          onClose={closeModal}
+          title="Are you sure you want to exit?"
+          descr="We will miss you!"
+          confirmButtonText="Log out"
+          cancelButtonText="Cancel"
+          onConfirm={handleLogout}
+          onCancel={() => closeModal()}
+        />
+      )}
     </div>
   );
 };
