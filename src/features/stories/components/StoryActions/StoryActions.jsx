@@ -1,28 +1,55 @@
 import clsx from 'clsx';
 import { useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import Button from '../../../../components/UI/Button/Button';
+import ConfirmModal from '../../../../components/UI/ConfirmModal/ConfirmModal';
+import { useModalState } from '../../../../hooks/useModalState';
 import { useToggleSaveStory } from '../../../../hooks/useToggleSaveStory';
 import { selectIsAuth } from '../../../auth/store/selectors';
-import { selectUser } from '../../../user/store/selectors';
+import {
+  selectUser,
+  selectUserPublicStoriesItems,
+} from '../../../user/store/selectors';
 
 import ui from '../../../../components/UI/ui.module.css';
 import css from './StoryActions.module.css';
 
+/**
+ * Story action controls (save, edit) shown on a story page.
+ *
+ * @param {{ storyId?: string, owner?: { id?: string } }} props
+ * @returns {JSX.Element}
+ */
 const StoryActions = ({ storyId, owner }) => {
+  const navigate = useNavigate();
+
   const user = useSelector(selectUser);
 
   const isAuth = useSelector(selectIsAuth);
   const toggleSaveStory = useToggleSaveStory();
 
-  const currentStoryId = user?.savedStories?.find((elem) => elem === storyId);
+  const userPublicStoriesItems = useSelector(selectUserPublicStoriesItems);
+
+  const currentStoryId = user?.savedStories?.includes(storyId);
 
   const isSaved = Boolean(currentStoryId);
 
-  const isMyStory = owner?.id === user?._id;
+  const isOwnerMatch = Boolean(owner?.id && user?._id && owner.id === user._id);
+  const isInUserPublicIds = Boolean(user?.publicStories?.includes(storyId));
+  const isInUserPublicItems = Boolean(
+    userPublicStoriesItems?.some((item) => item._id === storyId)
+  );
+  const isMyStory = isOwnerMatch || isInUserPublicIds || isInUserPublicItems;
 
-  const titleMessage = isSaved ? 'Story is saved' : 'Keep the story';
-  const descrMessage =
-    'It will be available in your profile in the saved section';
+  const { isOpen: isModalOpen, openModal, closeModal } = useModalState();
+
+  const titleMessage = isSaved ? 'Story is saved' : 'Save this story';
+  const descrMessage = !isSaved
+    ? 'It will be available in your profile in the saved section'
+    : 'This story is in your saved list';
+
+  const handleConfirm = () => navigate('/auth/login');
+  const handleCancel = () => navigate('/auth/register');
 
   // JSX
   return (
@@ -32,23 +59,31 @@ const StoryActions = ({ storyId, owner }) => {
         <p className={css.storyActionsDescr}>{descrMessage}</p>
 
         {isMyStory && (
-          <a
+          <Link
+            to={`/stories/${storyId}/edit`}
             className={clsx(ui.shared, ui.secondary, css.link)}
-            href={`/stories/${storyId}/edit`}
           >
             Edit
-          </a>
+          </Link>
         )}
 
         <Button
           className={css.saveStoryBtn}
           onClick={() =>
-            isAuth ? toggleSaveStory(storyId) : alert('You are not logged in')
+            isAuth ? (storyId ? toggleSaveStory(storyId) : null) : openModal()
           }
         >
-          {!isSaved ? 'Save' : ' Remove'}
+          {!isSaved ? 'Save' : 'Remove'}
         </Button>
       </div>
+
+      {isModalOpen && (
+        <ConfirmModal
+          onClose={closeModal}
+          onConfirm={handleConfirm}
+          onCancel={handleCancel}
+        />
+      )}
     </>
   );
 };

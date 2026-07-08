@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import avatarPLaceholder from '../../../../assets/icons/avatar.svg';
@@ -9,6 +8,7 @@ import Edit from '../../../../assets/icons/edit.svg?react';
 import placeholder from '../../../../assets/images/placeholder.jpg';
 import Button from '../../../../components/UI/Button/Button';
 import ConfirmModal from '../../../../components/UI/ConfirmModal/ConfirmModal';
+import { useModalState } from '../../../../hooks/useModalState';
 import { useToggleSaveStory } from '../../../../hooks/useToggleSaveStory';
 import { selectIsAuth } from '../../../auth/store/selectors';
 import { selectUser } from '../../../user/store/selectors';
@@ -38,9 +38,7 @@ const TravellersStoriesItem = ({ story }) => {
 
   const saved = user.savedStories?.includes(_id);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const { isOpen: isModalOpen, openModal, closeModal } = useModalState();
 
   //todo handlers
   const handleStoryStatus = async () => {
@@ -113,13 +111,9 @@ const TravellersStoriesItem = ({ story }) => {
       {isModalOpen && (
         <ConfirmModal
           onClose={closeModal}
-          title="Error while saving"
-          descr="To save the article, you need to log in, if you don't have an account yet, register"
-          confirmButtonText="Login"
-          cancelButtonText="Register"
           onConfirm={handleConfirm}
           onCancel={handleCancel}
-        ></ConfirmModal>
+        />
       )}
     </>
   );

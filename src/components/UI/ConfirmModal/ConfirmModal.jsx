@@ -24,10 +24,10 @@ import css from './ConfirmModal.module.css';
  */
 const ConfirmModal = ({
   onClose,
-  title,
-  descr,
-  confirmButtonText,
-  cancelButtonText,
+  title = 'Error while saving',
+  descr = 'To save the article, you need to log in, if you do not have an account yet, register',
+  confirmButtonText = 'Login',
+  cancelButtonText = 'Register',
   onConfirm,
   onCancel,
 }) => {
@@ -38,6 +38,7 @@ const ConfirmModal = ({
   const previousActiveElementRef = useRef(null);
   const modalRoot = document.getElementById('modal-root');
 
+  // Close the dialog when the user clicks on the backdrop rather than the content.
   const handleBackdropClick = (e) => {
     if (e.target === e.currentTarget) {
       onClose();
@@ -47,14 +48,13 @@ const ConfirmModal = ({
   useEffect(() => {
     previousActiveElementRef.current = document.activeElement;
 
+    // Collect the interactive controls so keyboard navigation stays inside the modal.
     const getFocusableElements = () => {
       if (!modalRef.current) return [];
 
       return Array.from(
-        modalRef.current.querySelectorAll(
-          'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
-        )
-      ).filter((element) => !element.hasAttribute('disabled'));
+        modalRef.current.querySelectorAll('button:not([disabled]), a[href]')
+      );
     };
 
     const handleKeyDown = (e) => {
@@ -126,7 +126,7 @@ const ConfirmModal = ({
         <button
           ref={closeButtonRef}
           className={css.closeButton}
-          onClick={onClose}
+          onClick={() => onClose()}
           aria-label="Close modal"
         >
           <CloseIcon />
