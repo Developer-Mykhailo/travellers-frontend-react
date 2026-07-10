@@ -141,7 +141,7 @@ const AddStoryForm = ({ mode }) => {
   }, [isEdit, story, shouldReinitialize]);
 
   //todo handlers
-  const resetFormUI = (resetForm, dirty) => {
+  const resetFormUI = (resetForm, dirty, id, submit) => {
     isEdit ? dispatch(updateEditDraft({})) : dispatch(updateCreateDraft({}));
 
     resetForm();
@@ -152,9 +152,14 @@ const AddStoryForm = ({ mode }) => {
 
     if (articleRef.current) articleRef.current.style.height = 'auto';
 
-    if (dirty) return;
+    if (id && submit) {
+      navigate(`/stories/${id}`, { replace: true }); // when submit
+      return;
+    }
 
-    navigate(-1);
+    if (dirty) return; // when Cansel
+
+    navigate(-1); // when turn Back
   };
 
   const handleOpenPicker = () => {
@@ -191,6 +196,7 @@ const AddStoryForm = ({ mode }) => {
   };
 
   const handleSubmit = async (values, { resetForm }) => {
+    const submit = true;
     try {
       const data = isEdit
         ? await dispatch(updateStory({ id: storyId, values })).unwrap()
@@ -202,9 +208,7 @@ const AddStoryForm = ({ mode }) => {
         ? toast.success('The story was updated successfully!')
         : toast.success('The story was created successfully!');
 
-      navigate(`/stories/${data._id}`, { replace: true });
-
-      resetFormUI(resetForm);
+      resetFormUI(resetForm, null, data._id, submit);
     } catch (message) {
       toast.error(
         <div style={{ display: 'flex', flexDirection: 'column' }}>
