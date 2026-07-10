@@ -31,9 +31,9 @@ const PublishedStories = () => {
   const storiesIds =
     publicStories?.slice(partToFetch.start, partToFetch.end) ?? [];
 
-  const visibleStories = userPublicStories.slice(0, visibleCount);
+  const visibleStories = userPublicStories?.slice(0, visibleCount);
 
-  //! fetch saved stories
+  //! fetch published stories
   /** first loading */
   useEffect(() => {
     if (!publicStories?.length) return;

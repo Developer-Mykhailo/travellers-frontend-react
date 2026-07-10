@@ -54,9 +54,14 @@ const publicStoriesSlice = createSlice({
     updateCreateDraft: (state, { payload }) => {
       state.draftCreateStory = payload;
     },
-
     updateEditDraft: (state, { payload }) => {
       state.draftEditStory = payload;
+    },
+
+    updatePublicStoriesList: (state, { payload }) => {
+      state.stories.items = state.stories.items?.filter(
+        (elem) => elem._id !== payload
+      );
     },
   },
 
@@ -153,6 +158,7 @@ export const {
   setStorePage,
   updateEditDraft,
   updateCreateDraft,
+  updatePublicStoriesList,
 } = publicStoriesSlice.actions;
 
 export default publicStoriesSlice.reducer;

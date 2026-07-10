@@ -50,8 +50,8 @@ const userSlice = createSlice({
     },
 
     setUpdatedStoryItem(state, { payload }) {
-      const item = state.userPublicStories.items.find(
-        (item) => item._id === payload._id
+      const item = state.userPublicStories?.items?.find(
+        (item) => item.id === payload._id
       );
 
       if (item) {
@@ -60,6 +60,7 @@ const userSlice = createSlice({
           category: payload.category.name,
           isChanged: true,
         };
+
         Object.assign(item, preparedData);
       }
     },
@@ -123,20 +124,20 @@ const userSlice = createSlice({
       })
       .addCase(toggleSaveStory.fulfilled, (state, { payload }) => {
         state.toggleSaveStory.loading = false;
+
         const isSaved = payload.data.saved;
-        const id = payload.data.updatedStory._id;
         const story = payload.data.updatedStory;
 
         if (isSaved) {
-          state.data.savedStories.push(id);
-          state.userSavedStories.items.push(story);
+          state.data.savedStories.unshift(story._id);
+          state.userSavedStories.items.unshift(story); //
         } else {
           state.data.savedStories = state.data.savedStories.filter(
-            (elem) => elem !== id
+            (elem) => elem !== story._id
           );
 
           state.userSavedStories.items = state.userSavedStories.items.filter(
-            (story) => story._id !== id
+            (elem) => elem._id !== story._id
           );
         }
       })

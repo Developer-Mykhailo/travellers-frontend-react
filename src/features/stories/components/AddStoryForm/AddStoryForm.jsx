@@ -21,13 +21,19 @@ import {
   selectDraftCreateStory,
   selectDraftEditStory,
 } from '../../store/selectors';
-import { updateCreateDraft, updateEditDraft } from '../../store/slice';
+import {
+  updateCreateDraft,
+  updateEditDraft,
+  updatePublicStoriesList,
+} from '../../store/slice';
 import {
   autoResizeTextArea,
   initialValues,
   validationSchema,
 } from './addStoryForm.config';
 import DraftSaver from './components/DraftSaver';
+import ConfirmModal from '../../../../components/UI/ConfirmModal/ConfirmModal';
+import { useModalState } from '../../../../hooks/useModalState';
 
 import css from './AddStoryForm.module.css';
 
@@ -50,6 +56,7 @@ const AddStoryForm = ({ mode }) => {
   const [story, setStory] = useState(null);
   const [isDeletingStory, setIsDeletingStory] = useState(false);
   const [shouldReinitialize, setShouldReinitialize] = useState(true);
+  const { isOpen, setIsOpen, openModal, closeModal } = useModalState();
 
   const oldStory = {
     title: story?.title?.trim() ?? '',
@@ -78,7 +85,7 @@ const AddStoryForm = ({ mode }) => {
     if (!isEdit) return;
     if (isDeletingStory) return;
 
-    const story = userPublicStoriesItems.find((item) => item._id === storyId);
+    const story = userPublicStoriesItems?.find((item) => item._id === storyId);
     if (story) {
       // eslint-disable-next-line
       setStory(story);
@@ -134,7 +141,7 @@ const AddStoryForm = ({ mode }) => {
   }, [isEdit, story, shouldReinitialize]);
 
   //todo handlers
-  const resetFormUI = (resetForm) => {
+  const resetFormUI = (resetForm, dirty) => {
     isEdit ? dispatch(updateEditDraft({})) : dispatch(updateCreateDraft({}));
 
     resetForm();
@@ -144,6 +151,10 @@ const AddStoryForm = ({ mode }) => {
     if (photoRef.current) photoRef.current.value = '';
 
     if (articleRef.current) articleRef.current.style.height = 'auto';
+
+    if (dirty) return;
+
+    navigate(-1);
   };
 
   const handleOpenPicker = () => {
@@ -208,6 +219,7 @@ const AddStoryForm = ({ mode }) => {
     setIsDeletingStory(true);
     try {
       await dispatch(deleteMyStory(storyId)).unwrap();
+      dispatch(updatePublicStoriesList(storyId));
 
       toast.success('The story was deleted successfully!');
 
@@ -339,7 +351,7 @@ const AddStoryForm = ({ mode }) => {
                   </div>
                 </div>
 
-                {/* Save / Calcel */}
+                {/* Save / Calcel / Delete */}
                 <div className={css.wrapButtons}>
                   <div className={css.saveButtons}>
                     <Button type="submit" disabled={!dirty || !isValid}>
@@ -348,9 +360,9 @@ const AddStoryForm = ({ mode }) => {
 
                     <Button
                       variant="secondary"
-                      onClick={() => resetFormUI(resetForm)}
+                      onClick={() => resetFormUI(resetForm, dirty)}
                     >
-                      Cancel
+                      {dirty ? 'Cancel' : 'Back'}
                     </Button>
                   </div>
 
@@ -359,7 +371,7 @@ const AddStoryForm = ({ mode }) => {
                       <Button
                         className={css.deleteStory}
                         variant="secondary"
-                        onClick={handleDeleteStory}
+                        onClick={openModal}
                       >
                         Delete Story
                       </Button>
@@ -371,6 +383,18 @@ const AddStoryForm = ({ mode }) => {
           );
         }}
       </Formik>
+
+      {isOpen && (
+        <ConfirmModal
+          onClose={closeModal}
+          title={<p style={{ color: '#E9304F' }}>Are you sure❓</p>}
+          descr={'Those who like this story are going to be sad 🥺🥺🥺'}
+          confirmButtonText={'Delete'}
+          cancelButtonText={'Back'}
+          onConfirm={handleDeleteStory}
+          onCancel={() => setIsOpen(false)}
+        />
+      )}
     </>
   );
 };

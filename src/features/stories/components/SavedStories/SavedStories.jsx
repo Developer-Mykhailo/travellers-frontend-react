@@ -8,14 +8,15 @@ import {
   selectUser,
   selectUserSavedStoriesItems,
 } from '../../../user/store/selectors';
+import MessageNoStories from '../MessageNoStories/MessageNoStories';
 import TravellersStories from '../TravellersStories/TravellersStories';
 
 import css from './SavedStories.module.css';
-import MessageNoStories from '../MessageNoStories/MessageNoStories';
 
 const SavedStories = () => {
   const dispatch = useDispatch();
   const { savedStories } = useSelector(selectUser);
+
   const userSavedStoriesItems = useSelector(selectUserSavedStoriesItems);
 
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1439 });
@@ -84,7 +85,7 @@ const SavedStories = () => {
         />
       )}
 
-      {visibleStories.length < savedStories?.length && (
+      {visibleStories?.length < savedStories?.length && (
         <Button onClick={handleShowMore} className={css.viewMoreBtn}>
           View more
         </Button>

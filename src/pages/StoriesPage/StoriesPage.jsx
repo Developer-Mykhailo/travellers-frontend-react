@@ -39,7 +39,7 @@ const StoriesPage = () => {
     [categories]
   );
 
-  const visibleStories = items.slice(0, visibleCount);
+  const visibleStories = items?.slice(0, visibleCount);
 
   const storiesRef = useRef(null);
 
@@ -75,7 +75,7 @@ const StoriesPage = () => {
         category: selectedCategory === 'All Stories' ? null : selectedCategory,
       })
     );
-  }, [dispatch, selectedCategory, storePage]);
+  }, [dispatch, selectedCategory, storePage, items.length]);
 
   // fetch categories
   useEffect(() => {

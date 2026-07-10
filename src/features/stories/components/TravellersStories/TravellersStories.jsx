@@ -1,8 +1,8 @@
 import { useSelector } from 'react-redux';
+import { selectUserPublicStoriesItems } from '../../../user/store/selectors';
 import TravellersStoriesItem from '../TravellersStoriesItem/TravellersStoriesItem';
 
 import css from './TravellersStories.module.css';
-import { selectUserPublicStoriesItems } from '../../../user/store/selectors';
 
 const TravellersStories = ({ stories = [], storiesRef }) => {
   const userPublicStoriesItems = useSelector(selectUserPublicStoriesItems);
