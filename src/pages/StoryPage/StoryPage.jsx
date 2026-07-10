@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import StoryActions from '../../Features/STORIES/components/StoryActions/StoryActions';
+import StoryActions from '../../features/STORIES/components/StoryActions/StoryActions';
 import placeholder from '../../assets/images/placeholder.jpg';
 import Popular from '../../components/PopularStories/Popular';
 import Section from '../../components/Section/Section';
