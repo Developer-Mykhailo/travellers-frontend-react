@@ -23,6 +23,6 @@
 @media (min-width: 1440px) {
   .addStorySection h1 {
     font-size: 56px;
-    padding-bottom: 48px;
+    margin-bottom: 48;
   }
 }
