@@ -66,8 +66,15 @@ const userSlice = createSlice({
     },
 
     changePublicStoriesIds(state, { payload }) {
+      console.log('payload.id', payload.id);
+
+      if (payload.isNew) {
+        state.data.publicStories.push(payload.id);
+        return;
+      }
+
       state.data.publicStories = state.data.publicStories.filter(
-        (id) => id !== payload
+        (id) => id !== payload.id
       );
     },
 

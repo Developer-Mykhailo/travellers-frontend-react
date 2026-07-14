@@ -9,7 +9,10 @@ import placeHolder from '../../../../assets/images/placeholder1.png';
 import Button from '../../../../components/UI/Button/Button';
 import { deleteMyStory } from '../../../user/store/operation';
 import { selectUserPublicStoriesItems } from '../../../user/store/selectors';
-import { setUpdatedStoryItem } from '../../../user/store/slice';
+import {
+  changePublicStoriesIds,
+  setUpdatedStoryItem,
+} from '../../../user/store/slice';
 import {
   createStory,
   fetchCategories,
@@ -202,7 +205,11 @@ const AddStoryForm = ({ mode }) => {
         ? await dispatch(updateStory({ id: storyId, values })).unwrap()
         : await dispatch(createStory(values)).unwrap();
 
-      isEdit && dispatch(setUpdatedStoryItem(data));
+      const isNew = true;
+
+      isEdit
+        ? dispatch(setUpdatedStoryItem(data))
+        : dispatch(changePublicStoriesIds({ id: data._id, isNew }));
 
       isEdit
         ? toast.success('The story was updated successfully!')
