@@ -1,96 +1,84 @@
 import clsx from 'clsx';
 import { useSelector } from 'react-redux';
-import { useMediaQuery } from 'react-responsive';
 import { Link, useLocation } from 'react-router-dom';
 import { selectIsAuth } from '../../features/auth/store/selectors';
+import PublishStoryLink from '../PublishStoryLink/PublishStoryLink';
+// import { useMediaQuery } from 'react-responsive';
 
 import ui from '../UI/ui.module.css';
 import css from './Navigation.module.css';
 
-const Navigation = ({ place, classList }) => {
+const Navigation = ({ place, classList, onClose }) => {
   const isAuth = useSelector(selectIsAuth);
 
   const location = useLocation();
   const isHome = location.pathname === '/';
-  const isDesktop = useMediaQuery({ minWidth: 1440 });
-  const createStroyPage = location.pathname === '/stories/create';
 
   // JSX
   return (
     <ul className={clsx(css.list, classList)}>
       {/* //! shared links */}
-      {((place === 'header' && isDesktop) || place === 'footer') && (
+      <>
+        <li>
+          <Link to={'/'} onClick={onClose}>
+            Main
+          </Link>
+        </li>
+        <li>
+          <Link to={'/stories'} onClick={onClose}>
+            Stories
+          </Link>
+        </li>
+        <li>
+          <Link to={'/travellers'} onClick={onClose}>
+            Travellers
+          </Link>
+        </li>
+      </>
+
+      {/* //! Profile & Publish story links */}
+      {isAuth && place !== 'footer' && (
         <>
           <li>
-            <Link to={'/'}>Main</Link>
+            <Link to={'/profile'} onClick={onClose}>
+              Profile
+            </Link>
           </li>
+
           <li>
-            <Link to={'/stories'}>Stories</Link>
-          </li>
-          <li>
-            <Link to={'/travellers'}>Travellers</Link>
+            <PublishStoryLink place={place} onClose={onClose} />
           </li>
         </>
       )}
 
       {/* //! Login & Registr links */}
-
-      {!isAuth && place !== 'footer' && (
+      {!isAuth && (place !== 'footer' || place === 'mobile') && (
         <>
-          {isDesktop && (
-            <li>
-              <Link
-                className={
-                  isHome
-                    ? clsx(ui.shared, ui.accent2)
-                    : clsx(ui.shared, ui.secondary)
-                }
-                to={'auth/login'}
-              >
-                Log In
-              </Link>
-            </li>
-          )}
+          <li>
+            <Link
+              className={
+                !isHome || place === 'mobile'
+                  ? clsx(ui.shared, ui.secondary)
+                  : clsx(ui.shared, ui.accent2)
+              }
+              to={'auth/login'}
+              onClick={onClose}
+            >
+              Log In
+            </Link>
+          </li>
 
           <li>
             <Link
               className={
-                isHome
+                isHome && place !== 'mobile'
                   ? clsx(ui.shared, ui.accent)
                   : clsx(ui.shared, ui.primary)
               }
               to={'auth/register'}
+              onClick={onClose}
             >
               Register
-            </Link>
-          </li>
-        </>
-      )}
-
-      {/* //! Profile & Publish story links */}
-
-      {isAuth && place !== 'footer' && (
-        <>
-          {isDesktop && (
-            <li>
-              <Link to={'/profile'}>Profile</Link>
-            </li>
-          )}
-
-          <li>
-            <Link
-              className={
-                isHome
-                  ? clsx(ui.shared, ui.accent)
-                  : clsx(
-                      ui.shared,
-                      ui.primary,
-                      createStroyPage && css.disabledLink
-                    )
-              }
-              to={'/stories/create'}
-            >
-              Publish Story
             </Link>
           </li>
         </>

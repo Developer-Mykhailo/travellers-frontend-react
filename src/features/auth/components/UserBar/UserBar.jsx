@@ -18,7 +18,7 @@ import css from './UserBar.module.css';
  *
  * @returns {JSX.Element}
  */
-const UserBar = () => {
+const UserBar = ({ place }) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const isHome = location.pathname === '/';
@@ -29,6 +29,8 @@ const UserBar = () => {
   const firstName = name?.trim().split(' ')[0] ?? '';
 
   const avatarSrc = avatar || placeholderAvatar;
+
+  const isMobileMenu = place === 'mobile';
 
   // Handlers
   /**
@@ -45,18 +47,22 @@ const UserBar = () => {
 
   // JSX
   return (
-    <div className={css.userBar}>
+    <div className={clsx(css.userBar, place === 'mobile' && css.mobile)}>
       <div className={css.wrapAvatar}>
         <img src={avatarSrc} alt="User avatar" />
       </div>
 
-      <p className={clsx(css.userName, isHome && css.nameAccent)}>
+      <p
+        className={clsx(
+          !isHome || isMobileMenu ? css.userName : css.nameAccent
+        )}
+      >
         {firstName}
       </p>
 
       <Button
-        variant={isHome ? 'accent' : 'secondary'}
-        className={isHome ? css.logout : css.logoutAccent}
+        variant={!isHome || isMobileMenu ? 'secondary' : 'accent'}
+        className={!isHome || isMobileMenu ? css.logoutAccent : css.logout}
         onClick={openModal}
       >
         <Logout />

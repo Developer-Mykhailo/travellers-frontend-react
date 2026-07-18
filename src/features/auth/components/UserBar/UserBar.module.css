@@ -42,3 +42,7 @@
   margin: 0;
   box-shadow: none;
 }
+
+.mobile {
+  margin-top: 16px;
+}

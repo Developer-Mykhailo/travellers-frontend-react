@@ -21,6 +21,7 @@
 
 .nav > a {
   flex: 1;
+  z-index: 1000;
 }
 
 .classList li:nth-child(-n + 4) {
@@ -36,4 +37,5 @@
 
 .menuBtn[type='button'] {
   margin-left: 16px;
+  z-index: 1000;
 }

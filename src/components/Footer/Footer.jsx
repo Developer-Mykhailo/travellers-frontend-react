@@ -1,10 +1,10 @@
+import { useLocation } from 'react-router-dom';
+import Container from '../common/Container/Container';
 import Logo from '../common/Logo/Logo';
 import Social from '../common/Social/Social';
-import Container from '../common/Container/Container';
 import Navigation from '../Navigation/Navigation';
 
 import css from './Footer.module.css';
-import { useLocation } from 'react-router-dom';
 
 const Footer = () => {
   const location = useLocation();
@@ -21,7 +21,7 @@ const Footer = () => {
 
             <Navigation classList={css.footerNav} place="footer" />
 
-            <span className={css.copyriht}>
+            <span className={css.copyright}>
               <small>© 2025 Travellers. All rights reserved.</small>
             </span>
           </Container>
