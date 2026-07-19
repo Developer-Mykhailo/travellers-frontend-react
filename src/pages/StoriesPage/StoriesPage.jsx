@@ -17,22 +17,28 @@ import {
   selectPublicStories,
   selectStorePage,
 } from '../../features/stories/store/selectors';
+import {
+  clearStories,
+  setCategory,
+  setStorePage,
+} from '../../features/stories/store/slice';
 
 import css from './StoriesPage.module.css';
-import { setCategory, setStorePage } from '../../features/stories/store/slice';
 
 const StoriesPage = () => {
   const dispatch = useDispatch();
 
-  const { items, hasNextPage, totalItems } = useSelector(selectPublicStories); //state
-  const storePage = useSelector(selectStorePage); //state
-  const selectedCategory = useSelector(selectCurrentCategory); //state
+  const { items, hasNextPage, totalItems } = useSelector(selectPublicStories);
+  const storePage = useSelector(selectStorePage);
+  const selectedCategory = useSelector(selectCurrentCategory);
 
   const categories = useSelector(selectCategories);
 
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1439 });
 
   const [visibleCount, setVisibleCount] = useState(isTablet ? 8 : 9);
+
+  const storiesRef = useRef(null);
 
   const allCategories = useMemo(
     () => [{ _id: 'all', name: 'All Stories' }, ...categories],
@@ -41,12 +47,19 @@ const StoriesPage = () => {
 
   const visibleStories = items?.slice(0, visibleCount);
 
-  const storiesRef = useRef(null);
+  // categories
+  useEffect(() => {
+    if (categories.length > 0) return;
+
+    dispatch(fetchCategories());
+  }, [dispatch, categories.length]);
 
   //! effects
-  //fetch stories  /** first loading */
+  /** first loading + category change */
   useEffect(() => {
     if (items.length > 0) return;
+
+    dispatch(setStorePage(1));
 
     dispatch(
       fetchPublicStories({
@@ -55,114 +68,100 @@ const StoriesPage = () => {
         category: selectedCategory === 'All Stories' ? null : selectedCategory,
       })
     );
-  }, [dispatch, selectedCategory, items.length, storePage]);
+    // eslint-disable-next-line
+  }, [dispatch, selectedCategory]);
 
-  //fetch stories  /** next loading */
-  useEffect(() => {
-    const hasTobePage = Math.ceil(items.length / PER_PAGE);
-
-    if (
-      (storePage === 1 || hasTobePage >= storePage) &&
-      selectedCategory === null
-    ) {
-      return;
-    }
-
-    dispatch(
-      fetchPublicStories({
-        page: storePage,
-        perPage: PER_PAGE,
-        category: selectedCategory === 'All Stories' ? null : selectedCategory,
-      })
-    );
-  }, [dispatch, selectedCategory, storePage, items.length]);
-
-  // fetch categories
-  useEffect(() => {
-    if (categories.length > 0) return;
-    dispatch(fetchCategories());
-  }, [dispatch, categories.length]);
-
-  // breakpoint change
+  // breakpoint
   useEffect(() => {
     // eslint-disable-next-line
     setVisibleCount(isTablet ? 8 : 9);
   }, [isTablet]);
 
-  //todo handlers
-  const handleShowMore = () => {
+  //todo handles
+  const handleShowMore = async () => {
     const increment = isTablet ? 8 : 9;
+
     const nextVisibleCount = visibleCount + increment;
 
-    if (items.length > nextVisibleCount) {
+    // enough stories in store
+    if (items.length >= nextVisibleCount) {
       setVisibleCount(nextVisibleCount);
       return;
     }
 
+    // backend has no more pages
+    if (!hasNextPage) {
+      setVisibleCount(nextVisibleCount);
+      return;
+    }
+
+    const nextPage = storePage + 1;
+
+    await dispatch(
+      fetchPublicStories({
+        page: nextPage,
+        perPage: PER_PAGE,
+        category: selectedCategory === 'All Stories' ? null : selectedCategory,
+      })
+    );
+
+    dispatch(setStorePage(storePage + 1));
+
     setVisibleCount(nextVisibleCount);
-
-    hasNextPage && dispatch(setStorePage(storePage + 1));
   };
 
-  //
   const handleChangeCategory = (category) => {
-    dispatch(setStorePage(1));
     dispatch(setCategory(category));
-    setVisibleCount(isTablet ? 8 : 9);
+    dispatch(clearStories());
   };
 
-  // JSX
   return (
-    <>
-      <Section className={css.storiesSection}>
-        <Container className={css.storiesContainer}>
-          <h1 className={css.storiesTitle}>Travellers Stories</h1>
+    <Section className={css.storiesSection}>
+      <Container className={css.storiesContainer}>
+        <h1 className={css.storiesTitle}>Travellers Stories</h1>
 
-          {/* Categories — list/select  */}
+        {isTablet ? (
+          <ul className={css.categoryList}>
+            {allCategories.map((cat) => (
+              <li key={cat._id}>
+                <button onClick={() => handleChangeCategory(cat.name)}>
+                  {cat.name}
+                </button>
+              </li>
+            ))}
+          </ul>
+        ) : (
           <>
-            {isTablet ? (
-              <ul className={css.categoryList}>
+            <label className={css.cstegoryLabel} htmlFor="category">
+              Category
+            </label>
+
+            <div className={css.wrapSelect}>
+              <select
+                id="category"
+                onChange={(e) => handleChangeCategory(e.target.value)}
+              >
                 {allCategories.map((cat) => (
-                  <li key={cat._id}>
-                    <button onClick={() => handleChangeCategory(cat.name)}>
-                      {cat.name}
-                    </button>
-                  </li>
+                  <option key={cat._id} value={cat.name}>
+                    {cat.name}
+                  </option>
                 ))}
-              </ul>
-            ) : (
-              <>
-                <label className={css.cstegoryLabel} htmlFor="category">
-                  Category
-                </label>
-                <div className={css.wrapSelect}>
-                  <select
-                    name="category"
-                    id="category"
-                    onChange={(e) => handleChangeCategory(e.target.value)}
-                  >
-                    {allCategories.map((cat) => (
-                      <option key={cat._id} value={cat.name}>
-                        {cat.name}
-                      </option>
-                    ))}
-                  </select>
-                  <ArrowDown className={css.arrowDown} />
-                </div>
-              </>
-            )}
+              </select>
+
+              <ArrowDown className={css.arrowDown} />
+            </div>
           </>
+        )}
 
-          <TravellersStories stories={visibleStories} storiesRef={storiesRef} />
+        <TravellersStories stories={visibleStories} storiesRef={storiesRef} />
 
-          {visibleStories.length < totalItems && (
-            <Button className={css.showMoreBtn} onClick={handleShowMore}>
-              Show more
-            </Button>
-          )}
-        </Container>
-      </Section>
-    </>
+        {visibleStories.length < totalItems && (
+          <Button className={css.showMoreBtn} onClick={handleShowMore}>
+            Show more
+          </Button>
+        )}
+      </Container>
+    </Section>
   );
 };
 

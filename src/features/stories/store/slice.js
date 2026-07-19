@@ -40,6 +40,10 @@ const publicStoriesSlice = createSlice({
   initialState,
 
   reducers: {
+    clearStories: (state) => {
+      state.stories.items = [];
+    },
+
     setCategory: (state, { payload }) => {
       state.categories.selectedCategory = payload;
     },
@@ -153,6 +157,7 @@ const publicStoriesSlice = createSlice({
 });
 
 export const {
+  clearStories,
   setCategory,
   deleteCategory,
   setStorePage,

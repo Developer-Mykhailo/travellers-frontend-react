@@ -22,9 +22,9 @@ import {
 
 const Popular = () => {
   const dispatch = useDispatch();
-  const { items, hasNextPage, totalItems } = useSelector(selectPublicStories); //state
-  const selectedCategory = useSelector(selectCurrentCategory); //state
-  const storePage = useSelector(selectStorePage); //state
+  const { items, hasNextPage, totalItems } = useSelector(selectPublicStories);
+  const selectedCategory = useSelector(selectCurrentCategory);
+  const storePage = useSelector(selectStorePage);
 
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1439 });
   const isMobile = useMediaQuery({ maxWidth: 767 });
@@ -36,38 +36,41 @@ const Popular = () => {
   // ! effects
   /** first loading */
   useEffect(() => {
-    if (items.length > 0 && selectedCategory === null) return;
+    if (items.length > 0 && selectedCategory === null) return; // Cached stories already contain the unfiltered list.
+
     dispatch(deleteCategory());
-
-    const queryParams = { page: 1, perPage: PER_PAGE };
-
     dispatch(setStorePage(1));
 
-    dispatch(fetchPublicStories(queryParams));
-  }, [dispatch, items.length, selectedCategory, storePage]);
+    dispatch(fetchPublicStories({ page: 1, perPage: PER_PAGE }));
+    // eslint-disable-next-line
+  }, [dispatch, selectedCategory]);
 
-  /** next loading */
+  // breakpoint
   useEffect(() => {
-    const hasTobePage = Math.ceil(items.length / PER_PAGE);
-
-    if (storePage === 1 || hasTobePage >= storePage) return;
-
-    dispatch(fetchPublicStories({ page: storePage, perPage: PER_PAGE }));
-  }, [dispatch, storePage]);
+    // eslint-disable-next-line
+    setVisibleCount(isTablet ? 4 : 3);
+  }, [isTablet]);
 
   //todo handlers
-  const handleShowMore = () => {
+  const handleShowMore = async () => {
     const increment = isTablet ? 4 : 3;
     const nextVisibleCount = visibleCount + increment;
 
+    // enough stories in store
     if (items.length >= nextVisibleCount) {
       setVisibleCount(nextVisibleCount);
       return;
     }
 
-    setVisibleCount(nextVisibleCount);
+    // backend has no more pages
+    if (!hasNextPage) {
+      setVisibleCount(nextVisibleCount);
+      return;
+    }
 
-    hasNextPage && dispatch(setStorePage(storePage + 1));
+    const nextPage = storePage + 1;
+
+    await dispatch(fetchPublicStories({ page: nextPage, perPage: PER_PAGE }));
   };
 
   // JSX

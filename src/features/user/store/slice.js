@@ -66,8 +66,6 @@ const userSlice = createSlice({
     },
 
     changePublicStoriesIds(state, { payload }) {
-      console.log('payload.id', payload.id);
-
       if (payload.isNew) {
         state.data.publicStories.push(payload.id);
         return;
