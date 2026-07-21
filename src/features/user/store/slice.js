@@ -58,7 +58,7 @@ const userSlice = createSlice({
 
       // delete story id
       state.data.publicStories = state.data.publicStories.filter(
-        (id) => id !== payload._id
+        (id) => id !== payload
       );
     },
 

@@ -24,9 +24,11 @@ const TravellersStoriesItem = ({ story }) => {
     category,
     article,
     owner: { name, avatar },
-    date,
+    createdAt,
     favoriteCount,
   } = story;
+
+  const date = new Date(createdAt).toLocaleDateString('en-GB');
 
   const user = useSelector(selectUser);
   const location = useLocation();

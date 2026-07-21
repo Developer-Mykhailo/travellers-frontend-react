@@ -58,7 +58,7 @@ const StoriesPage = () => {
   //! effects
   /** first loading + category change */
   useEffect(() => {
-    if (isFetched) return;
+    if (isFetched && !selectedCategory) return;
 
     dispatch(setStorePage(1));
 
