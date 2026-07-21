@@ -94,8 +94,8 @@ export const deleteMyStory = createAsyncThunk(
     try {
       await deleteMyStoryApi(id);
 
-      thunkApi.dispatch(changePublicStoriesIds(id));
-      thunkApi.dispatch(changePublicStoriesItems({ id }));
+      thunkApi.dispatch(changePublicStoriesIds({ id }));
+      thunkApi.dispatch(changePublicStoriesItems(id));
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
     }

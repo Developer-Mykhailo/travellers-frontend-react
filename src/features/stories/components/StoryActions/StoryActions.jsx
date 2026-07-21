@@ -61,6 +61,7 @@ const StoryActions = ({ storyId, owner }) => {
         {isMyStory && (
           <Link
             to={`/stories/${storyId}/edit`}
+            state={{ mode: 'edit' }}
             className={clsx(ui.shared, ui.secondary, css.link)}
           >
             Edit

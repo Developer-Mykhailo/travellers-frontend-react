@@ -6,6 +6,10 @@ import {
   fetchPublicStoryByIdApi,
   updateStoryApi,
 } from '../api/storiesApi';
+import {
+  changePublicStoriesIds,
+  changePublicStoriesItems,
+} from '../../user/store/slice';
 
 //!
 export const fetchPublicStories = createAsyncThunk(
@@ -64,10 +68,14 @@ export const createStory = createAsyncThunk(
 
     try {
       const response = await createStoryApi(formData);
+      response.isNew = true;
+
+      thunkApi.dispatch(changePublicStoriesIds(response));
+      thunkApi.dispatch(changePublicStoriesItems(response));
 
       return response;
     } catch (error) {
-      return thunkApi.rejectWithValue(error.message);
+      return thunkApi.rejectWithValue(error);
     }
   }
 );
@@ -88,10 +96,13 @@ export const updateStory = createAsyncThunk(
 
     try {
       const response = await updateStoryApi(id, formData);
+      response.isChanged = true;
+
+      thunkApi.dispatch(changePublicStoriesItems(response));
 
       return response;
     } catch (error) {
-      return thunkApi.rejectWithValue(error.message);
+      return thunkApi.rejectWithValue(error);
     }
   }
 );

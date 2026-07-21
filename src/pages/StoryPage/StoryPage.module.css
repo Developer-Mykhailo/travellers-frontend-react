@@ -105,5 +105,7 @@
   .descr {
     margin: 0;
     font-size: 18px;
+    max-width: 865px;
+    overflow-wrap: break-word;
   }
 }

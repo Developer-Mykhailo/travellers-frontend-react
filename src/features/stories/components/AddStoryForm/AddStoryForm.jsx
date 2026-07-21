@@ -3,16 +3,12 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useEffect, useId, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import ArrowDown from '../../../../assets/icons/keyboard_arrow_down.svg?react';
 import placeHolder from '../../../../assets/images/placeholder1.png';
 import Button from '../../../../components/UI/Button/Button';
 import { deleteMyStory } from '../../../user/store/operation';
 import { selectUserPublicStoriesItems } from '../../../user/store/selectors';
-import {
-  changePublicStoriesIds,
-  setUpdatedStoryItem,
-} from '../../../user/store/slice';
 import {
   createStory,
   fetchCategories,
@@ -43,13 +39,14 @@ import css from './AddStoryForm.module.css';
 const AddStoryForm = ({ mode }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const categories = useSelector(selectCategories);
   const userPublicStoriesItems = useSelector(selectUserPublicStoriesItems);
   const draftCreateStory = useSelector(selectDraftCreateStory);
   const draftEditStory = useSelector(selectDraftEditStory);
 
   const { storyId } = useParams();
-  const isEdit = mode === 'edit';
+  const isEdit = mode === 'edit' || location?.state?.mode === 'edit';
 
   const photoRef = useRef(null);
   const articleRef = useRef(null);
@@ -61,10 +58,15 @@ const AddStoryForm = ({ mode }) => {
   const [shouldReinitialize, setShouldReinitialize] = useState(true);
   const { isOpen, setIsOpen, openModal, closeModal } = useModalState();
 
+  const category =
+    typeof story?.category?.name === 'string'
+      ? story.category.name
+      : story?.category;
+
   const oldStory = {
     title: story?.title?.trim() ?? '',
     article: story?.article?.trim() ?? '',
-    category: story?.category ?? '',
+    category: category?.trim() ?? '',
     photo: null,
   };
 
@@ -205,22 +207,18 @@ const AddStoryForm = ({ mode }) => {
         ? await dispatch(updateStory({ id: storyId, values })).unwrap()
         : await dispatch(createStory(values)).unwrap();
 
-      const isNew = true;
-
-      isEdit
-        ? dispatch(setUpdatedStoryItem(data))
-        : dispatch(changePublicStoriesIds({ id: data._id, isNew }));
-
       isEdit
         ? toast.success('The story was updated successfully!')
         : toast.success('The story was created successfully!');
 
       resetFormUI(resetForm, null, data._id, submit);
-    } catch (message) {
+    } catch (error) {
+      console.log(error);
+
       toast.error(
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <p>Something went wrong</p>
-          <p>{message}</p>
+          <p>{error.message}</p>
         </div>
       );
     }

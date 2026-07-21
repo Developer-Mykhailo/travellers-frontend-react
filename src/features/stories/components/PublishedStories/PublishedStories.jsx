@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
+import Button from '../../../../components/UI/Button/Button';
 import { PER_PAGE } from '../../../../constants/pagination';
 import { fetchUserPublicStoriesByIds } from '../../../user/store/operation';
 import {
@@ -10,7 +11,6 @@ import {
 import TravellersStories from '../TravellersStories/TravellersStories';
 
 import css from '../SavedStories/SavedStories.module.css';
-import Button from '../../../../components/UI/Button/Button';
 
 const PublishedStories = () => {
   const dispatch = useDispatch();
@@ -37,11 +37,17 @@ const PublishedStories = () => {
   /** first loading */
   useEffect(() => {
     if (!publicStories?.length) return;
-    if (userPublicStories.length > 0) return;
+    if (userPublicStories?.length > 0) return;
 
     dispatch(fetchUserPublicStoriesByIds({ page, storiesIds }));
     // eslint-disable-next-line
-  }, [dispatch, page, publicStories]);
+  }, [
+    dispatch,
+    page,
+    publicStories,
+    userPublicStories?.length,
+    publicStories?.length,
+  ]);
 
   /** next loading */
   useEffect(() => {
@@ -78,7 +84,7 @@ const PublishedStories = () => {
     <div>
       <TravellersStories stories={visibleStories} />
 
-      {visibleStories.length < totalStoriesIds.length && (
+      {visibleStories?.length < totalStoriesIds?.length && (
         <Button onClick={handleShowMore} className={css.viewMoreBtn}>
           View more
         </Button>

@@ -60,7 +60,7 @@ const TravellersStoriesItem = ({ story }) => {
       </div>
 
       <div className={css.content}>
-        <span className={css.category}>{category}</span>
+        <span className={css.category}>{category.name || category}</span>
         <h3 className={css.storyTitle}>{title}</h3>
         <p className={css.storyDescr}>{article}</p>
 

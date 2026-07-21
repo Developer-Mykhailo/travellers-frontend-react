@@ -5,6 +5,7 @@ import TravellersStories from '../../features/stories/components/TravellersStori
 import { fetchPublicStories } from '../../features/stories/store/operation';
 import {
   selectCurrentCategory,
+  selectIsFetched,
   selectPublicStories,
   selectStorePage,
 } from '../../features/stories/store/selectors';
@@ -25,6 +26,7 @@ const Popular = () => {
   const { items, hasNextPage, totalItems } = useSelector(selectPublicStories);
   const selectedCategory = useSelector(selectCurrentCategory);
   const storePage = useSelector(selectStorePage);
+  const isFetched = useSelector(selectIsFetched);
 
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1439 });
   const isMobile = useMediaQuery({ maxWidth: 767 });
@@ -36,14 +38,13 @@ const Popular = () => {
   // ! effects
   /** first loading */
   useEffect(() => {
-    if (items.length > 0 && selectedCategory === null) return; // Cached stories already contain the unfiltered list.
+    if (isFetched && selectedCategory === null) return; // Cached stories already contain the unfiltered list.
 
     dispatch(deleteCategory());
     dispatch(setStorePage(1));
 
     dispatch(fetchPublicStories({ page: 1, perPage: PER_PAGE }));
-    // eslint-disable-next-line
-  }, [dispatch, selectedCategory]);
+  }, [dispatch, selectedCategory, isFetched]);
 
   // breakpoint
   useEffect(() => {

@@ -14,6 +14,7 @@ import {
 import {
   selectCategories,
   selectCurrentCategory,
+  selectIsFetched,
   selectPublicStories,
   selectStorePage,
 } from '../../features/stories/store/selectors';
@@ -31,8 +32,8 @@ const StoriesPage = () => {
   const { items, hasNextPage, totalItems } = useSelector(selectPublicStories);
   const storePage = useSelector(selectStorePage);
   const selectedCategory = useSelector(selectCurrentCategory);
-
   const categories = useSelector(selectCategories);
+  const isFetched = useSelector(selectIsFetched);
 
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1439 });
 
@@ -57,7 +58,7 @@ const StoriesPage = () => {
   //! effects
   /** first loading + category change */
   useEffect(() => {
-    if (items.length > 0) return;
+    if (isFetched) return;
 
     dispatch(setStorePage(1));
 
@@ -68,8 +69,7 @@ const StoriesPage = () => {
         category: selectedCategory === 'All Stories' ? null : selectedCategory,
       })
     );
-    // eslint-disable-next-line
-  }, [dispatch, selectedCategory]);
+  }, [dispatch, selectedCategory, isFetched]);
 
   // breakpoint
   useEffect(() => {

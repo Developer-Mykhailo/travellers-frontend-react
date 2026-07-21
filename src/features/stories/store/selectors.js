@@ -14,3 +14,5 @@ export const selectDraftCreateStory = (state) =>
 
 export const selectDraftEditStory = (state) =>
   state.publicStories.draftEditStory;
+
+export const selectIsFetched = (state) => state.publicStories.stories.isFetched;

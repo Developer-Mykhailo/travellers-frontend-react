@@ -49,34 +49,39 @@ const userSlice = createSlice({
       state.userSavedStories.items = payload;
     },
 
-    setUpdatedStoryItem(state, { payload }) {
-      const item = state.userPublicStories?.items?.find(
-        (item) => item.id === payload._id
-      );
-
-      if (item) {
-        const preparedData = {
-          ...payload,
-          category: payload.category.name,
-          isChanged: true,
-        };
-
-        Object.assign(item, preparedData);
-      }
-    },
-
     changePublicStoriesIds(state, { payload }) {
+      // add story id
       if (payload.isNew) {
-        state.data.publicStories.push(payload.id);
+        state.data.publicStories.unshift(payload._id);
         return;
       }
 
+      // delete story id
       state.data.publicStories = state.data.publicStories.filter(
-        (id) => id !== payload.id
+        (id) => id !== payload._id
       );
     },
 
     changePublicStoriesItems(state, { payload }) {
+      // add story
+      if (payload.isNew) {
+        state.userPublicStories.items.unshift(payload);
+        return;
+      }
+
+      // update story
+      if (payload.isChanged) {
+        const item = state?.userPublicStories?.items?.find(
+          (item) => item._id === payload._id
+        );
+
+        if (!item) return;
+
+        Object.assign(item, payload);
+        return;
+      }
+
+      // delete story
       state.userPublicStories.items = state.userPublicStories.items.filter(
         (item) => item._id !== payload
       );
@@ -162,7 +167,6 @@ export const {
   setUserStorePage,
   changeSavedStoriesItems,
   changeSavedStories,
-  setUpdatedStoryItem,
   changePublicStoriesIds,
   changePublicStoriesItems,
 } = userSlice.actions;

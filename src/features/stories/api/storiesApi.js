@@ -5,8 +5,8 @@ export const fetchPublicStoriesApi = async ({
   page,
   perPage,
   category,
-  sortBy,
-  sortOrder,
+  sortBy = 'createdAt',
+  sortOrder = 'asc',
 }) => {
   const response = await api.get('/stories', {
     params: {

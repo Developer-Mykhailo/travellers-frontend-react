@@ -64,8 +64,6 @@ export const initializeAuth = createAsyncThunk(
       const token = thunkApi.getState().auth.accessToken;
       setToken(token);
 
-      if (!token) return null;
-
       const userResponse = await fetchUserApi();
 
       thunkApi.dispatch(setUser(userResponse.data));

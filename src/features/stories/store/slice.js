@@ -10,6 +10,7 @@ import {
 const initialState = {
   stories: {
     items: [],
+    isFetched: false,
     hasNextPage: false,
     totalItems: 0,
     storePage: 1,
@@ -79,6 +80,7 @@ const publicStoriesSlice = createSlice({
       .addCase(fetchPublicStories.fulfilled, (state, action) => {
         state.stories.isFetchingStories = false;
         state.stories.storiesError = null;
+        state.stories.isFetched = true;
 
         action.meta.arg.page === 1
           ? (state.stories.items = action.payload.data)
@@ -130,6 +132,7 @@ const publicStoriesSlice = createSlice({
       .addCase(createStory.fulfilled, (state, { payload }) => {
         state.story.isLoading = false;
         state.story.storyData = payload;
+        state.stories.items.unshift(payload);
       })
       .addCase(createStory.rejected, (state, { payload }) => {
         state.story.isLoading = false;
