@@ -98,6 +98,7 @@ export const updateStory = createAsyncThunk(
       const response = await updateStoryApi(id, formData);
       response.isChanged = true;
 
+      thunkApi.dispatch(changePublicStoriesIds(response));
       thunkApi.dispatch(changePublicStoriesItems(response));
 
       return response;

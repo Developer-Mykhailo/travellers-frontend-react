@@ -50,6 +50,16 @@ const userSlice = createSlice({
     },
 
     changePublicStoriesIds(state, { payload }) {
+      // update list
+      if (payload.isChanged) {
+        state.data.publicStories = [
+          payload._id,
+          ...state.data.publicStories.filter((id) => id !== payload._id),
+        ];
+
+        return;
+      }
+
       // add story id
       if (payload.isNew) {
         state.data.publicStories.unshift(payload._id);
@@ -63,21 +73,21 @@ const userSlice = createSlice({
     },
 
     changePublicStoriesItems(state, { payload }) {
+      // update story
+      if (payload.isChanged) {
+        console.log(' oldList', [...state.userPublicStories.items]);
+        const oldList = state.userPublicStories.items.filter((item) => {
+          return item._id !== payload._id;
+        });
+
+        console.log(' delete oldList', [...oldList]);
+        state.userPublicStories.items = [payload, ...oldList];
+        console.log('new list ', [payload, ...oldList]);
+      }
+
       // add story
       if (payload.isNew) {
         state.userPublicStories.items.unshift(payload);
-        return;
-      }
-
-      // update story
-      if (payload.isChanged) {
-        const item = state?.userPublicStories?.items?.find(
-          (item) => item._id === payload._id
-        );
-
-        if (!item) return;
-
-        Object.assign(item, payload);
         return;
       }
 

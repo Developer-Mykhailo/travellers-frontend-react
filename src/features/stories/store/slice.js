@@ -148,6 +148,13 @@ const publicStoriesSlice = createSlice({
       .addCase(updateStory.fulfilled, (state, { payload }) => {
         state.story.isLoading = false;
         state.story.storyData = payload;
+
+        if (!state.stories.isFetched) return;
+
+        state.stories.items = [
+          payload,
+          ...state.stories.items.filter((item) => item._id !== payload._id),
+        ];
       })
       .addCase(updateStory.rejected, (state, { payload }) => {
         state.story.isLoading = false;
